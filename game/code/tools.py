@@ -5,8 +5,8 @@ import pygame
 
 class ImgEditor:
     @staticmethod
-    def load_image(name, path="", colorkey=None):
-        fullname = os.path.join('..\\assets' + path, name)
+    def load_image(path, colorkey=None):
+        fullname = '..\\assets\graphics\\' + path
         print(fullname)
         if not os.path.isfile(fullname):
             print(f"Файл с изображением '{fullname}' не найден")
@@ -14,7 +14,7 @@ class ImgEditor:
 
         image = pygame.image.load(fullname)
         if colorkey is not None:
-            #image = image.convert()
+            # image = image.convert()
             if colorkey == -1:
                 colorkey = image.get_at((0, 0))
             image.set_colorkey(colorkey)

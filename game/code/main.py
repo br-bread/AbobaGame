@@ -27,6 +27,7 @@ class Game:
                     sys.exit()
 
             delta_time = self.clock.tick() / 1000
+            print(delta_time)
 
             self.screen.fill('black')
             self.level.run(delta_time)

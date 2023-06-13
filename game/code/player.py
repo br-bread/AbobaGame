@@ -1,20 +1,29 @@
 import pygame
 from settings import *
+from tools import ImgEditor
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, group):
         super().__init__(group)
 
-        self.image = pygame.Surface((19 * 4, 24 * 4))
+        # general
+        self.image = pygame.Surface((19 * 4, 27 * 4))
         self.image.fill('red')
         self.rect = self.image.get_rect(center=pos)
 
+        # movement
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(pos)
-        self.status = 'down'
         self.speed = 100
 
+        # animation
+        self.import_frames()
+        self.status = 'down'
+        self.frame = 0
+        self.animation_speed = 5
+
+    # movement
     def input(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] or keys[pygame.K_w]:
@@ -35,13 +44,46 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
-    def move(self, delta_time):
+    def move(self, dt):
         if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
 
-        self.pos += self.direction * self.speed * delta_time
-        self.rect.center = self.pos
+        self.pos.x += self.direction.x * self.speed * dt
+        self.rect.centerx = self.pos.x
+
+        self.pos.y += self.direction.y * self.speed * dt
+        self.rect.centery = self.pos.y
+
+    # animation
+    def get_status(self):
+        if self.direction.x == 0 and self.direction.y == 0 and not 'idle' in self.status:
+            self.status = self.status + "_idle"
+
+    def import_frames(self):
+        animation_sheet = ImgEditor.enhance_image(ImgEditor.load_image("player_animation.png"), 4)
+        frames = ImgEditor.cut_sheet(animation_sheet, 4, 4)
+        self.animations = {
+            'down': frames[:4],
+            'up': frames[4:8],
+            'right': frames[8:12],
+            'left': frames[12:],
+            'down_idle': [frames[0]],
+            'up_idle': [frames[4]],
+            'right_idle': [frames[8]],
+            'left_idle': [frames[12]]}
+
+    def animate(self, dt):
+        animation = self.animations[self.status]
+
+        self.frame += self.animation_speed * dt
+        if self.frame >= len(animation):
+            self.frame = 0
+
+        self.image = animation[int(self.frame)]
+        self.rect = self.image.get_rect()
 
     def update(self, delta_time):
         self.input()
+        self.get_status()
+        self.animate(delta_time)
         self.move(delta_time)
