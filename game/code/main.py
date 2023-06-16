@@ -2,7 +2,7 @@ import pygame
 import sys
 from settings import *
 from tools import ImgEditor
-from main_level import Level
+from main_scene import MainScene
 
 
 class Game:
@@ -17,7 +17,7 @@ class Game:
         monitor = [pygame.display.Info().current_w, pygame.display.Info().current_h]
         self.screen = pygame.display.set_mode(monitor, pygame.FULLSCREEN)
 
-        self.level = Level()
+        self.main_scene = MainScene()
 
     def run(self):
         while True:
@@ -27,12 +27,10 @@ class Game:
                     sys.exit()
 
             delta_time = self.clock.tick() / 1000
-            print(delta_time)
 
             self.screen.fill('black')
-            self.level.run(delta_time)
+            self.main_scene.run(delta_time)
             pygame.display.update()
-
 
 
 if __name__ == '__main__':
