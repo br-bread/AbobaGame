@@ -1,5 +1,4 @@
 import pygame
-from settings import *
 from tools import ImgEditor
 
 
@@ -9,7 +8,6 @@ class Player(pygame.sprite.Sprite):
 
         # general
         self.image = pygame.Surface((19 * 4, 27 * 4))
-        self.image.fill('red')
         self.rect = self.image.get_rect(center=pos)
 
         # movement
