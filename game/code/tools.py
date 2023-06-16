@@ -7,7 +7,6 @@ class ImgEditor:
     @staticmethod
     def load_image(path, colorkey=None):
         fullname = '..\\assets\graphics\\' + path
-        print(fullname)
         if not os.path.isfile(fullname):
             print(f"Файл с изображением '{fullname}' не найден")
             sys.exit()

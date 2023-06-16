@@ -7,16 +7,17 @@ from main_scene import MainScene
 
 class Game:
     def __init__(self):
+        # general
         pygame.init()
         pygame.display.set_caption('AbobaGame')
         pygame.display.set_icon(ImgEditor.load_image("icon.png", colorkey=-1))
 
-        self.clock = pygame.time.Clock()
-
+        # screen
         self.screen = pygame.display.set_mode(SIZE)
         monitor = [pygame.display.Info().current_w, pygame.display.Info().current_h]
         self.screen = pygame.display.set_mode(monitor, pygame.FULLSCREEN)
 
+        self.clock = pygame.time.Clock()
         self.main_scene = MainScene()
 
     def run(self):
