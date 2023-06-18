@@ -13,13 +13,13 @@ class Player(pygame.sprite.Sprite):
         # movement
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(pos)
-        self.speed = 100
+        self.speed = 130
 
         # animation
         self.import_frames()
         self.status = 'down'
         self.frame = 0
-        self.animation_speed = 5
+        self.animation_speed = 6.5
 
     # movement
     def input(self):
