@@ -19,18 +19,18 @@ class BaseSprite(pygame.sprite.Sprite):
         else:
             return False
 
-    def update(self, *args, **kwargs):
-        if self.is_mouse_on():
-            settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/magnifier_cursor.png'), 4)
-
 
 class InteractiveSprite(BaseSprite):
-    def __init__(self, name, img, pos, *groups):
-        super().__init__(img, pos, *groups)
+    def __init__(self, name, img, pos, layer=settings.LAYERS['main'], *groups):
+        super().__init__(img, pos, layer, *groups)
         self.name = name
         self.description = choice([f"Это {name}.", f"Это просто {name}.", f"Выглядит как {name}.",
                                    f"Это {name}, ничего интересного.", f"{name.capitalize()}."])
-        self.cursor_image = ""
+        self.cursor_image = ImgEditor.load_image('cursors/magnifier_cursor.png')
+
+    def update(self, *args, **kwargs):
+        if self.is_mouse_on():
+            settings.current_cursor = ImgEditor.enhance_image(self.cursor_image, 4)
 
 
 class BaseScene:

@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-from core import BaseScene, BaseSprite
+from core import BaseScene, InteractiveSprite
 from player import Player
 from tools import ImgEditor
 
@@ -11,7 +11,8 @@ class FirstStreetScene(BaseScene):
         self.name = 'first_street_scene'
         self.player = Player(CENTER, self.visible_sprites)
 
-        self.sprite = BaseSprite(
+        self.sprite = InteractiveSprite(
+            'пугало',
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/scarecrow.png'), 4),
             (440, 225),
             LAYERS['main'],
