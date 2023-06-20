@@ -1,8 +1,7 @@
 import pygame
 import sys
-from settings import *
+import settings
 from tools import ImgEditor
-from main_scene import MainScene
 from first_street_scene import FirstStreetScene
 
 
@@ -19,13 +18,13 @@ class Game:
         self.screen = pygame.display.set_mode(monitor, pygame.FULLSCREEN)
 
         # cursor
-        self.cursor_img = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)
+        settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)
         pygame.mouse.set_visible(False)
 
         self.clock = pygame.time.Clock()
-        self.main_scene = MainScene()
         self.first_street_scene = FirstStreetScene(
-            ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/first_street_scene.png'), 4), CENTER)
+            ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/first_street_scene.png'), 4),
+            settings.CENTER)
 
     def run(self):
         while True:
@@ -38,9 +37,9 @@ class Game:
 
             self.screen.fill('black')
             self.first_street_scene.run(delta_time)
-            self.main_scene.run(delta_time)
 
-            self.screen.blit(self.cursor_img, pygame.mouse.get_pos())
+            self.screen.blit(settings.current_cursor, pygame.mouse.get_pos())
+            settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)
 
             pygame.display.update()
 
