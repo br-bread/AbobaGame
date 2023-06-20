@@ -9,7 +9,6 @@ class FirstStreetScene(BaseScene):
     def __init__(self, background, background_pos=(0, 0)):
         super().__init__(background, background_pos)
         self.name = 'first_street_scene'
-        self.player = Player(CENTER, self.visible_sprites)
 
         self.sprite = InteractiveSprite(
             'пугало',

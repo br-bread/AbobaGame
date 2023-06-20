@@ -1,7 +1,9 @@
 import pygame
 from random import choice
+from math import sqrt
 import settings
 from tools import ImgEditor
+from player import Player
 
 
 class BaseSprite(pygame.sprite.Sprite):
@@ -19,6 +21,11 @@ class BaseSprite(pygame.sprite.Sprite):
         else:
             return False
 
+    def get_distance(self, player_pos):
+        # returns distance from player
+        distance = sqrt((self.rect.centerx - player_pos.x) ** 2 + (self.rect.centery - player_pos.y) ** 2)
+        return distance
+
 
 class InteractiveSprite(BaseSprite):
     def __init__(self, name, img, pos, layer=settings.LAYERS['main'], *groups):
@@ -26,27 +33,38 @@ class InteractiveSprite(BaseSprite):
         self.name = name
         self.description = choice([f"Это {name}.", f"Это просто {name}.", f"Выглядит как {name}.",
                                    f"Это {name}, ничего интересного.", f"{name.capitalize()}."])
-        self.cursor_image = ImgEditor.load_image('cursors/magnifier_cursor.png')
+        self.cursor_image = 'magnifier_cursor.png'
+
+    def is_accessible(self, distance):
+        if distance <= settings.INTERACTION_DISTANCE:
+            return True
+        return False
 
     def update(self, *args, **kwargs):
         if self.is_mouse_on():
-            settings.current_cursor = ImgEditor.enhance_image(self.cursor_image, 4)
+            if self.is_accessible(self.get_distance(args[1])):
+                img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
+            else:
+                img = ImgEditor.load_image(f'cursors/inaccessible/{self.cursor_image}')
+            settings.current_cursor = ImgEditor.enhance_image(img, 4)
 
 
 class BaseScene:
     def __init__(self, background, background_pos=(0, 0)):
-        self.screen = pygame.display.get_surface()
-
         # sprite groups
         self.visible_sprites = CameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
+
+        self.screen = pygame.display.get_surface()
+        self.player = Player(settings.CENTER, self.visible_sprites)
+        self.name = 'scene'
 
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'])
 
     def run(self, delta_time):
         self.screen.blit(self.background.image, self.background.rect)
         self.visible_sprites.draw_sprites()
-        self.visible_sprites.update(delta_time)
+        self.visible_sprites.update(delta_time, self.player.pos)
 
 
 class CameraGroup(pygame.sprite.Group):

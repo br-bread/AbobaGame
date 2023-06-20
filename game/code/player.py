@@ -82,7 +82,7 @@ class Player(pygame.sprite.Sprite):
         self.image = animation[int(self.frame)]
         self.rect = self.image.get_rect()
 
-    def update(self, delta_time):
+    def update(self, delta_time, *args):
         self.input()
         self.get_status()
         self.animate(delta_time)
