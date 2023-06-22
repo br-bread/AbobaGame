@@ -27,13 +27,45 @@ class BaseSprite(pygame.sprite.Sprite):
         return distance
 
 
+class Dialogue:
+    def __init__(self, group, *texts):
+        self.texts = texts
+        img = ImgEditor.load_image(f'empty.png')
+        self.dialogue = BaseSprite(img, settings.DIALOGUE_POS, settings.LAYERS['dialogue'], group)
+        self.stage = 0
+        self.is_shown = False
+
+    def run(self, is_mouse_on):
+        if not self.is_shown and is_mouse_on:
+            self.is_shown = True
+        else:
+            self.stage += 1
+            if self.stage == len(self.texts):
+                self.is_shown = False
+                self.stage = 0
+                img = ImgEditor.load_image(f'empty.png')
+                self.dialogue.image = img
+                self.dialogue.rect = self.dialogue.image.get_rect(center=settings.DIALOGUE_POS)
+
+        if self.is_shown:
+            text = self.texts[self.stage]
+            kind = text[:text.find('_')]
+            img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{kind}_dialogue.png'), 4)
+            self.dialogue.image = img
+            self.dialogue.rect = self.dialogue.image.get_rect(center=settings.DIALOGUE_POS)
+            # appearing animation (if self.stage == 0)
+            # text animation
+
+
 class InteractiveSprite(BaseSprite):
     def __init__(self, name, img, pos, layer=settings.LAYERS['main'], *groups):
         super().__init__(img, pos, layer, *groups)
         self.name = name
-        self.description = choice([f"Это {name}.", f"Это просто {name}.", f"Выглядит как {name}.",
-                                   f"Это {name}, ничего интересного.", f"{name.capitalize()}."])
         self.cursor_image = 'magnifier_cursor.png'
+        # dialogue
+        description = choice([f"base_Это {name}.", f"base_Это просто {name}.", f"base_Выглядит как {name}.",
+                              f"base_Это {name}, ничего интересного.", f"base_{name.capitalize()}."])
+        self.dialogue = Dialogue(groups[0], description)
 
     def is_accessible(self, distance):
         if distance <= settings.INTERACTION_DISTANCE:
@@ -44,9 +76,16 @@ class InteractiveSprite(BaseSprite):
         if self.is_mouse_on():
             if self.is_accessible(self.get_distance(args[1])):
                 img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
+                for event in pygame.event.get():
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        self.dialogue.run(is_mouse_on=True)
             else:
                 img = ImgEditor.load_image(f'cursors/inaccessible/{self.cursor_image}')
             settings.current_cursor = ImgEditor.enhance_image(img, 4)
+        else:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.dialogue.run(is_mouse_on=False)
 
 
 class BaseScene:
