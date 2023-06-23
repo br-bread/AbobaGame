@@ -28,7 +28,8 @@ class Game:
 
     def run(self):
         while True:
-            for event in pygame.event.get():
+            events = pygame.event.get()
+            for event in events:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
@@ -36,7 +37,7 @@ class Game:
             delta_time = self.clock.tick() / 1000
 
             self.screen.fill('black')
-            self.first_street_scene.run(delta_time)
+            self.first_street_scene.run(delta_time, events)
 
             self.screen.blit(settings.current_cursor, pygame.mouse.get_pos())
             settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)

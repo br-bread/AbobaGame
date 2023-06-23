@@ -72,18 +72,18 @@ class InteractiveSprite(BaseSprite):
             return True
         return False
 
-    def update(self, *args, **kwargs):
+    def update(self, dt, player_pos, events, *args, **kwargs):
         if self.is_mouse_on():
-            if self.is_accessible(self.get_distance(args[1])):
+            if self.is_accessible(self.get_distance(player_pos)):
                 img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
-                for event in pygame.event.get():
+                for event in events:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         self.dialogue.run(is_mouse_on=True)
             else:
                 img = ImgEditor.load_image(f'cursors/inaccessible/{self.cursor_image}')
             settings.current_cursor = ImgEditor.enhance_image(img, 4)
         else:
-            for event in pygame.event.get():
+            for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.dialogue.run(is_mouse_on=False)
 
@@ -100,10 +100,10 @@ class BaseScene:
 
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'])
 
-    def run(self, delta_time):
+    def run(self, delta_time, events):
         self.screen.blit(self.background.image, self.background.rect)
         self.visible_sprites.draw_sprites()
-        self.visible_sprites.update(delta_time, self.player.pos)
+        self.visible_sprites.update(delta_time, self.player.pos, events)
 
 
 class CameraGroup(pygame.sprite.Group):
