@@ -34,32 +34,40 @@ class Dialogue:
         self.dialogue = BaseSprite(img, settings.DIALOGUE_POS, settings.LAYERS['dialogue'], group)
         self.stage = 0
         self.is_shown = False
+        self.speed = 500  # appearing&disappearing animation speed
 
     def run(self, is_mouse_on):
         if not self.is_shown and is_mouse_on:
             self.is_shown = True
-        else:
+            self.stage = 0
+        elif self.is_shown:
             self.stage += 1
             if self.stage == len(self.texts):
+                # end of the dialogue
                 self.is_shown = False
-                self.stage = 0
-                img = ImgEditor.load_image(f'empty.png')
-                self.dialogue.image = img
-                self.dialogue.rect = self.dialogue.image.get_rect(center=settings.DIALOGUE_POS)
 
         if self.is_shown:
             text = self.texts[self.stage]
             kind = text[:text.find('_')]
             img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{kind}_dialogue.png'), 4)
             self.dialogue.image = img
-            self.dialogue.rect = self.dialogue.image.get_rect(center=settings.DIALOGUE_POS)
-            # appearing animation (if self.stage == 0)
-            # text animation
+            self.dialogue.rect = self.dialogue.image.get_rect(center=(settings.DIALOGUE_POS[0], 1000))
+
+    def animate(self, delta_time):
+        if self.stage == 0:  # appearing
+            if self.dialogue.rect.centery > settings.DIALOGUE_POS[1]:
+                self.dialogue.rect.centery -= self.speed * delta_time
+        elif self.stage == len(self.texts):  # disappearing
+            if self.dialogue.rect.centery < 1000:
+                self.dialogue.rect.centery += self.speed * delta_time
+        else:
+            self.dialogue.rect.y = settings.DIALOGUE_POS[1]
 
 
 class InteractiveSprite(BaseSprite):
     def __init__(self, name, img, pos, layer=settings.LAYERS['main'], *groups):
         super().__init__(img, pos, layer, *groups)
+        # general
         self.name = name
         self.cursor_image = 'magnifier_cursor.png'
         # dialogue
@@ -86,6 +94,7 @@ class InteractiveSprite(BaseSprite):
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.dialogue.run(is_mouse_on=False)
+        self.dialogue.animate(dt)
 
 
 class BaseScene:
@@ -93,11 +102,10 @@ class BaseScene:
         # sprite groups
         self.visible_sprites = CameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
-
+        # general
         self.screen = pygame.display.get_surface()
         self.player = Player(settings.CENTER, self.visible_sprites)
         self.name = 'scene'
-
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'])
 
     def run(self, delta_time, events):
@@ -114,6 +122,6 @@ class CameraGroup(pygame.sprite.Group):
 
     def draw_sprites(self):
         for layer in settings.LAYERS.values():
-            for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):
+            for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):  # fake 3d effect
                 if sprite.game_layer == layer:
                     self.screen.blit(sprite.image, sprite.rect)
