@@ -61,6 +61,9 @@ class Dialogue:
         self.is_shown = False
         self.kind = ''  # base dialogue or someone's
         self.speed = 800  # appearing&disappearing animation speed
+        # for text animation
+        self.text_frame = 0
+        self.text_speed = 20
 
     def run(self, is_mouse_on):
         if not self.is_shown and is_mouse_on:
@@ -68,9 +71,11 @@ class Dialogue:
             self.stage = 0
         elif self.is_shown:
             self.stage += 1
+            self.text_frame = 0
             if self.stage == len(self.texts):
                 # end of the dialogue
                 self.is_shown = False
+                self.text = ''
 
         if self.is_shown:
             text = self.texts[self.stage]
@@ -90,11 +95,15 @@ class Dialogue:
         else:
             self.dialogue.rect.centery = settings.DIALOGUE_POS[1]
 
+        # text
         if self.kind != 'base':
             pos = (600, 90 + self.dialogue.rect.y)
         else:
             pos = (475, 110 + self.dialogue.rect.y)
-        blit_text(screen, pos, 1210, self.text, self.font, settings.TEXT_COLOR, (True, (self.kind == 'base')))
+        text = self.text[:int(self.text_frame)]
+        if self.text_frame < len(self.text):
+            self.text_frame += self.text_speed * delta_time
+        blit_text(screen, pos, 1210, text, self.font, settings.TEXT_COLOR, (True, (self.kind == 'base')))
 
 
 class InteractiveSprite(BaseSprite):
