@@ -37,3 +37,32 @@ class ImgEditor:
                     frame_location, rect.size)))
 
         return frames
+
+
+def blit_text(screen, pos, size, text, font, color, is_dialogue=(False, False)):
+    words = text.split(' ')
+    space = font.size(' ')[0]  # The width of a space.
+    max_width = size
+    pos = [*pos]
+    x, y = pos
+    if not is_dialogue[1] and len(text) * space >= max_width - x:  # tabulation on first line
+        words[0] = ' ' + words[0]
+    for word in words:
+        word_surface = font.render(word, False, color)
+        word_width, word_height = word_surface.get_size()
+        if x + word_width >= max_width:
+            # start on a new row
+            if is_dialogue[0]:  # if it's dialogue
+                # diagonal end of line
+                max_width -= 80
+            if is_dialogue[1]:  # if it's base dialogue
+                # diagonal beginning of line
+                pos[0] -= 50
+                # diagonal end of line (should be different)
+                max_width -= 10
+
+            x = pos[0]
+            y += 40
+
+        screen.blit(word_surface, (x, y))
+        x += word_width + space

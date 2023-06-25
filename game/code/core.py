@@ -2,7 +2,7 @@ import pygame
 from random import choice
 from math import sqrt
 import settings
-from tools import ImgEditor
+from tools import ImgEditor, blit_text
 from player import Player
 
 
@@ -29,12 +29,17 @@ class BaseSprite(pygame.sprite.Sprite):
 
 class Dialogue:
     def __init__(self, group, *texts):
+        # text
         self.texts = texts
+        self.font = pygame.font.Font(settings.FONT, 65)
+        self.text = ''
+
         img = ImgEditor.load_image(f'empty.png')
         self.dialogue = BaseSprite(img, settings.DIALOGUE_POS, settings.LAYERS['dialogue'], group)
         self.stage = 0
         self.is_shown = False
-        self.speed = 500  # appearing&disappearing animation speed
+        self.kind = ''  # base dialogue or someone's
+        self.speed = 800  # appearing&disappearing animation speed
 
     def run(self, is_mouse_on):
         if not self.is_shown and is_mouse_on:
@@ -48,12 +53,13 @@ class Dialogue:
 
         if self.is_shown:
             text = self.texts[self.stage]
-            kind = text[:text.find('_')]
-            img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{kind}_dialogue.png'), 4)
+            self.kind = text[:text.find('_')]
+            img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png'), 4)
+            self.text = text[text.find('_') + 1:]
             self.dialogue.image = img
             self.dialogue.rect = self.dialogue.image.get_rect(center=(settings.DIALOGUE_POS[0], 1000))
 
-    def animate(self, delta_time):
+    def animate(self, delta_time, screen):
         if self.stage == 0:  # appearing
             if self.dialogue.rect.centery > settings.DIALOGUE_POS[1]:
                 self.dialogue.rect.centery -= self.speed * delta_time
@@ -61,7 +67,13 @@ class Dialogue:
             if self.dialogue.rect.centery < 1000:
                 self.dialogue.rect.centery += self.speed * delta_time
         else:
-            self.dialogue.rect.y = settings.DIALOGUE_POS[1]
+            self.dialogue.rect.centery = settings.DIALOGUE_POS[1]
+
+        if self.kind != 'base':
+            pos = (600, 90 + self.dialogue.rect.y)
+        else:
+            pos = (475, 110 + self.dialogue.rect.y)
+        blit_text(screen, pos, 1210, self.text, self.font, settings.TEXT_COLOR, (True, (self.kind == 'base')))
 
 
 class InteractiveSprite(BaseSprite):
@@ -73,14 +85,14 @@ class InteractiveSprite(BaseSprite):
         # dialogue
         description = choice([f"base_Это {name}.", f"base_Это просто {name}.", f"base_Выглядит как {name}.",
                               f"base_Это {name}, ничего интересного.", f"base_{name.capitalize()}."])
-        self.dialogue = Dialogue(groups[0], description)
+        self.dialogue = Dialogue(groups[0], description, *settings.DIALOGUES[name])
 
     def is_accessible(self, distance):
         if distance <= settings.INTERACTION_DISTANCE:
             return True
         return False
 
-    def update(self, dt, player_pos, events, *args, **kwargs):
+    def update(self, dt, player_pos, events, screen, *args, **kwargs):
         if self.is_mouse_on():
             if self.is_accessible(self.get_distance(player_pos)):
                 img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
@@ -94,7 +106,7 @@ class InteractiveSprite(BaseSprite):
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.dialogue.run(is_mouse_on=False)
-        self.dialogue.animate(dt)
+        self.dialogue.animate(dt, screen)
 
 
 class BaseScene:
@@ -111,7 +123,7 @@ class BaseScene:
     def run(self, delta_time, events):
         self.screen.blit(self.background.image, self.background.rect)
         self.visible_sprites.draw_sprites()
-        self.visible_sprites.update(delta_time, self.player.pos, events)
+        self.visible_sprites.update(delta_time, self.player.pos, events, self.screen)
 
 
 class CameraGroup(pygame.sprite.Group):
