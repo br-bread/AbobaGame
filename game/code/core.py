@@ -30,7 +30,28 @@ class BaseSprite(pygame.sprite.Sprite):
 class Dialogue:
     def __init__(self, group, *texts):
         # text
-        self.texts = texts
+
+        # going through the text to find out if some parts are too long
+        new_texts = []
+        for i in range(len(texts)):
+            text = texts[i][texts[i].find('_') + 1:]
+            kind = texts[i][:texts[i].find('_')]
+            if len(text) > settings.MAX_DIALOGUE_LENGTH:
+                part = kind + '_'
+                for word in text.split():
+                    if len(part) - len(kind) + len(word) <= settings.MAX_DIALOGUE_LENGTH:
+                        part += word + ' '
+                    else:
+                        new_texts.append(part)
+                        print(len(part))
+                        i += 1
+                        part = kind + '_' + word + ' '
+                new_texts.append(part)
+            else:
+                new_texts.append(texts[i])
+
+        self.texts = new_texts[:]
+
         self.font = pygame.font.Font(settings.FONT, 65)
         self.text = ''
 

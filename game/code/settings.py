@@ -2,10 +2,12 @@ SIZE = WIDTH, HEIGHT = 1536, 864
 CENTER = WIDTH // 2, HEIGHT // 2
 
 INTERACTION_DISTANCE = 120
-DIALOGUE_POS = (CENTER[0], 750)
 
+DIALOGUE_POS = (CENTER[0], 750)
+MAX_DIALOGUE_LENGTH = 111
 DIALOGUES = {
-    'пугало': ['denis_Это пугало как будто говорит воронам: "Страдай или вали".']
+    'пугало': [
+        'denis_Это пугало как будто говорит воронам: "Страдай или вали".']
 }
 
 FONT = '../assets/fonts/main.ttf'
