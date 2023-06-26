@@ -1,7 +1,5 @@
-import pygame
 from settings import *
 from core import BaseScene, InteractiveSprite
-from player import Player
 from tools import ImgEditor
 
 
