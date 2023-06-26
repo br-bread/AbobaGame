@@ -63,7 +63,7 @@ class Dialogue:
         self.speed = 800  # appearing&disappearing animation speed
         # for text animation
         self.text_frame = 0
-        self.text_speed = 20
+        self.text_speed = 23
 
     def run(self, is_mouse_on):
         if not self.is_shown and is_mouse_on:
