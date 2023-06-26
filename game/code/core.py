@@ -11,6 +11,7 @@ class BaseSprite(pygame.sprite.Sprite):
         super().__init__(*groups)
         self.image = img
         self.rect = self.image.get_rect(center=pos)
+        self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.4, -self.rect.height * 0.9)
         self.game_layer = layer
 
     def is_mouse_on(self):
@@ -143,16 +144,23 @@ class BaseScene:
     def __init__(self, background, background_pos=(0, 0)):
         # sprite groups
         self.visible_sprites = CameraGroup()
-        self.obstacle_sprites = pygame.sprite.Group()
+        self.collision_sprites = pygame.sprite.Group()
         # general
         self.screen = pygame.display.get_surface()
-        self.player = Player(settings.CENTER, self.visible_sprites)
+        self.player = Player(settings.CENTER, self.visible_sprites, self.collision_sprites)
         self.name = 'scene'
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'])
 
     def run(self, delta_time, events):
         self.screen.blit(self.background.image, self.background.rect)
         self.visible_sprites.draw_sprites()
+
+        # collision debug
+
+        # pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
+        # for sprite in self.collision_sprites:
+        #    pygame.draw.rect(self.screen, 'green', sprite.hitbox, 5)
+
         self.visible_sprites.update(delta_time, self.player.pos, events, self.screen)
 
 

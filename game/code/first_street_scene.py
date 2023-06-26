@@ -15,4 +15,4 @@ class FirstStreetScene(BaseScene):
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/scarecrow.png'), 4),
             (440, 225),
             LAYERS['main'],
-            self.visible_sprites)
+            self.visible_sprites, self.collision_sprites)
