@@ -138,6 +138,10 @@ class InteractiveSprite(BaseSprite):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.dialogue.run(is_mouse_on=False)
         self.dialogue.animate(dt, screen)
+        if self.dialogue.is_shown:
+            settings.dialogue_run = True
+        else:
+            settings.dialogue_run = False
 
 
 class BaseScene:
@@ -154,13 +158,11 @@ class BaseScene:
     def run(self, delta_time, events):
         self.screen.blit(self.background.image, self.background.rect)
         self.visible_sprites.draw_sprites()
-
         # collision debug
 
         # pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
         # for sprite in self.collision_sprites:
         #    pygame.draw.rect(self.screen, 'green', sprite.hitbox, 5)
-
         self.visible_sprites.update(delta_time, self.player.pos, events, self.screen)
 
 

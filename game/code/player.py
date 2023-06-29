@@ -1,6 +1,6 @@
 import pygame
 from tools import ImgEditor
-from settings import *
+import settings
 
 
 class Player(pygame.sprite.Sprite):
@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
         # general
         self.image = pygame.Surface((19 * 4, 27 * 4))
         self.rect = self.image.get_rect(center=pos)
-        self.game_layer = LAYERS['main']
+        self.game_layer = settings.LAYERS['main']
 
         # movement
         self.direction = pygame.math.Vector2()
@@ -109,7 +109,10 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self, delta_time, *args):
-        self.input()
+        if not settings.dialogue_run:
+            self.input()
+        else:
+            self.direction.xy = 0, 0
         self.get_status()
         self.animate(delta_time)
         self.move(delta_time)

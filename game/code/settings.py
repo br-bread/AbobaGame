@@ -23,3 +23,4 @@ LAYERS = {
 
 # variables that can be changed
 current_cursor = None
+dialogue_run = False
