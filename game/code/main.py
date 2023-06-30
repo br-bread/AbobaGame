@@ -24,6 +24,8 @@ class Game:
         self.clock = pygame.time.Clock()
         self.first_street_scene = FirstStreetScene(
             ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/first_street_scene.png'), 4),
+            pygame.mask.from_surface(
+                ImgEditor.enhance_image(ImgEditor.load_image('first_street_scene/collisions.png'), 4)),
             settings.CENTER)
 
     def run(self):

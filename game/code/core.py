@@ -145,7 +145,7 @@ class InteractiveSprite(BaseSprite):
 
 
 class BaseScene:
-    def __init__(self, background, background_pos=(0, 0)):
+    def __init__(self, background, scene_collision_mask, background_pos=(0, 0)):
         # sprite groups
         self.visible_sprites = CameraGroup()
         self.collision_sprites = pygame.sprite.Group()
@@ -153,17 +153,25 @@ class BaseScene:
         self.screen = pygame.display.get_surface()
         self.player = Player(settings.CENTER, self.visible_sprites, self.collision_sprites)
         self.name = 'scene'
+        self.collision_mask = scene_collision_mask
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'])
 
     def run(self, delta_time, events):
         self.screen.blit(self.background.image, self.background.rect)
         self.visible_sprites.draw_sprites()
-        # collision debug
 
-        # pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
-        # for sprite in self.collision_sprites:
-        #    pygame.draw.rect(self.screen, 'green', sprite.hitbox, 5)
-        self.visible_sprites.update(delta_time, self.player.pos, events, self.screen)
+        # collision debug
+        player_rect_mask = pygame.mask.Mask((self.player.hitbox.width, self.player.hitbox.height))
+        player_rect_mask.fill()
+
+        # self.screen.blit(self.collision_mask.to_surface(), (0, 0))
+        #self.screen.blit(player_rect_mask.to_surface(), (self.player.pos[0], self.player.pos[1]))
+        #pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
+
+        for sprite in self.collision_sprites:
+            pygame.draw.rect(self.screen, 'green', sprite.hitbox, 5)
+
+        self.visible_sprites.update(delta_time, self.player.pos, events, self.screen, self.collision_mask)
 
 
 class CameraGroup(pygame.sprite.Group):

@@ -18,7 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = 140
 
         # collision
-        self.hitbox = self.rect.copy().inflate((-40, -80))
+        self.hitbox = self.rect.copy().inflate((-40, -90))
         self.collision_sprites = collision_sprites
 
         # animation
@@ -63,21 +63,30 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.hitbox.top
                     elif self.direction.y < 0:  # up
                         self.hitbox.top = sprite.hitbox.bottom
-                    self.rect.centery = self.hitbox.centery
-                    self.pos.y = self.hitbox.centery
+                    self.rect.centery = self.hitbox.centery - 40
+                    self.pos.y = self.hitbox.centery - 40
 
-    def move(self, dt):
+    def move(self, dt, scene_collision_mask):
         if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
 
+        # player hitbox mask for checking scene collision mask
+        player_rect_mask = pygame.mask.Mask((self.hitbox.width, self.hitbox.height))
+        player_rect_mask.fill()
+
         self.pos.x += self.direction.x * self.speed * dt
+        if scene_collision_mask.overlap(player_rect_mask, (self.pos.x, self.pos.y)):  # collision with scene mask
+            self.pos.x -= self.direction.x * self.speed * dt
+
         self.hitbox.centerx = round(self.pos.x)
         self.rect.centerx = self.hitbox.centerx
         self.collision('h')
 
         self.pos.y += self.direction.y * self.speed * dt
-        self.hitbox.centery = round(self.pos.y)
-        self.rect.centery = self.hitbox.centery
+        if scene_collision_mask.overlap(player_rect_mask, (self.pos.x, self.pos.y)):  # collision with scene mask
+            self.pos.y -= self.direction.y * self.speed * dt
+        self.hitbox.centery = round(self.pos.y) + 40
+        self.rect.centery = self.hitbox.centery - 40
         self.collision('v')
 
     # animation
@@ -108,11 +117,11 @@ class Player(pygame.sprite.Sprite):
         self.image = animation[int(self.frame)]
         self.rect = self.image.get_rect()
 
-    def update(self, delta_time, *args):
+    def update(self, delta_time, player_pos, events, screen, scene_collision_mask, *args):
         if not settings.dialogue_run:
             self.input()
         else:
             self.direction.xy = 0, 0
         self.get_status()
         self.animate(delta_time)
-        self.move(delta_time)
+        self.move(delta_time, scene_collision_mask)
