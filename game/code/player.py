@@ -22,6 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
 
         # animation
+        self.animations = {}
         self.import_frames()
         self.status = 'down'
         self.frame = 0
@@ -48,50 +49,30 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
-    def collision(self, direction):
-        for sprite in self.collision_sprites.sprites():
-            if sprite.hitbox.colliderect(self.hitbox):
-                if direction == 'h':
-                    if self.direction.x > 0:  # right
-                        self.hitbox.right = sprite.hitbox.left
-                    elif self.direction.x < 0:  # left
-                        self.hitbox.left = sprite.hitbox.right
-                    self.rect.centerx = self.hitbox.centerx
-                    self.pos.x = self.hitbox.centerx
-                elif direction == 'v':
-                    if self.direction.y > 0:  # down
-                        self.hitbox.bottom = sprite.hitbox.top
-                    elif self.direction.y < 0:  # up
-                        self.hitbox.top = sprite.hitbox.bottom
-                    self.rect.centery = self.hitbox.centery - 40
-                    self.pos.y = self.hitbox.centery - 40
-
     def move(self, dt, scene_collision_mask):
         if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
 
         # player hitbox mask for checking scene collision mask
-        player_rect_mask = pygame.mask.Mask((self.hitbox.width, self.hitbox.height))
-        player_rect_mask.fill()
+        player_hitbox_mask = pygame.mask.Mask((self.hitbox.width, self.hitbox.height))
+        player_hitbox_mask.fill()
 
         self.pos.x += self.direction.x * self.speed * dt
-        if scene_collision_mask.overlap(player_rect_mask, (self.pos.x, self.pos.y)):  # collision with scene mask
+        if scene_collision_mask.overlap(player_hitbox_mask, (self.pos.x, self.pos.y)):  # collision with scene mask
             self.pos.x -= self.direction.x * self.speed * dt
 
         self.hitbox.centerx = round(self.pos.x)
         self.rect.centerx = self.hitbox.centerx
-        self.collision('h')
 
         self.pos.y += self.direction.y * self.speed * dt
-        if scene_collision_mask.overlap(player_rect_mask, (self.pos.x, self.pos.y)):  # collision with scene mask
+        if scene_collision_mask.overlap(player_hitbox_mask, (self.pos.x, self.pos.y)):  # collision with scene mask
             self.pos.y -= self.direction.y * self.speed * dt
         self.hitbox.centery = round(self.pos.y) + 40
         self.rect.centery = self.hitbox.centery - 40
-        self.collision('v')
 
     # animation
     def get_status(self):
-        if self.direction.x == 0 and self.direction.y == 0 and not 'idle' in self.status:
+        if self.direction.x == 0 and self.direction.y == 0 and 'idle' not in self.status:
             self.status = self.status + "_idle"
 
     def import_frames(self):

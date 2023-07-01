@@ -11,7 +11,6 @@ class BaseSprite(pygame.sprite.Sprite):
         super().__init__(*groups)
         self.image = img
         self.rect = self.image.get_rect(center=pos)
-        self.hitbox = self.rect.copy().inflate(-self.rect.width * 0.4, -self.rect.height * 0.9)
         self.game_layer = layer
 
     def is_mouse_on(self):
@@ -159,15 +158,11 @@ class BaseScene:
         self.visible_sprites.draw_sprites()
 
         # collision debug
-        player_rect_mask = pygame.mask.Mask((self.player.hitbox.width, self.player.hitbox.height))
-        player_rect_mask.fill()
-
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))
-        # self.screen.blit(player_rect_mask.to_surface(), (self.player.pos[0], self.player.pos[1]))
+        # player_hitbox_mask = pygame.mask.Mask((self.player.hitbox.width, self.player.hitbox.height))
+        # player_hitbox_mask.fill()
+        # self.screen.blit(player_hitbox_mask.to_surface(), (self.player.pos[0], self.player.pos[1]))
         # pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
-
-        # for sprite in self.collision_sprites:
-        #    pygame.draw.rect(self.screen, 'green', sprite.hitbox, 5)
 
         self.visible_sprites.update(delta_time, self.player.pos, events, self.screen, self.collision_mask)
 
