@@ -68,6 +68,7 @@ class Dialogue:
 
     def run(self, is_mouse_on):
         if not self.is_shown and is_mouse_on:
+            settings.dialogue_run = True
             self.is_shown = True
             self.stage = 0
         elif self.is_shown:
@@ -75,6 +76,7 @@ class Dialogue:
             self.text_frame = 0
             if self.stage == len(self.texts):
                 # end of the dialogue
+                settings.dialogue_run = False
                 self.is_shown = False
                 self.text = ''
 
@@ -138,10 +140,6 @@ class InteractiveSprite(BaseSprite):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.dialogue.run(is_mouse_on=False)
         self.dialogue.animate(dt, screen)
-        if self.dialogue.is_shown:
-            settings.dialogue_run = True
-        else:
-            settings.dialogue_run = False
 
 
 class BaseScene:
@@ -165,11 +163,11 @@ class BaseScene:
         player_rect_mask.fill()
 
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))
-        #self.screen.blit(player_rect_mask.to_surface(), (self.player.pos[0], self.player.pos[1]))
-        #pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
+        # self.screen.blit(player_rect_mask.to_surface(), (self.player.pos[0], self.player.pos[1]))
+        # pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
 
-        for sprite in self.collision_sprites:
-            pygame.draw.rect(self.screen, 'green', sprite.hitbox, 5)
+        # for sprite in self.collision_sprites:
+        #    pygame.draw.rect(self.screen, 'green', sprite.hitbox, 5)
 
         self.visible_sprites.update(delta_time, self.player.pos, events, self.screen, self.collision_mask)
 
