@@ -109,36 +109,22 @@ class Dialogue:
 
 
 class InteractiveSprite(BaseSprite):
-    def __init__(self, name, img, pos, layer=settings.LAYERS['main'], *groups):
+    def __init__(self, img, pos, layer=settings.LAYERS['main'], *groups):
         super().__init__(img, pos, layer, *groups)
-        # general
-        self.name = name
-        self.cursor_image = 'magnifier_cursor.png'
-        # dialogue
-        description = choice([f"base_Это {name}.", f"base_Это просто {name}.", f"base_Выглядит как {name}.",
-                              f"base_Это {name}, ничего интересного.", f"base_{name.capitalize()}."])
-        self.dialogue = Dialogue(groups[0], description, *settings.DIALOGUES[name])
+        self.cursor_image = None
 
     def is_accessible(self, distance):
         if distance <= settings.INTERACTION_DISTANCE:
             return True
         return False
 
-    def update(self, dt, player_pos, events, screen, *args, **kwargs):
+    def update(self, dt, player_pos, *args, **kwargs):
         if self.is_mouse_on():
             if self.is_accessible(self.get_distance(player_pos)):
                 img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
-                for event in events:
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        self.dialogue.run(is_mouse_on=True)
             else:
                 img = ImgEditor.load_image(f'cursors/inaccessible/{self.cursor_image}')
             settings.current_cursor = ImgEditor.enhance_image(img, 4)
-        else:
-            for event in events:
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.dialogue.run(is_mouse_on=False)
-        self.dialogue.animate(dt, screen)
 
 
 class BaseScene:
