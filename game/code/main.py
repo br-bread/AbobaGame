@@ -3,6 +3,7 @@ import sys
 import settings
 from tools import ImgEditor
 from first_street_scene import FirstStreetScene
+from home_scene import HomeScene
 
 
 class Game:
@@ -21,12 +22,21 @@ class Game:
         settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)
         pygame.mouse.set_visible(False)
 
+        # scenes
+        self.scenes = {
+            'first_street_scene': FirstStreetScene(
+                ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/first_street_scene.png'), 4),
+                pygame.mask.from_surface(
+                    ImgEditor.enhance_image(ImgEditor.load_image('first_street_scene/collisions.png'), 4)),
+                settings.CENTER),
+            'home_scene': HomeScene(ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/home_scene.png'), 4),
+                                    pygame.mask.from_surface(
+                                        ImgEditor.enhance_image(
+                                            ImgEditor.load_image('first_street_scene/collisions.png'), 4)),
+                                    settings.CENTER)
+        }
+
         self.clock = pygame.time.Clock()
-        self.first_street_scene = FirstStreetScene(
-            ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/first_street_scene.png'), 4),
-            pygame.mask.from_surface(
-                ImgEditor.enhance_image(ImgEditor.load_image('first_street_scene/collisions.png'), 4)),
-            settings.CENTER)
 
     def run(self):
         while True:
@@ -39,7 +49,7 @@ class Game:
             delta_time = self.clock.tick() / 1000
 
             self.screen.fill('black')
-            self.first_street_scene.run(delta_time, events)
+            self.scenes[settings.scene].run(delta_time, events)
 
             self.screen.blit(settings.current_cursor, pygame.mouse.get_pos())
             settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)
