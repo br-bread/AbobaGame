@@ -1,5 +1,6 @@
 from settings import *
-from core import BaseScene, InteractiveSprite
+from core import BaseScene
+from sprites import DialogueSprite, Door
 from tools import ImgEditor
 
 
@@ -8,11 +9,37 @@ class FirstStreetScene(BaseScene):
         super().__init__(background, scene_collision_mask, background_pos)
         self.name = 'first_street_scene'
 
-        self.sprite = InteractiveSprite(
+        self.scarecrow = DialogueSprite(
             'пугало',
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/scarecrow.png'), 4),
             (440, 225),
             LAYERS['main'],
-            self.visible_sprites, self.collision_sprites)
-        self.sprite.hitbox = self.sprite.rect.copy().inflate(-self.sprite.rect.width * 0.4, -self.sprite.rect.height * 0.9)
-        self.sprite.hitbox.y += 50
+            self.visible_sprites)
+
+        self.signpost = DialogueSprite(
+            'указатель',
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/signpost.png'), 4),
+            (154, 323),
+            LAYERS['main'],
+            self.visible_sprites)
+
+        self.basket = DialogueSprite(
+            'корзинка для пикника',
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/basket.png'), 4),
+            (206, 666),
+            LAYERS['main'],
+            self.visible_sprites)
+
+        self.flowerbed = DialogueSprite(
+            'клумба',
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/flowerbed.png'), 4),
+            (593, 238),
+            LAYERS['main'],
+            self.visible_sprites)
+
+        self.door = Door(
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/door.png'), 4),
+            (888, 76),
+            LAYERS['main'],
+            'home_scene',
+            self.visible_sprites)
