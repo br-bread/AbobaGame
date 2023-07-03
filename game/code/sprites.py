@@ -31,7 +31,7 @@ class DialogueSprite(InteractiveSprite):
 class Door(InteractiveSprite):
     def __init__(self, img, pos, layer, next_scene, *groups):
         super().__init__(img, pos, layer, *groups)
-        self.cursor_image = 'magnifier_cursor.png'
+        self.cursor_image = 'arrow_cursor.png'
         self.next_scene = next_scene
 
     def update(self, dt, player_pos, events, *args, **kwargs):
