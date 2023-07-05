@@ -1,4 +1,4 @@
-from core import BaseSprite, InteractiveSprite, Dialogue
+from core import InteractiveSprite, Dialogue
 from random import choice
 import settings
 import pygame

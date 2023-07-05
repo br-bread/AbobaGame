@@ -1,5 +1,4 @@
 import pygame
-from random import choice
 from math import sqrt
 import settings
 from tools import ImgEditor, blit_text
