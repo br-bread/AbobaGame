@@ -25,7 +25,7 @@ class DialogueSprite(InteractiveSprite):
                     else:
                         self.dialogue.run(is_mouse_on=False)
 
-        self.dialogue.animate(dt, screen)
+        self.dialogue.update(dt, screen)
 
 
 class Door(InteractiveSprite):

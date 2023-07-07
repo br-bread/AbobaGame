@@ -106,6 +106,9 @@ class Dialogue:
             self.text_frame += self.text_speed * delta_time
         blit_text(screen, pos, 1210, text, self.font, settings.TEXT_COLOR, (True, (self.kind == 'base')))
 
+    def update(self, dt, screen):
+        self.animate(dt, screen)
+
 
 class InteractiveSprite(BaseSprite):
     def __init__(self, img, pos, layer=settings.LAYERS['main'], *groups):
@@ -136,11 +139,10 @@ class BaseScene:
         self.player = Player(settings.CENTER, self.visible_sprites, self.collision_sprites)
         self.name = 'scene'
         self.collision_mask = scene_collision_mask
-        self.background = BaseSprite(background, background_pos, settings.LAYERS['background'])
+        self.background = BaseSprite(background, background_pos, settings.LAYERS['background'], self.visible_sprites)
 
     def run(self, delta_time, events):
-        self.screen.blit(self.background.image, self.background.rect)
-        self.visible_sprites.draw_sprites()
+        self.visible_sprites.draw_sprites(self.player)
 
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))
@@ -155,10 +157,12 @@ class BaseScene:
 class CameraGroup(pygame.sprite.Group):
     def __init__(self):
         super().__init__()
-
         self.screen = pygame.display.get_surface()
+        # self.offset = [0, 0]
 
-    def draw_sprites(self):
+    def draw_sprites(self, player):
+        # self.offset[0] = player.rect.centerx - settings.CENTER[0]
+        # self.offset[1] = player.rect.centery - settings.CENTER[1]
         for layer in settings.LAYERS.values():
             for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):  # fake 3d effect
                 if sprite.game_layer == layer:
