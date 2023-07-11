@@ -10,8 +10,8 @@ class Game:
     def __init__(self):
         # general
         pygame.init()
-        pygame.display.set_caption('AbobaGame')
-        pygame.display.set_icon(ImgEditor.load_image('icon.png', colorkey=-1))
+        pygame.display.set_caption(settings.NAME)
+        pygame.display.set_icon(settings.ICON)
 
         # screen
         self.screen = pygame.display.set_mode((1920, 1080))
