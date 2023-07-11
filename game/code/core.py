@@ -26,6 +26,25 @@ class BaseSprite(pygame.sprite.Sprite):
         return distance
 
 
+class InteractiveSprite(BaseSprite):
+    def __init__(self, img, pos, layer=settings.LAYERS['main'], *groups):
+        super().__init__(img, pos, layer, *groups)
+        self.cursor_image = None
+
+    def is_accessible(self, distance):
+        if distance <= settings.INTERACTION_DISTANCE:
+            return True
+        return False
+
+    def update(self, dt, player_pos, *args, **kwargs):
+        if self.is_mouse_on():
+            if self.is_accessible(self.get_distance(player_pos)):
+                img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
+            else:
+                img = ImgEditor.load_image(f'cursors/inaccessible/{self.cursor_image}')
+            settings.current_cursor = ImgEditor.enhance_image(img, 4)
+
+
 class Dialogue:
     def __init__(self, group, *texts):
         # text
@@ -110,23 +129,26 @@ class Dialogue:
         self.animate(dt, screen)
 
 
-class InteractiveSprite(BaseSprite):
-    def __init__(self, img, pos, layer=settings.LAYERS['main'], *groups):
-        super().__init__(img, pos, layer, *groups)
-        self.cursor_image = None
+class DialogueLine:
+    def __init__(self, kind, text, event, is_locked=False):
+        self.kind = kind  # character and mood (denis-neutral)
+        self.text = text  # dialogue text (blah blah blah)
+        self.event = event.split()  # what will happen after dialogue has been shown (add item apple)
+        self.is_locked = is_locked  # if dialogue can be shown or not
 
-    def is_accessible(self, distance):
-        if distance <= settings.INTERACTION_DISTANCE:
-            return True
-        return False
-
-    def update(self, dt, player_pos, *args, **kwargs):
-        if self.is_mouse_on():
-            if self.is_accessible(self.get_distance(player_pos)):
-                img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
-            else:
-                img = ImgEditor.load_image(f'cursors/inaccessible/{self.cursor_image}')
-            settings.current_cursor = ImgEditor.enhance_image(img, 4)
+    def run_event(self):
+        if self.event[0] == 'go_to':
+            pass
+        elif self.event[0] == 'unlock':
+            pass
+        elif self.event[0] == 'add':
+            pass
+        elif self.event[0] == 'remove':
+            pass
+        elif self.event[0] == 'next_step':
+            pass
+        elif self.event[0] == 'nothing':
+            pass
 
 
 class BaseScene:
