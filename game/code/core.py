@@ -1,7 +1,7 @@
 import pygame
 from math import sqrt
 import settings
-from tools import ImgEditor, blit_text
+from tools import ImgEditor
 from player import Player
 
 
@@ -43,112 +43,6 @@ class InteractiveSprite(BaseSprite):
             else:
                 img = ImgEditor.load_image(f'cursors/inaccessible/{self.cursor_image}')
             settings.current_cursor = ImgEditor.enhance_image(img, 4)
-
-
-class Dialogue:
-    def __init__(self, group, *texts):
-        # text
-
-        # going through the text to find out if some parts are too long
-        new_texts = []
-        for i in range(len(texts)):
-            text = texts[i][texts[i].find('_') + 1:]
-            kind = texts[i][:texts[i].find('_')]
-            if len(text) > settings.MAX_DIALOGUE_LENGTH:
-                part = kind + '_'
-                for word in text.split():
-                    if len(part) - len(kind) + len(word) <= settings.MAX_DIALOGUE_LENGTH:
-                        part += word + ' '
-                    else:
-                        new_texts.append(part)
-                        print(len(part))
-                        i += 1
-                        part = kind + '_' + word + ' '
-                new_texts.append(part)
-            else:
-                new_texts.append(texts[i])
-
-        self.texts = new_texts[:]
-
-        self.font = pygame.font.Font(settings.FONT, 65)
-        self.text = ''
-
-        img = ImgEditor.load_image(f'empty.png')
-        self.dialogue = BaseSprite(img, settings.DIALOGUE_POS, settings.LAYERS['dialogue'], group)
-        self.stage = 0
-        self.is_shown = False
-        self.kind = ''  # base dialogue or someone's
-        self.speed = 800  # appearing&disappearing animation speed
-        # for text animation
-        self.text_frame = 0
-        self.text_speed = 23
-
-    def run(self, is_mouse_on):
-        if not self.is_shown and is_mouse_on:
-            settings.dialogue_run = True
-            self.is_shown = True
-            self.stage = 0
-        elif self.is_shown:
-            self.stage += 1
-            self.text_frame = 0
-            if self.stage == len(self.texts):
-                # end of the dialogue
-                settings.dialogue_run = False
-                self.is_shown = False
-                self.text = ''
-
-        if self.is_shown:
-            text = self.texts[self.stage]
-            self.kind = text[:text.find('_')]
-            img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png'), 4)
-            self.text = text[text.find('_') + 1:]
-            self.dialogue.image = img
-            self.dialogue.rect = self.dialogue.image.get_rect(center=(settings.DIALOGUE_POS[0], 1000))
-
-    def animate(self, delta_time, screen):
-        if self.stage == 0:  # appearing
-            if self.dialogue.rect.centery > settings.DIALOGUE_POS[1]:
-                self.dialogue.rect.centery -= self.speed * delta_time
-        elif self.stage == len(self.texts):  # disappearing
-            if self.dialogue.rect.centery < 1000:
-                self.dialogue.rect.centery += self.speed * delta_time
-        else:
-            self.dialogue.rect.centery = settings.DIALOGUE_POS[1]
-
-        # text
-        if self.kind != 'base':
-            pos = (600, 90 + self.dialogue.rect.y)
-        else:
-            pos = (475, 110 + self.dialogue.rect.y)
-        text = self.text[:int(self.text_frame)]
-        if self.text_frame < len(self.text):
-            self.text_frame += self.text_speed * delta_time
-        blit_text(screen, pos, 1210, text, self.font, settings.TEXT_COLOR, (True, (self.kind == 'base')))
-
-    def update(self, dt, screen):
-        self.animate(dt, screen)
-
-
-class DialogueLine:
-    def __init__(self, kind, text, event, is_locked=False):
-        self.kind = kind  # character and mood (denis-neutral)
-        self.text = text  # dialogue text (blah blah blah)
-        self.event = event.split()  # what will happen after dialogue has been shown (add item apple)
-        self.is_locked = is_locked  # if dialogue can be shown or not
-
-    def run_event(self):
-        if self.event[0] == 'go_to':
-            pass
-        elif self.event[0] == 'unlock':
-            pass
-        elif self.event[0] == 'add':
-            pass
-        elif self.event[0] == 'remove':
-            pass
-        elif self.event[0] == 'next_step':
-            pass
-        elif self.event[0] == 'nothing':
-            pass
 
 
 class BaseScene:

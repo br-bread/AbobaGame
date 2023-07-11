@@ -1,6 +1,5 @@
-from core import InteractiveSprite, Dialogue, DialogueLine
-from random import choice
-import dialogues
+from core import InteractiveSprite
+from dialogues import Dialogue, DialogueLine
 import settings
 import pygame
 
@@ -12,14 +11,12 @@ class DialogueSprite(InteractiveSprite):
         self.name = name
         self.cursor_image = 'magnifier_cursor.png'
         # dialogue
-        description = choice(
-            [DialogueLine('base', f'Это {name}.'),
-             DialogueLine('base', f'Это просто {name}.'),
-             DialogueLine('base', f'Выглядит как {name}.'),
-             DialogueLine('base', f'Это {name}, ничего интересного.'),
-             DialogueLine('base', f'{name.capitalize()}.')]
-        )
-        self.dialogue = Dialogue(groups[0], description, *dialogues.dialogues[name])
+        description = [DialogueLine('base', f'Это {name}.'),
+                       DialogueLine('base', f'Это просто {name}.'),
+                       DialogueLine('base', f'Выглядит как {name}.'),
+                       DialogueLine('base', f'Это {name}, ничего интересного.'),
+                       DialogueLine('base', f'{name.capitalize()}.')]
+        self.dialogue = Dialogue(self.name, groups[0], description)
 
     def update(self, dt, player_pos, events, screen, *args, **kwargs):
         super().update(dt, player_pos)
