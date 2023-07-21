@@ -32,10 +32,11 @@ class DialogueSprite(InteractiveSprite):
 
 
 class Door(InteractiveSprite):
-    def __init__(self, img, pos, layer, next_scene, *groups):
+    def __init__(self, img, pos, layer, scene, next_scene, *groups):
         super().__init__(img, pos, layer, *groups)
         self.cursor_image = 'arrow_cursor.png'
         self.next_scene = next_scene
+        self.scene = scene
 
     def update(self, dt, player_pos, events, *args, **kwargs):
         super().update(dt, player_pos)
@@ -43,4 +44,4 @@ class Door(InteractiveSprite):
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.is_mouse_on():
-                        settings.scene = self.next_scene
+                        self.scene.disappear(self.next_scene)

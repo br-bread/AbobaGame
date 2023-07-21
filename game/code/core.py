@@ -56,9 +56,36 @@ class BaseScene:
         self.name = 'scene'
         self.collision_mask = scene_collision_mask
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'], self.visible_sprites)
+        # animation
+        self.appearing = True  # if appearing animation should be shown
+        self.disappearing = False  # same
+        self.speed = 500
+        self.surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))
+        self.surface.fill('black')
+        self.alpha = 255
+        self.next_scene = None  # will be set when current scene is disappearing
+
+    def disappear(self, next_scene):
+        self.disappearing = True
+        self.alpha = 0
+        self.next_scene = next_scene
 
     def run(self, delta_time, events):
         self.visible_sprites.draw_sprites(self.player)
+        if self.appearing:
+            self.surface.set_alpha(self.alpha)
+            self.screen.blit(self.surface, (0, 0))
+            self.alpha -= self.speed * delta_time
+            if self.alpha <= 0:
+                self.appearing = False
+
+        if self.disappearing:
+            self.surface.set_alpha(self.alpha)
+            self.screen.blit(self.surface, (0, 0))
+            self.alpha += self.speed * delta_time
+            if self.alpha >= 255:
+                self.appearing = False
+                settings.scene = self.next_scene
 
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))

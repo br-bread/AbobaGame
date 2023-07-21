@@ -118,5 +118,6 @@ class FirstStreetScene(BaseScene):
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/door.png'), 4),
             (888, 76),
             LAYERS['main'],
+            self,
             'home_scene',
             self.visible_sprites)
