@@ -3,6 +3,7 @@ from math import sqrt
 import settings
 from tools import ImgEditor
 from player import Player
+from environment import Sun
 
 
 class BaseSprite(pygame.sprite.Sprite):
@@ -56,6 +57,7 @@ class BaseScene:
         self.name = 'scene'
         self.collision_mask = scene_collision_mask
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'], self.visible_sprites)
+        self.sun = Sun()
         # animation
         self.appearing = True  # if appearing animation should be shown
         self.disappearing = False  # same
@@ -95,6 +97,9 @@ class BaseScene:
         # pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
 
         self.visible_sprites.update(delta_time, self.player.pos, events, self.screen, self.collision_mask)
+
+        # daytime
+        self.sun.display(delta_time)
 
 
 class CameraGroup(pygame.sprite.Group):
