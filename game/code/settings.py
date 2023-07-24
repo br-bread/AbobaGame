@@ -14,6 +14,8 @@ MAX_DIALOGUE_LENGTH = 111
 FONT = '../assets/fonts/main.ttf'
 TEXT_COLOR = (97, 57, 34)
 
+TIME_COORDS = (0, 0)
+
 LAYERS = {
     'background': 0,
     'floor': 1,
@@ -28,3 +30,8 @@ LAYERS = {
 current_cursor = None
 dialogue_run = False
 scene = 'first_street_scene'
+time = {
+    'hours': 12,
+    'minutes': 0,
+}
+time_color = [255, 255, 255]

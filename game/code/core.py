@@ -4,6 +4,7 @@ import settings
 from tools import ImgEditor
 from player import Player
 from environment import Sun
+from overlay import Daytime
 
 
 class BaseSprite(pygame.sprite.Sprite):
@@ -88,6 +89,8 @@ class BaseScene:
             if self.alpha >= 255:
                 self.appearing = False
                 settings.scene = self.next_scene
+
+        Daytime.run(self.screen, delta_time)
 
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))
