@@ -6,7 +6,7 @@ class Sun:  # for changing light and daytime
     def __init__(self):
         self.screen = pygame.display.get_surface()
         self.full_surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))
-        self.speed = 15  # speed of light changing
+        self.speed = 0.7  # speed of light changing
         # 434 color steps during the whole day, and 144 time steps (24*6)
         noon = [255, 255, 255]  # 100 (255 - 155)
         evening = [255, 155, 213]  # 159 (255 - 96)   434 total
