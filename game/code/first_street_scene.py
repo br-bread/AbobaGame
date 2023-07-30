@@ -120,4 +120,6 @@ class FirstStreetScene(BaseScene):
             LAYERS['main'],
             self,
             'home_scene',
+            (674, 750),
+            'up_idle',
             self.visible_sprites)

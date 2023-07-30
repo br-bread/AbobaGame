@@ -7,6 +7,7 @@ SIZE = WIDTH, HEIGHT = 1536, 864
 CENTER = WIDTH // 2, HEIGHT // 2
 
 INTERACTION_DISTANCE = 120
+DOOR_DISTANCE = 70  # for invisible doors (passages)
 
 DIALOGUE_POS = (CENTER[0], 750)
 MAX_DIALOGUE_LENGTH = 111
@@ -35,3 +36,6 @@ time = {
     'minutes': 0,
 }
 time_color = [255, 255, 255]
+# for placing player when switching the scenes
+player_pos = CENTER
+player_status = 'down_idle'

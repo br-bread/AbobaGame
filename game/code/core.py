@@ -62,18 +62,27 @@ class BaseScene:
         # animation
         self.appearing = True  # if appearing animation should be shown
         self.disappearing = False  # same
+        self.place_player = True  # to place player on scene at the appearing
         self.speed = 500
         self.surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))
         self.surface.fill('black')
         self.alpha = 255
         self.next_scene = None  # will be set when current scene is disappearing
 
-    def disappear(self, next_scene):
-        self.disappearing = True
-        self.alpha = 0
+    def disappear(self, next_scene, player_pos, player_status):
+        if self.alpha < 255:  # disappear method can be called even when scene has disappeared
+            self.disappearing = True  # so this parameter will be set wrong (without this if statement)
+        # set player pos in next scene
+        settings.player_pos = player_pos
+        settings.player_status = player_status
         self.next_scene = next_scene
 
     def run(self, delta_time, events):
+        if self.place_player:  # placing the player
+            self.player.pos.x = settings.player_pos[0]
+            self.player.pos.y = settings.player_pos[1]
+            self.player.status = settings.player_status
+            self.place_player = False
         self.visible_sprites.draw_sprites(self.player)
         if self.appearing:
             self.surface.set_alpha(self.alpha)
@@ -87,7 +96,9 @@ class BaseScene:
             self.screen.blit(self.surface, (0, 0))
             self.alpha += self.speed * delta_time
             if self.alpha >= 255:
-                self.appearing = False
+                self.disappearing = False
+                self.appearing = True  # set bool variables for next appearance of this scene
+                self.place_player = True
                 settings.scene = self.next_scene
 
         Daytime.run(self.screen, delta_time)
