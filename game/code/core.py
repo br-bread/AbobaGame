@@ -28,6 +28,25 @@ class BaseSprite(pygame.sprite.Sprite):
         return distance
 
 
+class BaseAnimatedSprite(BaseSprite):
+    def __init__(self, animation_sheet, pos, speed, columns, rows, layer=settings.LAYERS['main'], *groups):
+        super().__init__(animation_sheet, pos, layer, *groups)
+        self.animation = ImgEditor.cut_sheet(animation_sheet, columns, rows)
+        self.animation_speed = speed
+        self.frame = 0
+
+    def animate(self, dt):
+        self.frame += self.animation_speed * dt
+        if self.frame >= len(self.animation):
+            self.frame = 0
+
+        self.image = self.animation[int(self.frame)]
+        self.rect = self.image.get_rect()
+
+    def update(self, delta_time, *args):
+        self.animate(delta_time)
+
+
 class InteractiveSprite(BaseSprite):
     def __init__(self, img, pos, layer=settings.LAYERS['main'], *groups):
         super().__init__(img, pos, layer, *groups)
