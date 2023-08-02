@@ -2,6 +2,7 @@ import pygame
 import sys
 import settings
 from tools import ImgEditor
+from menu import Menu
 from first_street_scene import FirstStreetScene
 from home_scene import HomeScene
 
@@ -24,6 +25,7 @@ class Game:
 
         # scenes
         self.scenes = {
+            'menu': Menu(),
             'first_street_scene': FirstStreetScene(
                 ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/first_street_scene.png'), 4),
                 pygame.mask.from_surface(

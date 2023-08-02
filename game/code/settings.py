@@ -30,7 +30,7 @@ LAYERS = {
 # variables that can be changed
 current_cursor = None
 dialogue_run = False
-scene = 'first_street_scene'
+scene = 'menu'
 time = {
     'hours': 12,
     'minutes': 0,
