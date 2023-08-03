@@ -19,8 +19,8 @@ class DialogueSprite(InteractiveSprite):
                        DialogueLine('base', f'{name.capitalize()}.')]
         self.dialogue = Dialogue(self.name, groups[0], description)
 
-    def update(self, dt, player_pos, events, screen, *args, **kwargs):
-        super().update(dt, player_pos)
+    def update(self, dt, events, player_pos, screen, *args, **kwargs):
+        super().update(dt, events, player_pos)
         if self.is_accessible(self.get_distance(player_pos)):
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -41,8 +41,8 @@ class Door(InteractiveSprite):  # just door sprite
         self.player_pos = player_pos
         self.player_status = player_status
 
-    def update(self, dt, player_pos, events, *args, **kwargs):  # will be called ONE time
-        super().update(dt, player_pos)
+    def update(self, dt, events, player_pos, *args, **kwargs):  # will be called ONE time
+        super().update(dt, events, player_pos)
         if self.is_accessible(self.get_distance(player_pos)):
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -58,6 +58,6 @@ class InvisibleDoor(BaseSprite):  # passage to another scene, also a door, but i
         self.player_pos = player_pos
         self.player_status = player_status
 
-    def update(self, dt, player_pos, *args, **kwargs):  # will be called MULTIPLE times
+    def update(self, dt, events, player_pos, *args, **kwargs):  # will be called MULTIPLE times
         if self.get_distance(player_pos) <= settings.DOOR_DISTANCE:
             self.scene.disappear(self.next_scene, self.player_pos, self.player_status)

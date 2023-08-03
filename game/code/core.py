@@ -57,7 +57,7 @@ class InteractiveSprite(BaseSprite):
             return True
         return False
 
-    def update(self, dt, player_pos, *args, **kwargs):
+    def update(self, dt, events, player_pos, *args, **kwargs):
         if self.is_mouse_on():
             if self.is_accessible(self.get_distance(player_pos)):
                 img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
@@ -129,7 +129,7 @@ class BaseScene:
         # self.screen.blit(player_hitbox_mask.to_surface(), (self.player.pos[0], self.player.pos[1]))
         # pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
 
-        self.visible_sprites.update(delta_time, self.player.pos, events, self.screen, self.collision_mask)
+        self.visible_sprites.update(delta_time, events, self.player.pos, self.screen, self.collision_mask)
 
         # daytime
         self.sun.display(delta_time)
