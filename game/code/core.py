@@ -148,3 +148,20 @@ class CameraGroup(pygame.sprite.Group):
             for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):  # fake 3d effect
                 if sprite.game_layer == layer:
                     self.screen.blit(sprite.image, sprite.rect)
+
+
+class Button(BaseSprite):
+    def __init__(self, img, pos, *groups):
+        super().__init__(img, pos, 'overlay', *groups)
+        self.is_clicked = False
+        self.cursor_image = 'pointer_cursor.png'
+
+    def update(self, dt, events):
+        if self.is_mouse_on():
+            settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image(f'cursors/{self.cursor_image}'), 2)
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.is_mouse_on() and not settings.window_opened:
+                    self.is_clicked = True
+                else:
+                    self.is_clicked = False
