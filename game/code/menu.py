@@ -1,4 +1,4 @@
-from core import BaseAnimatedSprite
+from core import BaseAnimatedSprite, Button
 from tools import ImgEditor
 import settings
 import pygame
@@ -23,6 +23,9 @@ class Menu:
         # background
         BaseAnimatedSprite(ImgEditor.enhance_image(ImgEditor.load_image('menu/menu_animation.png'), 4), settings.CENTER,
                            3, 4, 4, settings.LAYERS['main'], self.visible_sprites)
+        # buttons
+        self.begin = Button(ImgEditor.enhance_image(ImgEditor.load_image('menu/begin.png'), 6), (300, 500),
+                            self.visible_sprites)
 
     def disappear(self, next_scene, player_pos, player_status):
         if self.alpha < 255:  # disappear method can be called even when scene has disappeared
@@ -50,8 +53,7 @@ class Menu:
                 self.appearing = True  # set bool variables for next appearance of this scene
                 settings.scene = self.next_scene
 
-        self.visible_sprites.update(delta_time)
+        self.visible_sprites.update(delta_time, events)
 
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                self.disappear('first_street_scene', settings.CENTER, 'down_idle')
+        if self.begin.is_clicked:
+            self.disappear('first_street_scene', settings.CENTER, 'down_idle')
