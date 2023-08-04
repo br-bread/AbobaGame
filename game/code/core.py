@@ -161,7 +161,7 @@ class Button(BaseSprite):
             settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image(f'cursors/{self.cursor_image}'), 2)
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.is_mouse_on() and not settings.window_opened:
+                if self.is_mouse_on():
                     self.is_clicked = True
                 else:
                     self.is_clicked = False
