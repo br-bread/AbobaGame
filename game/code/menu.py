@@ -1,4 +1,5 @@
-from core import BaseAnimatedSprite, Button, BaseSprite
+from core import BaseAnimatedSprite, BaseSprite
+from overlay import Button
 from tools import ImgEditor
 import settings
 import pygame
@@ -17,7 +18,7 @@ class Menu:
         self.appearing = True  # if appearing animation should be shown
         self.disappearing = False  # same
         self.speed = 500  # speed of appearing/disappearing
-        self.surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))
+        self.surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))  # black surface
         self.surface.fill('black')
         self.alpha = 255
         self.next_scene = None  # will be set when current scene is disappearing
@@ -93,8 +94,8 @@ class Menu:
                 self.exit.rect.center = (300, 700)
                 self.authors.rect.center = (300, 600)
 
-        for author in self.authors_list:
-            pos = (0, 1500)
-            if settings.window_opened:
-                pos = author[1]
-            self.screen.blit(pygame.font.Font(settings.FONT, 47).render(author[0], False, settings.TEXT_COLOR), pos)
+        if settings.window_opened:
+            for author in self.authors_list:
+                pos = (0, 1500)
+                self.screen.blit(pygame.font.Font(settings.FONT, 47).render(author[0], False, settings.TEXT_COLOR),
+                                 author[1])
