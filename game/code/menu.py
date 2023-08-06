@@ -42,6 +42,7 @@ class Menu:
                              ('Ксюша Цыканова', (675, 390)),
                              ('Animal Crossing', (673, 470)), ('Ксюша Цыканова', (675, 550)),
                              ('Артём Суханов, Денис Криштопа', (590, 630))]
+        self.font = pygame.font.Font(settings.FONT, 47)
 
     def disappear(self, next_scene, player_pos, player_status):
         if self.alpha < 255:  # disappear method can be called even when scene has disappeared
@@ -94,8 +95,6 @@ class Menu:
                 self.exit.rect.center = (300, 700)
                 self.authors.rect.center = (300, 600)
 
-        if settings.window_opened:
             for author in self.authors_list:
-                pos = (0, 1500)
-                self.screen.blit(pygame.font.Font(settings.FONT, 47).render(author[0], False, settings.TEXT_COLOR),
+                self.screen.blit(self.font.render(author[0], False, settings.TEXT_COLOR),
                                  author[1])

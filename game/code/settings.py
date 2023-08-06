@@ -15,7 +15,8 @@ MAX_DIALOGUE_LENGTH = 111
 FONT = '../assets/fonts/main.ttf'
 TEXT_COLOR = (97, 57, 34)
 
-TIME_COORDS = (0, 0)
+TIME_COORDS = (1362, 5)
+TIME_BOARD_COORDS = (1350, 20)
 
 LAYERS = {
     'background': 0,

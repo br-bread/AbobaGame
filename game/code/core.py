@@ -4,7 +4,7 @@ import settings
 from tools import ImgEditor
 from player import Player
 from environment import Sun
-from overlay import Daytime
+from overlay import Daytime, MenuWindow
 
 
 class BaseSprite(pygame.sprite.Sprite):
@@ -58,7 +58,7 @@ class InteractiveSprite(BaseSprite):
         return False
 
     def update(self, dt, events, player_pos, *args, **kwargs):
-        if self.is_mouse_on():
+        if self.is_mouse_on() and not settings.window_opened:
             if self.is_accessible(self.get_distance(player_pos)):
                 img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
             else:
@@ -78,6 +78,7 @@ class BaseScene:
         self.collision_mask = scene_collision_mask
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'], self.visible_sprites)
         self.sun = Sun()
+        self.menu_window = MenuWindow()  # overlay
         # animation
         self.appearing = True  # if appearing animation should be shown
         self.disappearing = False  # same
@@ -120,7 +121,8 @@ class BaseScene:
                 self.place_player = True
                 settings.scene = self.next_scene
 
-        Daytime.run(self.screen, delta_time)
+        Daytime.run(self.screen)
+        self.menu_window.run(self.screen, delta_time, events, self)
 
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))
@@ -148,20 +150,3 @@ class CameraGroup(pygame.sprite.Group):
             for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):  # fake 3d effect
                 if sprite.game_layer == layer:
                     self.screen.blit(sprite.image, sprite.rect)
-
-
-class Button(BaseSprite):
-    def __init__(self, img, pos, *groups):
-        super().__init__(img, pos, 'overlay', *groups)
-        self.is_clicked = False
-        self.cursor_image = 'pointer_cursor.png'
-
-    def update(self, dt, events):
-        if self.is_mouse_on():
-            settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image(f'cursors/{self.cursor_image}'), 2)
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.is_mouse_on():
-                    self.is_clicked = True
-                else:
-                    self.is_clicked = False

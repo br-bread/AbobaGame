@@ -99,7 +99,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self, delta_time, player_pos, events, screen, scene_collision_mask, *args):
-        if not settings.dialogue_run:
+        if not settings.dialogue_run and not settings.window_opened:
             self.input()
         else:
             self.direction.xy = 0, 0
