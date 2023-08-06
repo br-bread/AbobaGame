@@ -31,19 +31,22 @@ class MenuWindow:
         self.exit = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/exit.png'), 4), (1490, 1440),
                            self.overlay_group)
         self.menu_background = ImgEditor.enhance_image(ImgEditor.load_image('overlay/menu_window.png', colorkey=-1), 4)
+        self.is_opened = False
 
     def run(self, screen, dt, events, scene):
-        if settings.window_opened:
+        if self.is_opened:
             screen.blit(self.menu_background,
                         (settings.CENTER[0] - self.menu_background.get_width() // 2,
                          settings.CENTER[1] - self.menu_background.get_height() // 2))
         if self.menu.is_clicked:
             settings.window_opened = True
+            self.is_opened = True
             self.back.rect.center = (560, 300)
             self.main_menu.rect.center = (770, 410)
             self.exit.rect.center = (770, 490)
         if self.back.is_clicked:
             settings.window_opened = False
+            self.is_opened = False
             self.back.rect.center = (1190, 1440)
             self.main_menu.rect.center = (1490, 1340)
             self.exit.rect.center = (1490, 1540)
@@ -52,6 +55,7 @@ class MenuWindow:
             self.main_menu.rect.center = (1490, 1340)
             self.exit.rect.center = (1490, 1540)
             settings.window_opened = False
+            self.is_opened = False
             scene.disappear('menu', settings.CENTER, 'down_idle')
         if self.exit.is_clicked:
             pygame.quit()
