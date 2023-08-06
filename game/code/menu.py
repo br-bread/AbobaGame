@@ -37,7 +37,8 @@ class Menu:
             (1000, 1500), settings.LAYERS['main'], self.visible_sprites)
         self.back = Button(ImgEditor.enhance_image(ImgEditor.load_image('menu/back.png'), 4), (300, 1500),
                            self.visible_sprites)
-        self.authors_list = [('Ксюша Цыканова', (675, 230)), ('Ксюша Цыканова', (675, 310)), ('Ксюша Цыканова', (675, 390)),
+        self.authors_list = [('Ксюша Цыканова', (675, 230)), ('Ксюша Цыканова', (675, 310)),
+                             ('Ксюша Цыканова', (675, 390)),
                              ('Animal Crossing', (673, 470)), ('Ксюша Цыканова', (675, 550)),
                              ('Артём Суханов, Денис Криштопа', (590, 630))]
 
