@@ -39,4 +39,4 @@ time_color = [255, 255, 255]
 # for placing player when switching the scenes
 player_pos = CENTER
 player_status = 'down_idle'
-view_opened = False
+window_opened = False
