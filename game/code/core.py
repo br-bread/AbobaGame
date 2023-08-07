@@ -5,6 +5,7 @@ from tools import ImgEditor
 from player import Player
 from environment import Sun
 from overlay import Daytime, MenuWindow
+from inventory import inventory
 
 
 class BaseSprite(pygame.sprite.Sprite):
@@ -122,6 +123,7 @@ class BaseScene:
                 settings.scene = self.next_scene
 
         Daytime.run(self.screen)
+        inventory.run(self.screen, delta_time, events)
         self.menu_window.run(self.screen, delta_time, events, self)
 
         # collision debug
