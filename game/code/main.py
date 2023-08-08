@@ -6,6 +6,7 @@ from menu import Menu
 from first_street_scene import FirstStreetScene
 from home_scene import HomeScene
 from inventory import Inventory
+from journal import Journal
 
 
 class Game:
@@ -39,6 +40,7 @@ class Game:
                                     settings.CENTER)
         }
         self.inventory = Inventory()
+        self.journal = Journal()
         self.clock = pygame.time.Clock()
 
     def run(self):
@@ -52,7 +54,7 @@ class Game:
             delta_time = self.clock.tick() / 1000
 
             self.screen.fill('black')
-            self.scenes[settings.scene].run(delta_time, events, self.inventory)
+            self.scenes[settings.scene].run(delta_time, events, self.inventory, self.journal)
 
             self.screen.blit(settings.current_cursor, pygame.mouse.get_pos())
             settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)

@@ -97,7 +97,7 @@ class BaseScene:
         settings.player_status = player_status
         self.next_scene = next_scene
 
-    def run(self, delta_time, events, inventory):
+    def run(self, delta_time, events, inventory, journal):
         if self.place_player:  # placing the player
             self.player.pos.x = settings.player_pos[0]
             self.player.pos.y = settings.player_pos[1]
@@ -123,6 +123,7 @@ class BaseScene:
 
         Daytime.run(self.screen)
         inventory.run(self.screen, delta_time, events)
+        journal.run(self.screen, delta_time, events)
         self.menu_window.run(self.screen, delta_time, events, self)
 
         # collision debug
