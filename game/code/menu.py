@@ -52,7 +52,7 @@ class Menu:
         settings.player_status = player_status
         self.next_scene = next_scene
 
-    def run(self, delta_time, events):
+    def run(self, delta_time, events, inventory):  # inventory is needed for other scenes' run method
         self.visible_sprites.draw(self.screen)
         if self.appearing:
             self.surface.set_alpha(self.alpha)

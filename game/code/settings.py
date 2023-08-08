@@ -18,6 +18,9 @@ TEXT_COLOR = (97, 57, 34)
 TIME_COORDS = (1362, 5)
 TIME_BOARD_COORDS = (1350, 20)
 
+ITEM_COORDS = (530, 260)
+ITEM_OFFSET = 75
+
 LAYERS = {
     'background': 0,
     'floor': 1,

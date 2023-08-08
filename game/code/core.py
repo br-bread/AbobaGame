@@ -5,7 +5,6 @@ from tools import ImgEditor
 from player import Player
 from environment import Sun
 from overlay import Daytime, MenuWindow
-from inventory import inventory
 
 
 class BaseSprite(pygame.sprite.Sprite):
@@ -98,7 +97,7 @@ class BaseScene:
         settings.player_status = player_status
         self.next_scene = next_scene
 
-    def run(self, delta_time, events):
+    def run(self, delta_time, events, inventory):
         if self.place_player:  # placing the player
             self.player.pos.x = settings.player_pos[0]
             self.player.pos.y = settings.player_pos[1]
