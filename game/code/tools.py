@@ -38,6 +38,18 @@ class ImgEditor:
 
         return frames
 
+    @staticmethod
+    def multiply_image(surface, color):
+        new_image = surface.copy()
+        w, h = surface.get_size()
+        r, g, b = color
+        for x in range(w):
+            for y in range(h):
+                rr, gg, bb, a = surface.get_at((x, y))
+
+                new_image.set_at((x, y), pygame.Color(rr * r // 255, gg * g // 255, bb * b // 255, a))
+        return new_image
+
 
 def blit_text(screen, pos, size, text, font, color, is_dialogue=(False, False)):
     words = text.split(' ')

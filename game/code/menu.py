@@ -74,7 +74,7 @@ class Menu:
 
         if not settings.window_opened:
             if self.begin.is_clicked:
-                self.begin.image = ImgEditor.enhance_image(ImgEditor.load_image('menu/continue.png'), 6)
+                self.begin.change_image(ImgEditor.enhance_image(ImgEditor.load_image('menu/continue.png'), 6))
                 self.disappear('first_street_scene', settings.CENTER, 'down_idle')
             if self.exit.is_clicked:
                 pygame.quit()
