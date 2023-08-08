@@ -21,6 +21,12 @@ class Inventory:
         self.back = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/cross.png', colorkey=-1), 4),
                            (1190, 1440),
                            self.inventory_group)
+        self.left = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/left.png', colorkey=-1), 4),
+                           (1190, 1440),
+                           self.inventory_group)
+        self.right = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/right.png', colorkey=-1), 4),
+                            (1190, 1440),
+                            self.inventory_group)
         self.inventory_background = ImgEditor.enhance_image(
             ImgEditor.load_image('overlay/inventory_window.png', colorkey=-1), 4)
         self.font = pygame.font.Font(settings.FONT, 47)
@@ -48,16 +54,22 @@ class Inventory:
             settings.window_opened = False
             self.is_opened = False
             self.back.rect.center = (517, 1500)
+            self.left.rect.center = (600, 1500)
+            self.right.rect.center = (600, 1500)
 
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_b:
                     if self.is_opened:
                         self.back.rect.center = (517, 1500)
+                        self.left.rect.center = (600, 1500)
+                        self.right.rect.center = (600, 1500)
                         self.is_opened = False
                         settings.window_opened = False
                     else:
                         self.back.rect.center = (517, 200)
+                        self.left.rect.center = (740, 690)
+                        self.right.rect.center = (810, 690)
                         self.is_opened = True
                         settings.window_opened = True
 
