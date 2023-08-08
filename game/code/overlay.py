@@ -38,7 +38,7 @@ class MenuWindow:
             screen.blit(self.menu_background,
                         (settings.CENTER[0] - self.menu_background.get_width() // 2,
                          settings.CENTER[1] - self.menu_background.get_height() // 2))
-        if self.menu.is_clicked:
+        if self.menu.is_clicked and not settings.window_opened:
             settings.window_opened = True
             self.is_opened = True
             self.back.rect.center = (560, 300)
