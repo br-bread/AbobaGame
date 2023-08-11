@@ -54,7 +54,8 @@ class Sun:  # for changing light and daytime
             settings.time['hours'] = 0
 
         self.full_surface.fill(self.current_time)
-        self.screen.blit(self.full_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        if 'home' not in settings.scene:
+            self.screen.blit(self.full_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
 
 class Rain:

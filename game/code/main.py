@@ -7,6 +7,7 @@ from first_street_scene import FirstStreetScene
 from home_scene import HomeScene
 from inventory import Inventory
 from journal import Journal
+from environment import Sun
 
 
 class Game:
@@ -41,6 +42,7 @@ class Game:
         }
         self.inventory = Inventory()
         self.journal = Journal()
+        self.sun = Sun()
         self.clock = pygame.time.Clock()
 
     def run(self):
@@ -58,6 +60,8 @@ class Game:
 
             self.screen.blit(settings.current_cursor, pygame.mouse.get_pos())
             settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)
+
+            self.sun.display(delta_time)
 
             pygame.display.update()
 
