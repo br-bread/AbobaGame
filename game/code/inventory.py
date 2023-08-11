@@ -14,7 +14,9 @@ class Inventory:
             'candy': Item('Конфета', 0, 'В её честь даже назвали собаку!',
                           ImgEditor.enhance_image(ImgEditor.load_image('item/candy.png', colorkey=-1), 4)),
             'chocolate': Item('Шоколадка', 0, 'Плитка молочного шоколада',
-                              ImgEditor.enhance_image(ImgEditor.load_image('item/chocolate.png', colorkey=-1), 4))
+                              ImgEditor.enhance_image(ImgEditor.load_image('item/chocolate.png', colorkey=-1), 4)),
+            'drum stick': Item('Барабанная палочка', 0, 'От одной маловато толку',
+                               ImgEditor.enhance_image(ImgEditor.load_image('item/chocolate.png', colorkey=-1), 4))
         }
         self.is_opened = False
         self.inventory_group = pygame.sprite.Group()
