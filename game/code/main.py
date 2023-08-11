@@ -5,6 +5,7 @@ from tools import ImgEditor
 from menu import Menu
 from first_street_scene import FirstStreetScene
 from home_scene import HomeScene
+from home_upscene import HomeUpScene
 from inventory import Inventory
 from journal import Journal
 from environment import Sun
@@ -38,6 +39,11 @@ class Game:
                                     pygame.mask.from_surface(
                                         ImgEditor.enhance_image(
                                             ImgEditor.load_image('home_scene/collisions.png'), 4)),
+                                    settings.CENTER),
+            'home_upscene': HomeUpScene(ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/home_upscene.png'), 4),
+                                    pygame.mask.from_surface(
+                                        ImgEditor.enhance_image(
+                                            ImgEditor.load_image('home_upscene/collisions.png'), 4)),
                                     settings.CENTER)
         }
         self.inventory = Inventory()

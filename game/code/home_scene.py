@@ -25,3 +25,12 @@ class HomeScene(BaseScene):
             'down_idle',
             self.visible_sprites
         )
+
+        InvisibleDoor(
+            (1150, 330),
+            self,
+            'home_upscene',
+            (985, 470),
+            'up_idle',
+            self.visible_sprites
+        )
