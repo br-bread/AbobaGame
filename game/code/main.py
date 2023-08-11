@@ -36,7 +36,7 @@ class Game:
             'home_scene': HomeScene(ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/home_scene.png'), 4),
                                     pygame.mask.from_surface(
                                         ImgEditor.enhance_image(
-                                            ImgEditor.load_image('first_street_scene/collisions.png'), 4)),
+                                            ImgEditor.load_image('home_scene/collisions.png'), 4)),
                                     settings.CENTER)
         }
         self.inventory = Inventory()
