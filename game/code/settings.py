@@ -21,6 +21,10 @@ TIME_BOARD_COORDS = (1350, 20)
 ITEM_COORDS = (530, 260)
 ITEM_OFFSET = 75
 
+QUEST_COORDS = (515, 260)
+QUEST_OFFSET = 75
+QUEST_IMAGE = ImgEditor.enhance_image(ImgEditor.load_image('overlay/exclamation mark.png', colorkey=-1), 4)
+
 LAYERS = {
     'background': 0,
     'floor': 1,
@@ -44,3 +48,4 @@ time_color = [255, 255, 255]
 player_pos = CENTER
 player_status = 'down_idle'
 window_opened = False
+new_quest = True
