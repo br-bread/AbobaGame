@@ -14,6 +14,7 @@ class FirstStreetScene(BaseScene):
             'пугало',
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/scarecrow.png'), 4),
             (439, 226),
+            'magnifier',
             LAYERS['main'],
             self.visible_sprites)
 
@@ -21,6 +22,7 @@ class FirstStreetScene(BaseScene):
             'указатель',
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/signpost.png'), 4),
             (154, 323),
+            'magnifier',
             LAYERS['main'],
             self.visible_sprites)
 
@@ -28,6 +30,7 @@ class FirstStreetScene(BaseScene):
             'корзинка для пикника',
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/basket.png'), 4),
             (206, 666),
+            'magnifier',
             LAYERS['main'],
             self.visible_sprites)
 
@@ -35,6 +38,7 @@ class FirstStreetScene(BaseScene):
             'клумба',
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/flowerbed.png'), 4),
             (593, 238),
+            'magnifier',
             LAYERS['floor'],
             self.visible_sprites)
 
@@ -42,6 +46,7 @@ class FirstStreetScene(BaseScene):
             'окно',
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/window.png'), 4),
             (996, 62),
+            'magnifier',
             LAYERS['main'],
             self.visible_sprites)
 
@@ -49,6 +54,7 @@ class FirstStreetScene(BaseScene):
             'почтовый ящик',
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/mail.png'), 4),
             (832, 72),
+            'magnifier',
             LAYERS['main'],
             self.visible_sprites)
 
@@ -56,6 +62,7 @@ class FirstStreetScene(BaseScene):
             'коврик',
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/carpet.png'), 4),
             (888, 132),
+            'magnifier',
             LAYERS['floor'],
             self.visible_sprites)
 

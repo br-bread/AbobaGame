@@ -6,11 +6,11 @@ import pygame
 
 
 class DialogueSprite(InteractiveSprite):
-    def __init__(self, name, img, pos, layer, *groups):
+    def __init__(self, name, img, pos, cursor, layer, *groups):
         super().__init__(img, pos, layer, *groups)
         # general
         self.name = name
-        self.cursor_image = 'magnifier_cursor.png'
+        self.cursor_image = f'{cursor}_cursor.png'
         # dialogue
         description = [DialogueLine('base', f'Это {name}.'),
                        DialogueLine('base', f'Это просто {name}.'),
