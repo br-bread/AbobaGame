@@ -68,7 +68,7 @@ class Inventory:
                 self.right.rect.center = (600, 1500)
                 self.is_opened = False
                 settings.window_opened = False
-            elif not settings.window_opened:
+            elif not settings.window_opened and not settings.dialogue_run:
                 self.back.rect.center = (517, 200)
                 self.left.rect.center = (740, 690)
                 self.right.rect.center = (810, 690)
@@ -84,7 +84,7 @@ class Inventory:
                         self.right.rect.center = (600, 1500)
                         self.is_opened = False
                         settings.window_opened = False
-                    elif not settings.window_opened:
+                    elif not settings.window_opened and not settings.dialogue_run:
                         self.back.rect.center = (517, 200)
                         self.left.rect.center = (740, 690)
                         self.right.rect.center = (810, 690)

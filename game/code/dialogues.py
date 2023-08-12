@@ -60,7 +60,7 @@ class Dialogue:
         self.text_speed = 23
 
     def run(self, is_mouse_on):
-        if not self.is_shown and is_mouse_on:
+        if not self.is_shown and is_mouse_on and not settings.window_opened:
             settings.dialogue_run = True
             self.is_shown = True
             self.stage = 0
