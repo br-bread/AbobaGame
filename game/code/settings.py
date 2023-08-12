@@ -55,4 +55,4 @@ player_status = 'down_idle'
 window_opened = False
 dialogue_run = False
 
-new_quest = True
+new_quest = False

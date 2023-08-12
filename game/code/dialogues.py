@@ -13,7 +13,7 @@ class DialogueLine:
         self.id = next(self.id_iter)  # to lock/unlock particular line
         self.kind = kind  # character and mood (denis-neutral)
         self.text = text  # dialogue text (blah blah blah)
-        self.events = events  # what will happen after line has been shown (add item apple)
+        self.events = list(events)  # what will happen after line has been shown (add item apple)\
         self.is_locked = is_locked  # if dialogue can be shown or not
 
     def run_events(self):
@@ -22,9 +22,12 @@ class DialogueLine:
             if event[0] == 'go_to':
                 pass
             elif event[0] == 'unlock':
-                pass
+                if event[1] == 'quest':
+                    settings.journal.quests[int(event[2])].unlock()
+                    settings.new_quest = True
             elif event[0] == 'lock':
-                pass
+                if event[1] == 'quest':
+                    settings.journal.quests[int(event[2])].lock()
             elif event[0] == 'add':
                 pass
             elif event[0] == 'remove':
@@ -89,6 +92,7 @@ class Dialogue:
             img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png'), 4)
             self.dialogue.image = img
             self.dialogue.rect = self.dialogue.image.get_rect(center=(settings.DIALOGUE_POS[0], 1000))
+            self.current_talk[self.stage].run_events()
 
     def animate(self, delta_time, screen):
         if self.stage == 0:  # appearing
@@ -137,7 +141,7 @@ dialogues = {
         [[DialogueLine('denis', 'Хм... пусто.')]]
     ],
     'коврик': [
-        [[DialogueLine('denis', 'Под ковриком лежат ключи... Один от двери, от чего другие?', False, 'unlock')]]
+        [[DialogueLine('denis', 'Под ковриком лежат ключи... Один от двери, от чего другие?')]]
     ],
     'фикус': [
         [[DialogueLine('denis', 'Они размножаются со скоростью света.')]]
@@ -174,10 +178,10 @@ dialogues = {
           DialogueLine('denis-angry',
                        'Ты дурак? Что это за место? Где мы находимся? Что это за дом? Всё, '
                        'что я помню - мы вместе сидели и праздновали мой день рождения, а теперь я здесь.'),
-          DialogueLine('artem-thinking', 'У тебя точно всё хорошо?.. Ладно, если ты ничего не помнишь, '
+          DialogueLine('artem-thinking', '(У него точно всё хорошо?..) Ладно, если ты ничего не помнишь, '
                                          'спроси у Ксюши. Обычно, если происходит что-то странное, она всегда в курсе.'),
-          DialogueLine('denis', 'Почему?'),
-          DialogueLine('artem', 'Не знаю. Вот и спросишь. Если что, она наверху.'),
+          DialogueLine('denis', 'Что? Почему?'),
+          DialogueLine('artem-thinking', 'Не знаю. Если что, она наверху.', False, 'unlock quest 0'),
           ]]
     ],
 }
@@ -198,7 +202,7 @@ for name, talks in dialogues.items():
                         else:
                             new_part.append(DialogueLine(line.kind, part))
                             part = word + ' '
-                    new_part.append(DialogueLine(line.kind, part, False, line.events))
+                    new_part.append(DialogueLine(line.kind, part, False, *line.events))
                 else:
                     new_part.append(line)
             new_talk.append(new_part)

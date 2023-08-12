@@ -111,8 +111,14 @@ class Quest:
         self.reward = reward
         self.steps = steps
         self.current_step = 0
-        self.is_showed = True
+        self.is_showed = False
         self.is_done = False
 
     def next_step(self):
         self.current_step += 1
+
+    def unlock(self):
+        self.is_showed = True
+
+    def lock(self):
+        self.is_showed = False
