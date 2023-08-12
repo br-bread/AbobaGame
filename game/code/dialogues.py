@@ -21,21 +21,19 @@ class DialogueLine:
             event = event.split()
             if event[0] == 'go_to':
                 pass
-            elif event[0] == 'unlock':
+            elif event[0] == 'unlock':  # unlock quest/line id
                 if event[1] == 'quest':
                     settings.journal.quests[int(event[2])].unlock()
                     settings.new_quest = True
-            elif event[0] == 'lock':
+            elif event[0] == 'lock':  # lock quest/line id
                 if event[1] == 'quest':
                     settings.journal.quests[int(event[2])].lock()
-            elif event[0] == 'add':
-                pass
-            elif event[0] == 'remove':
-                pass
-            elif event[0] == 'next_step':
-                pass
-            elif event[0] == 'nothing':
-                pass
+            elif event[0] == 'add':  # add item count
+                settings.inventory.items[event[1]].add(event[2])
+            elif event[0] == 'remove':  # remove item count
+                settings.inventory.items[event[1]].remove(event[2])
+            elif event[0] == 'next_step':  # next_step id
+                settings.journal.quests[int(event[1])].next_step()
 
 
 class Dialogue:
