@@ -1,5 +1,7 @@
-from core import BaseScene
-from sprites import InvisibleDoor
+from core import BaseScene, BaseSprite
+from sprites import InvisibleDoor, DialogueSprite
+from tools import ImgEditor
+from settings import *
 
 
 class HomeUpScene(BaseScene):
@@ -15,3 +17,65 @@ class HomeUpScene(BaseScene):
             'down_idle',
             self.visible_sprites
         )
+
+        self.ksusha = DialogueSprite(
+            'Ксюша',
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/ksusha.png'), 4),
+            (439, 500),
+            'dialogue',
+            LAYERS['main'],
+            self.visible_sprites)
+
+        DialogueSprite(
+            'фикус',
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/plant.png'), 4),
+            (1138, 346),
+            'magnifier',
+            LAYERS['main'],
+            self.visible_sprites)
+
+        DialogueSprite(
+            'книги',
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/books.png'), 4),
+            (878, 344),
+            'magnifier',
+            LAYERS['main'],
+            self.visible_sprites)
+
+        DialogueSprite(
+            'вязаный Почита',
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/pochita.png'), 4),
+            (936, 278),
+            'magnifier',
+            LAYERS['main'],
+            self.visible_sprites)
+
+        # doors (sprites)
+        DialogueSprite(
+            'комната Ксюши',
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/doorK.png'), 4),
+            (456, 340),
+            'magnifier',
+            LAYERS['main'],
+            self.visible_sprites)
+
+        DialogueSprite(
+            'комната Артёма',
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/doorA.png'), 4),
+            (668, 340),
+            'magnifier',
+            LAYERS['main'],
+            self.visible_sprites)
+
+        # ceiling sprites
+        BaseSprite(
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/railings.png'), 4),
+            (598, 608),
+            LAYERS['ceiling'],
+            self.visible_sprites)
+
+        BaseSprite(
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/ceiling.png'), 4),
+            (982, 566),
+            LAYERS['ceiling'],
+            self.visible_sprites)
