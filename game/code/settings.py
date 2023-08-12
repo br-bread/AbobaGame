@@ -35,17 +35,24 @@ LAYERS = {
     'overlay': 6,
 }
 
+# will be set in main.py
+journal = None
+inventory = None
+
 # variables that can be changed
 current_cursor = None
-dialogue_run = False
 scene = 'menu'
+
 time = {
     'hours': 12,
     'minutes': 0,
 }
-time_color = [255, 255, 255]
+
 # for placing player when switching the scenes
 player_pos = CENTER
 player_status = 'down_idle'
+
 window_opened = False
+dialogue_run = False
+
 new_quest = True

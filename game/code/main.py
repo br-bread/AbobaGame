@@ -46,8 +46,8 @@ class Game:
                                             ImgEditor.load_image('home_upscene/collisions.png'), 4)),
                                     settings.CENTER)
         }
-        self.inventory = Inventory()
-        self.journal = Journal()
+        settings.inventory = Inventory()
+        settings.journal = Journal()
         self.sun = Sun()
         self.clock = pygame.time.Clock()
 
@@ -62,7 +62,7 @@ class Game:
             delta_time = self.clock.tick() / 1000
 
             self.screen.fill('black')
-            self.scenes[settings.scene].run(delta_time, events, self.inventory, self.journal)
+            self.scenes[settings.scene].run(delta_time, events)
 
             self.screen.blit(settings.current_cursor, pygame.mouse.get_pos())
             settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)

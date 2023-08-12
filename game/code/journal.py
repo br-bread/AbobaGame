@@ -2,7 +2,6 @@ import pygame
 import settings
 from overlay import Button
 from tools import ImgEditor
-from core import BaseSprite
 
 
 class Journal:
