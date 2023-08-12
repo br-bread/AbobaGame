@@ -12,11 +12,14 @@ class DialogueSprite(InteractiveSprite):
         self.name = name
         self.cursor_image = f'{cursor}_cursor.png'
         # dialogue
+        cap_name = name.capitalize()
+        if len(name.split()) > 1:
+            cap_name = name.split()[0].capitalize() + ' ' + ' '.join(name.split()[1:])
         description = [DialogueLine('base', f'Это {name}.'),
                        DialogueLine('base', f'Это просто {name}.'),
                        DialogueLine('base', f'Выглядит как {name}.'),
                        DialogueLine('base', f'Это {name}, ничего интересного.'),
-                       DialogueLine('base', f'{name.capitalize()}.')]
+                       DialogueLine('base', f'{cap_name}.')]
         self.dialogue = Dialogue(self.name, groups[0], description)
 
     def update(self, dt, events, player_pos, screen, *args, **kwargs):
