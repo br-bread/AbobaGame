@@ -26,11 +26,10 @@ class DialogueSprite(InteractiveSprite):
         super().update(dt, events, player_pos)
         if self.is_accessible(self.get_distance(player_pos)):
             for event in events:
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.is_mouse_on():
-                        self.dialogue.run(is_mouse_on=True)
-                    else:
-                        self.dialogue.run(is_mouse_on=False)
+                if event.type == pygame.MOUSEBUTTONDOWN and self.is_mouse_on() and not settings.dialogue_run:
+                    self.dialogue.run()
+                if self.dialogue.is_shown and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    self.dialogue.run()
 
         self.dialogue.update(dt, screen)
 

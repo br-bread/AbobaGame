@@ -84,8 +84,8 @@ class Dialogue:
         self.text_frame = 0
         self.text_speed = 23
 
-    def run(self, is_mouse_on):
-        if not self.is_shown and is_mouse_on and not settings.window_opened:
+    def run(self):
+        if not self.is_shown and not settings.window_opened:
             settings.dialogue_run = True
             self.is_shown = True
             self.stage = 0
@@ -97,7 +97,10 @@ class Dialogue:
                 if not self.talk[0][0].is_locked:
                     break
 
-        elif self.is_shown:
+            self.current_talk = self.talk[0]
+            self.current_talk = [choice(self.descriptions)] + self.current_talk
+
+        elif self.is_shown and self.text_frame >= len(self.current_text):
             self.stage += 1
             self.text_frame = 0
             if self.stage == len(self.current_talk):
@@ -106,15 +109,15 @@ class Dialogue:
                 self.is_shown = False
                 self.talk = [[]]
                 self.current_text = ''
+        elif self.is_shown and self.text_frame < len(self.current_text):
+            self.text_frame = len(self.current_text)
 
         if self.is_shown:
-            self.current_talk = self.talk[0]
-            self.current_talk = [choice(self.descriptions)] + self.current_talk
             self.current_text = self.current_talk[self.stage].text
             self.kind = self.current_talk[self.stage].kind
             img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png'), 4)
             self.dialogue.image = img
-            self.dialogue.rect = self.dialogue.image.get_rect(center=(settings.DIALOGUE_POS[0], 1000))
+            self.dialogue.rect = self.dialogue.image.get_rect(center=settings.DIALOGUE_POS)
             self.current_talk[self.stage].run_events()
 
     def animate(self, delta_time, screen):
