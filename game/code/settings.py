@@ -6,7 +6,7 @@ ICON = ImgEditor.load_image('icon.png', colorkey=-1)
 SIZE = WIDTH, HEIGHT = 1536, 864
 CENTER = WIDTH // 2, HEIGHT // 2
 
-INTERACTION_DISTANCE = 120
+INTERACTION_DISTANCE = 148
 DOOR_DISTANCE = 70  # for invisible doors (passages)
 
 DIALOGUE_POS = (CENTER[0], 750)

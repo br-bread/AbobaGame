@@ -176,6 +176,45 @@ dialogues = {
     'коврик': [
         [[DialogueLine('denis', 'Под ковриком лежат ключи... Один от двери, от чего другие?')]]
     ],
+    'Боб': [
+        [[DialogueLine('base', 'Его зовут Боб, и он не папоротник, он боб. Его же так и зовут!'),
+          DialogueLine('base', 'Что не понятного? Это Боб!')]],
+    ],
+    'коробка из-под роллов': [
+        [[DialogueLine('denis', '"Томми Фиш".'),
+          DialogueLine('denis-grudge', '"Оригами" лучше.')]],
+    ],
+    'консервы': [
+        [[DialogueLine('denis-grudge', 'А где нож?')]],
+    ],
+    'сундук': [
+        [[DialogueLine('denis', 'Пластинок нет.')]],
+    ],
+    'барабанная установка': [
+        [[DialogueLine('denis', 'Почему она стоит в доме?')]],
+    ],
+    'холодильник': [
+        [[DialogueLine('base', 'Внутри лежит багет с ветчиной.'),
+          DialogueLine('denis-surprized', 'О, хрючево!'),
+          DialogueLine('artem-thinking', 'Ты свой уже съел. Это Ксюшин.'),
+          DialogueLine('denis-angry', '...'),
+          ]],
+    ],
+    'записки': [
+        [[DialogueLine('base', 'Артём: помыть посуду'),
+          DialogueLine('base', 'Денис: пропылесосить'),
+          DialogueLine('base', 'Ксюша: собрать установку'),
+          DialogueLine('denis-angry', 'Чё?? Не честно.'),
+          DialogueLine('artem', 'Ты так и не пылесосил.'),
+          DialogueLine('denis-angry', 'Пошёл нахуй.'),
+          ]],
+    ],
+    'салат': [
+        [[DialogueLine('denis', 'Сколько уже он тут стоит?...')]],
+    ],
+    'коробка с чаем': [
+        [[DialogueLine('denis-grudge', 'Остался только "Сочное яблоко".')]],
+    ],
     'фикус': [
         [[DialogueLine('denis', 'Они размножаются со скоростью света.')]]
     ],
