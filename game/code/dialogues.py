@@ -7,14 +7,14 @@ from core import BaseSprite
 
 
 class DialogueLine:
-    id_iter = itertools.count()
 
-    def __init__(self, kind, text, is_locked=False, *events):
-        self.id = next(self.id_iter)  # to lock/unlock particular line
+    def __init__(self, kind, text, id=0, priority=0, is_locked=False, *events):
         self.kind = kind  # character and mood (denis-neutral)
         self.text = text  # dialogue text (blah blah blah)
-        self.events = list(events)  # what will happen after line has been shown (add item apple)\
+        self.id = id  # to lock/unlock particular line
+        self.priority = priority
         self.is_locked = is_locked  # if dialogue can be shown or not
+        self.events = list(events)  # what will happen after line has been shown (add item apple)\
 
     def lock(self):
         self.is_locked = True
@@ -141,6 +141,10 @@ class Dialogue:
         self.animate(dt, screen)
 
 
+# id
+# Артём - 1**
+# Ксюша - 2**
+# rest - 0
 dialogues = {
     'пугало': [
         [[DialogueLine('denis', 'Это пугало как будто говорит воронам: "Страдай или вали".'),
@@ -194,8 +198,8 @@ dialogues = {
         [[DialogueLine('denis', 'Не думаю, что стоит заходить без разрешения.')]]
     ],
     'Артём': [
-        [[DialogueLine('artem', 'Привет, Денис! С днём рождения! Это тебе.'),
-          DialogueLine('base', 'Вы получили шоколадку.', False, 'add chocolate 1'),
+        [[DialogueLine('artem', 'Привет, Денис! С днём рождения! Это тебе.', 100),
+          DialogueLine('base', 'Вы получили шоколадку.', 0, 0, False, 'add chocolate 1'),
           DialogueLine('denis', 'Спасибо.'),
           DialogueLine('artem', 'Что-то случилось?'),
           DialogueLine('denis', 'Я что-то запутался... Что это за место?'),
@@ -207,16 +211,16 @@ dialogues = {
                                          'спроси у Ксюши. Обычно, если происходит что-то '
                                          'странное, она всегда в курсе.'),
           DialogueLine('denis', 'Что? Почему?'),
-          DialogueLine('artem-thinking', 'Не знаю. Если что, она наверху.', False,
-                       'unlock quest 0', 'unlock Артём 37', 'lock Артём 27'),
+          DialogueLine('artem-thinking', 'Не знаю. Если что, она наверху.', 0, 0, False,
+                       'unlock quest 0', 'unlock Артём 101', 'lock Артём 100'),
           ]],
-        [[DialogueLine('artem', 'Чё, Денис? Тебе что-то нужно?', True),
+        [[DialogueLine('artem', 'Чё, Денис? Тебе что-то нужно?', 101, 0, True),
           DialogueLine('denis', 'Да нет, я просто подошёл.'),
           DialogueLine('artem', 'Ок.')]]
     ],
     'Ксюша': [
-        [[DialogueLine('ksusha', 'Денис! С днём рождения!! У меня есть для тебя подарок!'),
-          DialogueLine('base', 'Вы получили конфету.', False, 'add candy 1'),
+        [[DialogueLine('ksusha', 'Денис! С днём рождения!! У меня есть для тебя подарок!', 200),
+          DialogueLine('base', 'Вы получили конфету.', 0, 0, False, 'add candy 1'),
           DialogueLine('denis', 'Спасибо.'),
           DialogueLine('ksusha', 'Кстати, ты можешь открыть инвентарь, нажав i.'),
           DialogueLine('ksusha-left', 'А для журнала заданий j.'),
@@ -266,9 +270,9 @@ dialogues = {
           DialogueLine('ksusha-sad', '...'),
           DialogueLine('ksusha-sad', 'Ладно, я тебя выпускаю.'),
           DialogueLine('ksusha', 'Хорошей игры!'),
-          DialogueLine('denis', 'Ок. Спасибо.', False, 'lock quest 0', 'lock Ксюша 40', 'unlock Ксюша 86'),
+          DialogueLine('denis', 'Ок. Спасибо.', 0, 0, False, 'lock quest 0', 'lock Ксюша 200', 'unlock Ксюша 201'),
           ]],
-        [[DialogueLine('ksusha', 'м? Что-то случилось?', True),
+        [[DialogueLine('ksusha', 'м? Что-то случилось?', 201, 0, True),
           DialogueLine('denis', 'Да нет, я просто подошёл.'),
           DialogueLine('ksusha', 'Хорошо.')]]
     ],
