@@ -10,7 +10,7 @@ INTERACTION_DISTANCE = 120
 DOOR_DISTANCE = 70  # for invisible doors (passages)
 
 DIALOGUE_POS = (CENTER[0], 750)
-MAX_DIALOGUE_LENGTH = 100
+MAX_DIALOGUE_LENGTH = 96
 
 FONT = '../assets/fonts/main.ttf'
 TEXT_COLOR = (97, 57, 34)

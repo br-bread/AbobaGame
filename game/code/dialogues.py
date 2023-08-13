@@ -16,24 +16,48 @@ class DialogueLine:
         self.events = list(events)  # what will happen after line has been shown (add item apple)\
         self.is_locked = is_locked  # if dialogue can be shown or not
 
+    def lock(self):
+        self.is_locked = True
+
+    def unlock(self):
+        self.is_locked = False
+
     def run_events(self):
         for event in self.events:
             event = event.split()
             if event[0] == 'go_to':
                 pass
-            elif event[0] == 'unlock':  # unlock quest/line id
+            elif event[0] == 'unlock':  # unlock quest id
                 if event[1] == 'quest':
                     settings.journal.quests[int(event[2])].unlock()
                     settings.new_quest = True
-            elif event[0] == 'lock':  # lock quest/line id
+                else:  # unlock name id
+                    for talk in dialogues[event[1]]:
+                        for part in talk:
+                            for line in part:
+                                if line.id == int(event[2]):
+                                    line.unlock()
+                                    break
+            elif event[0] == 'lock':  # lock quest id
                 if event[1] == 'quest':
                     settings.journal.quests[int(event[2])].lock()
+                else:  # lock name id
+                    for talk in dialogues[event[1]]:
+                        for part in talk:
+                            for line in part:
+                                if line.id == int(event[2]):
+                                    line.lock()
+                                    break
             elif event[0] == 'add':  # add item count
-                settings.inventory.items[event[1]].add(event[2])
+                settings.inventory.items[event[1]].add(int(event[2]))
             elif event[0] == 'remove':  # remove item count
-                settings.inventory.items[event[1]].remove(event[2])
+                settings.inventory.items[event[1]].remove(int(event[2]))
             elif event[0] == 'next_step':  # next_step id
                 settings.journal.quests[int(event[1])].next_step()
+            # for talk in dialogues['Артём']:
+            #     for part in talk:
+            #         for line in part:
+            #             print(line.text, line.id, line.is_locked)
 
 
 class Dialogue:
@@ -80,6 +104,7 @@ class Dialogue:
                 # end of the dialogue
                 settings.dialogue_run = False
                 self.is_shown = False
+                self.talk = [[]]
                 self.current_text = ''
 
         if self.is_shown:
@@ -152,14 +177,15 @@ dialogues = {
         [[DialogueLine('base', 'Вы берёте случайную книгу.'),
           DialogueLine('denis', '"1984". Не, уже читал.')]],
         [[DialogueLine('base', 'Вы берёте случайную книгу.'),
-          DialogueLine('denis', '"Мёртвые души 2 том". Не, уже читал. Стоп, что?'),
+          DialogueLine('denis', '"Мёртвые души 2 том". Не, уже читал.'),
+          DialogueLine('denis-surprized', 'Стоп, что?'),
           DialogueLine('base', 'Книга сгорела на ваших глазах подобно фениксу.')]],
         [[DialogueLine('base', 'Вы берёте случайную книгу.'),
           DialogueLine('denis', '"Мартин Иден". Не, в другой раз.'),
-          DialogueLine('ksusha', 'Да можешь уже и не читать в принципе.')]],
+          DialogueLine('ksusha-grudge', 'Да можешь уже и не читать в принципе.')]],
     ],
     'вязаный Почита': [
-        [[DialogueLine('denis', 'Почита? Ты тоже тут?')]]
+        [[DialogueLine('denis-surprized', 'Почита? Ты тоже тут?')]]
     ],
     'комната Ксюши': [
         [[DialogueLine('denis', 'Не думаю, что стоит заходить без разрешения.')]]
@@ -168,7 +194,8 @@ dialogues = {
         [[DialogueLine('denis', 'Не думаю, что стоит заходить без разрешения.')]]
     ],
     'Артём': [
-        [[DialogueLine('artem', 'Привет, Денис! С днём рождения!'),
+        [[DialogueLine('artem', 'Привет, Денис! С днём рождения! Это тебе.'),
+          DialogueLine('base', 'Вы получили шоколадку.', False, 'add chocolate 1'),
           DialogueLine('denis', 'Спасибо.'),
           DialogueLine('artem', 'Что-то случилось?'),
           DialogueLine('denis', 'Я что-то запутался... Что это за место?'),
@@ -177,10 +204,73 @@ dialogues = {
                        'Ты дурак? Что это за место? Где мы находимся? Что это за дом? Всё, '
                        'что я помню - мы вместе сидели и праздновали мой день рождения, а теперь я здесь.'),
           DialogueLine('artem-thinking', '(У него точно всё хорошо?..) Ладно, если ты ничего не помнишь, '
-                                         'спроси у Ксюши. Обычно, если происходит что-то странное, она всегда в курсе.'),
+                                         'спроси у Ксюши. Обычно, если происходит что-то '
+                                         'странное, она всегда в курсе.'),
           DialogueLine('denis', 'Что? Почему?'),
-          DialogueLine('artem-thinking', 'Не знаю. Если что, она наверху.', False, 'unlock quest 0'),
-          ]]
+          DialogueLine('artem-thinking', 'Не знаю. Если что, она наверху.', False,
+                       'unlock quest 0', 'unlock Артём 37', 'lock Артём 27'),
+          ]],
+        [[DialogueLine('artem', 'Чё, Денис? Тебе что-то нужно?', True),
+          DialogueLine('denis', 'Да нет, я просто подошёл.'),
+          DialogueLine('artem', 'Ок.')]]
+    ],
+    'Ксюша': [
+        [[DialogueLine('ksusha', 'Денис! С днём рождения!! У меня есть для тебя подарок!'),
+          DialogueLine('base', 'Вы получили конфету.', False, 'add candy 1'),
+          DialogueLine('denis', 'Спасибо.'),
+          DialogueLine('ksusha', 'Кстати, ты можешь открыть инвентарь, нажав i.'),
+          DialogueLine('ksusha-left', 'А для журнала заданий j.'),
+          DialogueLine('denis', 'Что ты имеешь ввиду?'),
+          DialogueLine('ksusha', '...'),
+          DialogueLine('ksusha-left', 'Это же игра, Денис.'),
+          DialogueLine('denis', 'И как отсюда выбраться? Как мне вернуться обратно?'),
+          DialogueLine('ksusha', 'Это не так просто! Ты уверен, что справишься?'),
+          DialogueLine('denis', '...'),
+          DialogueLine('denis-grudge', 'Я на лоха похож?'),
+          DialogueLine('ksusha',
+                       'Это будет твоя главная цель игры! Для начала тебе нужно найти кого-то, '
+                       'кто даст тебе квест. Это должен быть кто-то очень серьёзный! '
+                       'Главный босс. Кто-то, кто знает больше остальных. '
+                       'Кто-то, кто знает, по каким правилам работает этот мир.'),
+          DialogueLine('denis-grudge', 'Разве это не ты?'),
+          DialogueLine('ksusha', '...'),
+          DialogueLine('ksusha-left', 'Ну да.'),
+          DialogueLine('denis-angry', 'Ну и чё?'),
+          DialogueLine('ksusha', 'Видишь кнопку в правом верхнем углу?'),
+          DialogueLine('denis', 'Ну.'),
+          DialogueLine('ksusha-left', 'Нажми на неё.'),
+          DialogueLine('denis-grudge', 'Ничего не происходит.'),
+          DialogueLine('ksusha',
+                       'Потому что ты в диалоге, гений. Когда нажмёшь на неё, '
+                       'у тебя появится кнопка "Выход". Вот и всё.'),
+          DialogueLine('denis', '...'),
+          DialogueLine('denis-grudge', 'И? Ты можешь закрыть диалог?'),
+          DialogueLine('ksusha', '...'),
+          DialogueLine('ksusha-sad', '...'),
+          DialogueLine('ksusha-sad', '....'),
+          DialogueLine('ksusha-sad', '.....'),
+          DialogueLine('ksusha-sad', '......'),
+          DialogueLine('denis-grudge', 'Ты же в курсе, что я всё скипаю?'),
+          DialogueLine('ksusha-sad', 'И что потом?'),
+          DialogueLine('ksusha-grudge', 'Всю игру проскипаешь?'),
+          DialogueLine('ksusha-grudge', 'Просто выйдешь и всё?'),
+          DialogueLine('denis', 'Я не знаю. Как пойдёт.'),
+          DialogueLine('ksusha-sad', 'Я старалась.'),
+          DialogueLine('denis', 'Ок.'),
+          DialogueLine('ksusha-sad', 'Не выходи сразу, пожалуйста.'),
+          DialogueLine('denis', 'Ок.'),
+          DialogueLine('ksusha-sad', 'Тут пока нет сохранений.'),
+          DialogueLine('denis', 'Ок.'),
+          DialogueLine('ksusha-sad', 'Если выйдешь, придётся болтать со мной заново.'),
+          DialogueLine('denis', '...Ок.'),
+          DialogueLine('ksusha-sad', '...'),
+          DialogueLine('ksusha-sad', 'Ладно, я тебя выпускаю.'),
+          DialogueLine('ksusha', 'Хорошей игры!'),
+          DialogueLine('denis', 'Ок. Спасибо.', False, 'lock quest 0', 'lock Ксюша 40', 'unlock Ксюша 86'),
+          ]],
+        [[DialogueLine('ksusha', 'м? Что-то случилось?', True),
+          DialogueLine('denis', 'Да нет, я просто подошёл.'),
+          DialogueLine('ksusha', 'Хорошо.')]]
     ],
 }
 
@@ -209,6 +299,6 @@ for name, talks in dialogues.items():
 
 # looking for id of particular line
 
-# for i in dialogues['клумба']:
+# for i in dialogues['Ксюша']:
 #     for j in i:
 #         print(*[k.id for k in j])
