@@ -6,7 +6,7 @@ import pygame
 
 
 class DialogueSprite(InteractiveSprite):
-    def __init__(self, name, img, pos, cursor, layer, *groups):
+    def __init__(self, name, is_person, img, pos, cursor, layer, *groups):
         super().__init__(img, pos, layer, *groups)
         # general
         self.name = name
@@ -20,7 +20,10 @@ class DialogueSprite(InteractiveSprite):
                        DialogueLine('base', f'Выглядит как {name}.'),
                        DialogueLine('base', f'Это {name}, ничего интересного.'),
                        DialogueLine('base', f'{cap_name}.')]
-        self.dialogue = Dialogue(self.name, groups[0], description)
+        if is_person:
+            self.dialogue = Dialogue(self.name, groups[0])
+        else:
+            self.dialogue = Dialogue(self.name, groups[0], description)
 
     def update(self, dt, events, player_pos, screen, *args, **kwargs):
         super().update(dt, events, player_pos)

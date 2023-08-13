@@ -20,6 +20,7 @@ class HomeUpScene(BaseScene):
 
         self.ksusha = DialogueSprite(
             'Ксюша',
+            True,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/ksusha.png'), 4),
             (439, 500),
             'dialogue',
@@ -28,6 +29,7 @@ class HomeUpScene(BaseScene):
 
         DialogueSprite(
             'фикус',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/plant.png'), 4),
             (1138, 346),
             'magnifier',
@@ -36,6 +38,7 @@ class HomeUpScene(BaseScene):
 
         DialogueSprite(
             'книги',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/books.png'), 4),
             (878, 344),
             'magnifier',
@@ -44,6 +47,7 @@ class HomeUpScene(BaseScene):
 
         DialogueSprite(
             'вязаный Почита',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/pochita.png'), 4),
             (936, 278),
             'magnifier',
@@ -53,6 +57,7 @@ class HomeUpScene(BaseScene):
         # doors (sprites)
         DialogueSprite(
             'комната Ксюши',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/doorK.png'), 4),
             (456, 340),
             'magnifier',
@@ -61,6 +66,7 @@ class HomeUpScene(BaseScene):
 
         DialogueSprite(
             'комната Артёма',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/doorA.png'), 4),
             (668, 340),
             'magnifier',

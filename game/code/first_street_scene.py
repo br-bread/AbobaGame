@@ -12,6 +12,7 @@ class FirstStreetScene(BaseScene):
         # Dialogue sprites
         self.scarecrow = DialogueSprite(
             'пугало',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/scarecrow.png'), 4),
             (439, 226),
             'magnifier',
@@ -20,6 +21,7 @@ class FirstStreetScene(BaseScene):
 
         self.signpost = DialogueSprite(
             'указатель',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/signpost.png'), 4),
             (154, 323),
             'magnifier',
@@ -28,6 +30,7 @@ class FirstStreetScene(BaseScene):
 
         self.basket = DialogueSprite(
             'корзинка для пикника',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/basket.png'), 4),
             (206, 666),
             'magnifier',
@@ -36,6 +39,7 @@ class FirstStreetScene(BaseScene):
 
         self.flowerbed = DialogueSprite(
             'клумба',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/flowerbed.png'), 4),
             (593, 238),
             'magnifier',
@@ -44,6 +48,7 @@ class FirstStreetScene(BaseScene):
 
         self.window = DialogueSprite(
             'окно',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/window.png'), 4),
             (996, 62),
             'magnifier',
@@ -52,6 +57,7 @@ class FirstStreetScene(BaseScene):
 
         self.mail = DialogueSprite(
             'почтовый ящик',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/mail.png'), 4),
             (832, 72),
             'magnifier',
@@ -60,6 +66,7 @@ class FirstStreetScene(BaseScene):
 
         self.carpet = DialogueSprite(
             'коврик',
+            False,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/carpet.png'), 4),
             (888, 132),
             'magnifier',

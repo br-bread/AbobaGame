@@ -11,6 +11,7 @@ class HomeScene(BaseScene):
 
         self.artem = DialogueSprite(
             'Артём',
+            True,
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/artem.png'), 4),
             (946, 480),
             'dialogue',

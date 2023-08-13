@@ -98,7 +98,10 @@ class Dialogue:
                     break
 
             self.current_talk = self.talk[0]
-            self.current_talk = [choice(self.descriptions)] + self.current_talk
+            if self.descriptions:
+                self.current_talk = [choice(self.descriptions)] + self.current_talk
+            else:
+                self.current_talk = self.current_talk
 
         elif self.is_shown and self.text_frame >= len(self.current_text):
             self.stage += 1
