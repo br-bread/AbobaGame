@@ -65,6 +65,7 @@ class Dialogue:
         self.name = name
         self.descriptions = descriptions
 
+        self.pos = list(settings.DIALOGUE_POS)
         self.font = pygame.font.Font(settings.FONT, 65)
         self.talk = [[]]  # current talk
         self.current_talk = []  # current part of talk
@@ -85,7 +86,7 @@ class Dialogue:
         self.text_speed = 23
 
     def run(self):
-        if not self.is_shown and not settings.window_opened:
+        if not self.is_shown and not settings.window_opened:  # first opening
             settings.dialogue_run = True
             self.is_shown = True
             self.stage = 0
@@ -102,8 +103,15 @@ class Dialogue:
                 self.current_talk = [choice(self.descriptions)] + self.current_talk
             else:
                 self.current_talk = self.current_talk
+            self.pos[1] = 1000
+            self.current_text = self.current_talk[self.stage].text
+            self.kind = self.current_talk[self.stage].kind
+            img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png'), 4)
+            self.dialogue.image = img
+            self.dialogue.rect = self.dialogue.image.get_rect(center=self.pos)
+            self.current_talk[self.stage].run_events()
 
-        elif self.is_shown and self.text_frame >= len(self.current_text):
+        elif self.is_shown and self.text_frame >= len(self.current_text):  # next step
             self.stage += 1
             self.text_frame = 0
             if self.stage == len(self.current_talk):
@@ -112,16 +120,16 @@ class Dialogue:
                 self.is_shown = False
                 self.talk = [[]]
                 self.current_text = ''
+            else:
+                self.current_text = self.current_talk[self.stage].text
+                self.kind = self.current_talk[self.stage].kind
+                img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png'), 4)
+                self.dialogue.image = img
+                self.dialogue.rect = self.dialogue.image.get_rect(center=self.pos)
+                self.current_talk[self.stage].run_events()
+
         elif self.is_shown and self.text_frame < len(self.current_text):
             self.text_frame = len(self.current_text)
-
-        if self.is_shown:
-            self.current_text = self.current_talk[self.stage].text
-            self.kind = self.current_talk[self.stage].kind
-            img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png'), 4)
-            self.dialogue.image = img
-            self.dialogue.rect = self.dialogue.image.get_rect(center=settings.DIALOGUE_POS)
-            self.current_talk[self.stage].run_events()
 
     def animate(self, delta_time, screen):
         if self.stage == 0:  # appearing
@@ -132,6 +140,7 @@ class Dialogue:
                 self.dialogue.rect.centery += self.speed * delta_time
         else:
             self.dialogue.rect.centery = settings.DIALOGUE_POS[1]
+        self.pos = list(self.dialogue.rect.center)
 
         # text
         if self.kind != 'base':
@@ -250,8 +259,8 @@ dialogues = {
           DialogueLine('denis', 'Я что-то запутался... Что это за место?'),
           DialogueLine('artem-thinking', 'В смысле?'),
           DialogueLine('denis-angry',
-                       'Ты дурак? Что это за место? Где мы находимся? Что это за дом? Всё, '
-                       'что я помню - мы вместе сидели и праздновали мой день рождения, а теперь я здесь.'),
+                       'Ты дурак блять? Что это за место? Где мы находимся? Что это за дом? Всё, '
+                       'что я помню - мы вместе сидели и праздновали мой день рождения, а теперь я нахуй здесь.'),
           DialogueLine('artem-thinking', '(У него точно всё хорошо?..) Ладно, если ты ничего не помнишь, '
                                          'спроси у Ксюши. Обычно, если происходит что-то '
                                          'странное, она всегда в курсе.'),
@@ -272,10 +281,10 @@ dialogues = {
           DialogueLine('denis', 'Что ты имеешь ввиду?'),
           DialogueLine('ksusha', '...'),
           DialogueLine('ksusha-left', 'Это же игра, Денис.'),
-          DialogueLine('denis', 'И как отсюда выбраться? Как мне вернуться обратно?'),
+          DialogueLine('denis', 'А как отсюда выйти-то? Как мне вернуться?'),
           DialogueLine('ksusha', 'Это не так просто! Ты уверен, что справишься?'),
           DialogueLine('denis', '...'),
-          DialogueLine('denis-grudge', 'Я на лоха похож?'),
+          DialogueLine('denis-grudge', 'Я блять на лоха похож?'),
           DialogueLine('ksusha',
                        'Это будет твоя главная цель игры! Для начала тебе нужно найти кого-то, '
                        'кто даст тебе квест. Это должен быть кто-то очень серьёзный! '
@@ -284,7 +293,7 @@ dialogues = {
           DialogueLine('denis-grudge', 'Разве это не ты?'),
           DialogueLine('ksusha', '...'),
           DialogueLine('ksusha-left', 'Ну да.'),
-          DialogueLine('denis-angry', 'Ну и чё?'),
+          DialogueLine('denis-angry', 'Ну и чё бля?'),
           DialogueLine('ksusha', 'Видишь кнопку в правом верхнем углу?'),
           DialogueLine('denis', 'Ну.'),
           DialogueLine('ksusha-left', 'Нажми на неё.'),
@@ -293,9 +302,10 @@ dialogues = {
                        'Потому что ты в диалоге, гений. Когда нажмёшь на неё, '
                        'у тебя появится кнопка "Выход". Вот и всё.'),
           DialogueLine('denis', '...'),
-          DialogueLine('denis-grudge', 'И? Ты можешь закрыть диалог?'),
+          DialogueLine('denis-grudge', 'И? Ты можешь нахуй закрыть диалог?'),
           DialogueLine('ksusha', '...'),
           DialogueLine('ksusha-sad', '...'),
+          DialogueLine('denis-grudge', 'Чё с лицом?'),
           DialogueLine('ksusha-sad', '....'),
           DialogueLine('ksusha-sad', '.....'),
           DialogueLine('ksusha-sad', '......'),
@@ -314,6 +324,7 @@ dialogues = {
           DialogueLine('denis', '...Ок.'),
           DialogueLine('ksusha-sad', '...'),
           DialogueLine('ksusha-sad', 'Ладно, я тебя выпускаю.'),
+          DialogueLine('denis-grudge', 'Делай чё хочешь, мне насрать.'),
           DialogueLine('ksusha', 'Хорошей игры!'),
           DialogueLine('denis', 'Ок. Спасибо.', 0, 0, False, 'lock quest 0', 'lock Ксюша 200', 'unlock Ксюша 201'),
           ]],
