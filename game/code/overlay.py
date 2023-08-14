@@ -75,6 +75,7 @@ class Button(pygame.sprite.Sprite):
         self.is_clicked = False  # mouse up
         self.is_pressed = False  # mouse down
         self.cursor_image = 'pointer_cursor.png'
+        self.sound = pygame.mixer.Sound('..\\assets\\audio\\button.mp3')
 
     def is_mouse_on(self):
         pos_x = pygame.mouse.get_pos()[0]
@@ -94,8 +95,9 @@ class Button(pygame.sprite.Sprite):
         if self.is_mouse_on():
             settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image(f'cursors/{self.cursor_image}'), 2)
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and self.is_mouse_on():
+            if event.type == pygame.MOUSEBUTTONDOWN and self.is_mouse_on() and not self.is_pressed:
                 self.is_pressed = True
+                self.sound.play()
             if event.type == pygame.MOUSEBUTTONUP and self.is_pressed:
                 self.is_pressed = False
                 self.is_clicked = True

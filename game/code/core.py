@@ -66,7 +66,7 @@ class InteractiveSprite(BaseSprite):
 
 
 class BaseScene:
-    def __init__(self, background, scene_collision_mask, background_pos=(0, 0)):
+    def __init__(self, background, scene_collision_mask, music, background_pos=(0, 0)):
         # sprite groups
         self.visible_sprites = CameraGroup()
         self.collision_sprites = pygame.sprite.Group()
@@ -74,6 +74,8 @@ class BaseScene:
         self.screen = pygame.display.get_surface()
         self.player = Player(settings.CENTER, self.visible_sprites, self.collision_sprites)
         self.name = 'scene'
+        self.music = pygame.mixer.Sound(f'..\\assets\\audio\\music\\{music}')
+        self.music_started = False
         self.collision_mask = scene_collision_mask
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'], self.visible_sprites)
         self.menu_window = MenuWindow()  # overlay
@@ -96,6 +98,9 @@ class BaseScene:
         self.next_scene = next_scene
 
     def run(self, delta_time, events):
+        if not self.music_started:
+            self.music.play(loops=-1)
+            self.music_started = True
         if self.place_player:  # placing the player
             self.player.pos.x = settings.player_pos[0]
             self.player.pos.y = settings.player_pos[1]
@@ -110,6 +115,7 @@ class BaseScene:
                 self.appearing = False
 
         if self.disappearing:
+            self.music.fadeout(1000)
             self.surface.set_alpha(self.alpha)
             self.screen.blit(self.surface, (0, 0))
             self.alpha += self.speed * delta_time
@@ -117,6 +123,7 @@ class BaseScene:
                 self.disappearing = False
                 self.appearing = True  # set bool variables for next appearance of this scene
                 self.place_player = True
+                self.music_started = False
                 settings.scene = self.next_scene
 
         Daytime.run(self.screen)

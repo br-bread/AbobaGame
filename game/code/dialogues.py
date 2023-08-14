@@ -5,6 +5,8 @@ from tools import ImgEditor, blit_text
 import settings
 from core import BaseSprite
 
+pygame.init()
+
 
 class DialogueLine:
 
@@ -15,6 +17,8 @@ class DialogueLine:
         self.priority = priority
         self.is_locked = is_locked  # if dialogue can be shown or not
         self.events = list(events)  # what will happen after line has been shown (add item apple)\
+        # sound of new quest or item
+        self.sound = pygame.mixer.Sound('..\\assets\\audio\\add.mp3')
 
     def lock(self):
         self.is_locked = True
@@ -31,6 +35,7 @@ class DialogueLine:
                 if event[1] == 'quest':
                     settings.journal.quests[int(event[2])].unlock()
                     settings.new_quest = True
+                    self.sound.play()
                 else:  # unlock name id
                     for talk in dialogues[event[1]]:
                         for part in talk:
@@ -49,6 +54,7 @@ class DialogueLine:
                                     line.lock()
                                     break
             elif event[0] == 'add':  # add item count
+                self.sound.play()
                 settings.inventory.items[event[1]].add(int(event[2]))
             elif event[0] == 'remove':  # remove item count
                 settings.inventory.items[event[1]].remove(int(event[2]))

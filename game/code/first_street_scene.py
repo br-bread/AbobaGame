@@ -5,8 +5,8 @@ from tools import ImgEditor
 
 
 class FirstStreetScene(BaseScene):
-    def __init__(self, background, scene_collision_mask, background_pos=(0, 0)):
-        super().__init__(background, scene_collision_mask, background_pos)
+    def __init__(self, background, scene_collision_mask, music, background_pos=(0, 0)):
+        super().__init__(background, scene_collision_mask, music, background_pos)
         self.name = 'first_street_scene'
 
         # Dialogue sprites

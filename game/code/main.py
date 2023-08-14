@@ -34,17 +34,22 @@ class Game:
                 ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/first_street_scene.png'), 4),
                 pygame.mask.from_surface(
                     ImgEditor.enhance_image(ImgEditor.load_image('first_street_scene/collisions.png'), 4)),
+                'street_day.mp3',
                 settings.CENTER),
-            'home_scene': HomeScene(ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/home_scene.png'), 4),
-                                    pygame.mask.from_surface(
-                                        ImgEditor.enhance_image(
-                                            ImgEditor.load_image('home_scene/collisions.png'), 4)),
-                                    settings.CENTER),
-            'home_upscene': HomeUpScene(ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/home_upscene.png'), 4),
-                                    pygame.mask.from_surface(
-                                        ImgEditor.enhance_image(
-                                            ImgEditor.load_image('home_upscene/collisions.png'), 4)),
-                                    settings.CENTER)
+            'home_scene': HomeScene(
+                ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/home_scene.png'), 4),
+                pygame.mask.from_surface(
+                    ImgEditor.enhance_image(
+                        ImgEditor.load_image('home_scene/collisions.png'), 4)),
+                'home_day.mp3',
+                settings.CENTER),
+            'home_upscene': HomeUpScene(
+                ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/home_upscene.png'), 4),
+                pygame.mask.from_surface(
+                    ImgEditor.enhance_image(
+                        ImgEditor.load_image('home_upscene/collisions.png'), 4)),
+                'home_day.mp3',
+                settings.CENTER)
         }
         settings.inventory = Inventory()
         settings.journal = Journal()
