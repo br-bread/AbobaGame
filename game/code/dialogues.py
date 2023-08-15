@@ -34,6 +34,7 @@ class DialogueLine:
             elif event[0] == 'unlock':  # unlock quest id
                 if event[1] == 'quest':
                     settings.journal.quests[int(event[2])].unlock()
+                    settings.journal.quest_count += 1
                     settings.new_quest = True
                     self.sound.play()
                 else:  # unlock name id
@@ -46,6 +47,7 @@ class DialogueLine:
             elif event[0] == 'lock':  # lock quest id
                 if event[1] == 'quest':
                     settings.journal.quests[int(event[2])].lock()
+                    settings.journal.quest_count -= 1
                 else:  # lock name id
                     for talk in dialogues[event[1]]:
                         for part in talk:
@@ -56,8 +58,12 @@ class DialogueLine:
             elif event[0] == 'add':  # add item count
                 self.sound.play()
                 settings.inventory.items[event[1]].add(int(event[2]))
+                if settings.inventory.items[event[1]].count == 1:
+                    settings.inventory.item_count += 1
             elif event[0] == 'remove':  # remove item count
                 settings.inventory.items[event[1]].remove(int(event[2]))
+                if settings.inventory.items[event[1]].count == 0:
+                    settings.inventory.item_count -= 1
             elif event[0] == 'next_step':  # next_step id
                 settings.journal.quests[int(event[1])].next_step()
             # for talk in dialogues['Артём']:

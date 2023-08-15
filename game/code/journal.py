@@ -16,6 +16,9 @@ class Journal:
         ]
         # general
         self.is_opened = False
+        self.pages = 1
+        self.current_page = 0
+        self.quest_count = 0  # showed quests
         self.journal_group = pygame.sprite.Group()
         self.journal_background = ImgEditor.enhance_image(
             ImgEditor.load_image('overlay/journal_window.png', colorkey=-1), 4)
@@ -49,6 +52,7 @@ class Journal:
                     (coords[0] + 60, coords[1] + 5))
 
     def run(self, screen, dt, events):
+        self.pages = self.quest_count // 5 + bool(self.quest_count % 5)
         if self.is_opened:
             screen.blit(self.journal_background,
                         (settings.CENTER[0] - self.journal_background.get_width() // 2,
@@ -56,6 +60,7 @@ class Journal:
         if self.back.is_clicked:
             settings.window_opened = False
             self.is_opened = False
+            self.current_page = 0
             self.back.rect.center = (517, 1500)
             self.left.rect.center = (600, 1500)
             self.right.rect.center = (600, 1500)
@@ -65,6 +70,7 @@ class Journal:
                 self.left.rect.center = (600, 1500)
                 self.right.rect.center = (600, 1500)
                 self.is_opened = False
+                self.current_page = 0
                 settings.window_opened = False
             elif not settings.window_opened and not settings.dialogue_run:
                 self.back.rect.center = (517, 200)
@@ -73,6 +79,15 @@ class Journal:
                 self.is_opened = True
                 settings.window_opened = True
                 settings.new_quest = False
+
+        if self.right.is_clicked:
+            self.current_page += 1
+            if self.current_page > self.pages - 1:
+                self.current_page = self.pages - 1
+        if self.left.is_clicked:
+            self.current_page -= 1
+            if self.current_page < 0:
+                self.current_page = 0
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -96,12 +111,15 @@ class Journal:
             screen.blit(settings.QUEST_IMAGE, (1430, 127))
         if self.is_opened:
             it = 0
+            quest_it = 0
             for quest in self.quests:
-                if quest.is_showed:
-                    self.show_quest(it,
-                                    (settings.QUEST_COORDS[0],
-                                     settings.QUEST_COORDS[1] + it * settings.QUEST_OFFSET), screen)
-                    it += 1
+                if self.current_page * 5 <= quest_it < (self.current_page + 1) * 5:
+                    if quest.is_showed:
+                        self.show_quest(it,
+                                        (settings.QUEST_COORDS[0],
+                                         settings.QUEST_COORDS[1] + it * settings.QUEST_OFFSET), screen)
+                        it += 1
+                quest_it += 1
         self.journal_group.update(dt, events)
 
 

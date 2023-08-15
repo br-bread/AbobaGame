@@ -9,17 +9,22 @@ class Inventory:
         self.items = {
             'money': Item('Мелочь', 5, 'Несколько монет, лежащих в кармане',
                           ImgEditor.enhance_image(ImgEditor.load_image('item/money.png', colorkey=-1), 4)),
-            'keyD': Item('Ключ', 1, 'Ключ от комнаты Дениса',
+            'keyD': Item('Ключ', 0, 'Ключ от комнаты Дениса',
                          ImgEditor.enhance_image(ImgEditor.load_image('item/keyD.png', colorkey=-1), 4)),
             'candy': Item('Конфета', 0, 'В её честь даже назвали собаку!',
                           ImgEditor.enhance_image(ImgEditor.load_image('item/candy.png', colorkey=-1), 4)),
             'chocolate': Item('Шоколадка', 0, 'Плитка молочного шоколада',
                               ImgEditor.enhance_image(ImgEditor.load_image('item/chocolate.png', colorkey=-1), 4)),
             'drum stick': Item('Барабанная палочка', 0, 'От одной маловато толку',
-                               ImgEditor.enhance_image(ImgEditor.load_image('item/chocolate.png', colorkey=-1), 4))
+                               ImgEditor.enhance_image(ImgEditor.load_image('item/chocolate.png', colorkey=-1), 4)),
         }
         self.is_opened = False
+        self.pages = 1
+        self.current_page = 0
+        self.item_count = 1  # items in inventory which count > 0
         self.inventory_group = pygame.sprite.Group()
+
+        # buttons
         self.back = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/cross.png', colorkey=-1), 4),
                            (1190, 1440),
                            self.inventory_group)
@@ -32,8 +37,11 @@ class Inventory:
         self.inventory_btn = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/inventory.png'), 4),
                                     (1490, 95),
                                     self.inventory_group)
+
         self.inventory_background = ImgEditor.enhance_image(
             ImgEditor.load_image('overlay/inventory_window.png', colorkey=-1), 4)
+
+        # fonts
         self.font = pygame.font.Font(settings.FONT, 47)
         self.description_font = pygame.font.Font(settings.FONT, 40)
 
@@ -51,6 +59,7 @@ class Inventory:
                     (coords[0] + 80, coords[1] + 16))
 
     def run(self, screen, dt, events):
+        self.pages = self.item_count // 5 + bool(self.item_count % 5)
         if self.is_opened:
             screen.blit(self.inventory_background,
                         (settings.CENTER[0] - self.inventory_background.get_width() // 2,
@@ -58,6 +67,7 @@ class Inventory:
         if self.back.is_clicked:
             settings.window_opened = False
             self.is_opened = False
+            self.current_page = 0
             self.back.rect.center = (517, 1500)
             self.left.rect.center = (600, 1500)
             self.right.rect.center = (600, 1500)
@@ -67,6 +77,7 @@ class Inventory:
                 self.left.rect.center = (600, 1500)
                 self.right.rect.center = (600, 1500)
                 self.is_opened = False
+                self.current_page = 0
                 settings.window_opened = False
             elif not settings.window_opened and not settings.dialogue_run:
                 self.back.rect.center = (517, 200)
@@ -74,6 +85,14 @@ class Inventory:
                 self.right.rect.center = (810, 690)
                 self.is_opened = True
                 settings.window_opened = True
+        if self.right.is_clicked:
+            self.current_page += 1
+            if self.current_page > self.pages - 1:
+                self.current_page = self.pages - 1
+        if self.left.is_clicked:
+            self.current_page -= 1
+            if self.current_page < 0:
+                self.current_page = 0
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -94,12 +113,15 @@ class Inventory:
         self.inventory_group.draw(screen)
         if self.is_opened:
             it = 0
+            item = 0
             for key, val in self.items.items():
-                if val.count > 0:
-                    self.show_item(key,
-                                   (settings.ITEM_COORDS[0],
-                                    settings.ITEM_COORDS[1] + it * settings.ITEM_OFFSET), screen)
-                    it += 1
+                if self.current_page * 5 <= item < (self.current_page + 1) * 5:
+                    if val.count > 0:
+                        self.show_item(key,
+                                       (settings.ITEM_COORDS[0],
+                                        settings.ITEM_COORDS[1] + it * settings.ITEM_OFFSET), screen)
+                        it += 1
+                item += 1
         self.inventory_group.update(dt, events)
 
 
@@ -115,3 +137,5 @@ class Item:
 
     def remove(self, count=1):
         self.count -= count
+        if self.count < 0:
+            self.count = 0
