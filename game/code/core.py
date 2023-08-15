@@ -74,11 +74,15 @@ class BaseScene:
         self.screen = pygame.display.get_surface()
         self.player = Player(settings.CENTER, self.visible_sprites, self.collision_sprites)
         self.name = 'scene'
-        self.music = pygame.mixer.Sound(f'..\\assets\\audio\\music\\{music}')
-        self.music_started = False
         self.collision_mask = scene_collision_mask
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'], self.visible_sprites)
         self.menu_window = MenuWindow()  # overlay
+        # music
+        self.music = pygame.mixer.Sound(f'..\\assets\\audio\\music\\{music}')
+        self.music_started = False
+        self.music_changing = False  # to change music during the day
+        self.music_fading = 0  # dt when music start
+        self.new_music = None
         # animation
         self.appearing = True  # if appearing animation should be shown
         self.disappearing = False  # same
@@ -97,10 +101,26 @@ class BaseScene:
         settings.player_status = player_status
         self.next_scene = next_scene
 
+    def change_music(self, new_music):
+        self.music.fadeout(3000)
+        self.music_fading = 0
+        self.new_music = new_music
+        self.music_changing = True
+
     def run(self, delta_time, events):
+        if 'home' in settings.previous_scene and 'home' in self.name:
+            self.music_started = True
         if not self.music_started:
             self.music.play(loops=-1)
             self.music_started = True
+
+        if self.music_fading < 5:
+            self.music_fading += delta_time
+        elif self.music_changing:
+            self.music = self.new_music
+            self.music.play(loops=-1)
+            self.music_changing = False
+
         if self.place_player:  # placing the player
             self.player.pos.x = settings.player_pos[0]
             self.player.pos.y = settings.player_pos[1]
@@ -115,7 +135,8 @@ class BaseScene:
                 self.appearing = False
 
         if self.disappearing:
-            self.music.fadeout(1000)
+            if 'home' not in self.name or 'home' not in self.next_scene:
+                self.music.fadeout(1000)
             self.surface.set_alpha(self.alpha)
             self.screen.blit(self.surface, (0, 0))
             self.alpha += self.speed * delta_time
@@ -125,6 +146,7 @@ class BaseScene:
                 self.place_player = True
                 self.music_started = False
                 settings.scene = self.next_scene
+                settings.previous_scene = self.name
 
         Daytime.run(self.screen)
         settings.inventory.run(self.screen, delta_time, events)
@@ -139,8 +161,6 @@ class BaseScene:
         # pygame.draw.rect(self.screen, 'red', self.player.hitbox, 5)
 
         self.visible_sprites.update(delta_time, events, self.player.pos, self.screen, self.collision_mask)
-
-
 
 
 class CameraGroup(pygame.sprite.Group):

@@ -42,6 +42,7 @@ inventory = None
 # variables that can be changed
 current_cursor = None
 scene = 'menu'
+previous_scene = 'menu'
 
 time = {
     'hours': 12,

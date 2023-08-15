@@ -1,3 +1,5 @@
+import pygame.mixer
+
 from settings import *
 from core import BaseScene, BaseSprite
 from sprites import DialogueSprite, Door
@@ -137,3 +139,11 @@ class FirstStreetScene(BaseScene):
             (674, 750),
             'up_idle',
             self.visible_sprites)
+
+    def run(self, delta_time, events):
+        super().run(delta_time, events)
+        if time['hours'] == 18 and time['minutes'] == 0 and not self.music_changing:
+            self.change_music(pygame.mixer.Sound('..\\assets\\audio\\music\\street_night.mp3'))
+
+        if time['hours'] == 9 and time['minutes'] == 0 and not self.music_changing:
+            self.change_music(pygame.mixer.Sound('..\\assets\\audio\\music\\street_day.mp3'))
