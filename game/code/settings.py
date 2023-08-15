@@ -41,7 +41,7 @@ inventory = None
 
 # variables that can be changed
 current_cursor = None
-scene = 'denis_room'
+scene = 'menu'
 previous_scene = 'menu'
 
 time = {
@@ -50,7 +50,7 @@ time = {
 }
 
 # for placing player when switching the scenes
-player_pos = (880, 590)
+player_pos = CENTER
 player_status = 'down_idle'
 
 window_opened = False

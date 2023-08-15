@@ -28,7 +28,7 @@ class BaseSprite(pygame.sprite.Sprite):
 
 
 class BaseAnimatedSprite(BaseSprite):
-    def __init__(self, animation_sheet, speed, columns, rows, pos, layer=settings.LAYERS['main'], *groups):
+    def __init__(self, animation_sheet, pos, speed, columns, rows, layer=settings.LAYERS['main'], *groups):
         super().__init__(animation_sheet, pos, layer, *groups)
         self.animation = ImgEditor.cut_sheet(animation_sheet, columns, rows)
         self.animation_speed = speed

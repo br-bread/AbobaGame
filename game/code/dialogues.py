@@ -33,10 +33,11 @@ class DialogueLine:
                 pass
             elif event[0] == 'unlock':  # unlock quest id
                 if event[1] == 'quest':
-                    settings.journal.quests[int(event[2])].unlock()
-                    settings.journal.quest_count += 1
-                    settings.new_quest = True
-                    self.sound.play()
+                    if not settings.journal.quests[int(event[2])].is_showed:
+                        settings.journal.quests[int(event[2])].unlock()
+                        settings.journal.quest_count += 1
+                        settings.new_quest = True
+                        self.sound.play()
                 else:  # unlock name id
                     for talk in dialogues[event[1]]:
                         for part in talk:
@@ -195,7 +196,10 @@ dialogues = {
         [[DialogueLine('denis', 'Хм... пусто.')]]
     ],
     'коврик': [
-        [[DialogueLine('denis', 'Под ковриком лежат ключи... Один от двери, от чего другие?')]]
+        [[DialogueLine('denis', 'Под ковриком лежат ключи... Один от двери, от чего другие?', 1)]],
+        [[DialogueLine('denis', 'Наверное, это ключ от моей комнаты.', 2, 0, True, 'add keyD 1', 'lock коврик 2',
+                       'unlock коврик 3', 'lock quest 1')]],
+        [[DialogueLine('denis', 'Под ковриком лежат ключи.', 3, 0, True)]],
     ],
     'Боб': [
         [[DialogueLine('base', 'Его зовут Боб, и он не папоротник, он боб. Его же так и зовут!'),
@@ -262,6 +266,25 @@ dialogues = {
     ],
     'комната Артёма': [
         [[DialogueLine('denis', 'Не думаю, что стоит заходить без разрешения.')]]
+    ],
+    'комната Дениса': [
+        [[DialogueLine('denis', 'Закрыто. Нужно найти ключ.', 0, 0, False, 'unlock quest 1', 'lock коврик 1',
+                       'unlock коврик 2')]]
+    ],
+    'тапочки': [
+        [[DialogueLine('denis-surprized', 'Мои тапочки-динозавры!')]]
+    ],
+    'диплом': [
+        [[DialogueLine('denis', 'Мой диплом it-школы cасунг.')]]
+    ],
+    'плакат': [
+        [[DialogueLine('denis', 'Дота... Лучшая игра.')]]
+    ],
+    'тумбочка': [
+        [[DialogueLine('denis', 'Внутри пусто.')]]
+    ],
+    'носок': [
+        [[DialogueLine('denis', 'Надо бы как-нибудь прибраться.')]]
     ],
     'Артём': [
         [[DialogueLine('artem', 'Привет, Денис! С днём рождения! Это тебе.', 100),
@@ -338,7 +361,8 @@ dialogues = {
           DialogueLine('ksusha-sad', 'Ладно, я тебя выпускаю.'),
           DialogueLine('denis-grudge', 'Делай чё хочешь, мне насрать.'),
           DialogueLine('ksusha', 'Хорошей игры!'),
-          DialogueLine('denis', 'Ок. Спасибо.', 0, 0, False, 'lock quest 0', 'lock Ксюша 200', 'unlock Ксюша 201'),
+          DialogueLine('denis', 'Ок. Спасибо.', 0, 0, False, 'lock quest 0', 'lock Ксюша 200', 'unlock Ксюша 201',
+                       'unlock Артём 101', 'lock Артём 100'),
           ]],
         [[DialogueLine('ksusha', 'м? Что-то случилось?', 201, 0, True),
           DialogueLine('denis', 'Да нет, я просто подошёл.'),

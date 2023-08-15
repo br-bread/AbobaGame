@@ -8,11 +8,7 @@ class Journal:
     def __init__(self):
         self.quests = [
             Quest('Что происходит?', None, 'Расспросить Ксюшу'),
-            Quest('Нужно полить цветы', ('drum stick', 1), 'Полить цветы', 'Вернуться к Артёму'),
-            Quest('Потерянные палочки', ('money', 5), 'Найти барабанные палочки'),
-            Quest('Дайте деняк', None, 'Одолжить Артёму 30 монет'),
-            Quest('Таинственный торговец', ('drum stick', 1), 'Расспросить Артёма', 'Поговорить с Ксюшей',
-                  'Вернуться к торговцу'),
+            Quest('Комната Дениса', None, 'Найти ключ'),
         ]
         # general
         self.is_opened = False
@@ -115,7 +111,7 @@ class Journal:
             for quest in self.quests:
                 if self.current_page * 5 <= quest_it < (self.current_page + 1) * 5:
                     if quest.is_showed:
-                        self.show_quest(it,
+                        self.show_quest(quest_it,
                                         (settings.QUEST_COORDS[0],
                                          settings.QUEST_COORDS[1] + it * settings.QUEST_OFFSET), screen)
                         it += 1
