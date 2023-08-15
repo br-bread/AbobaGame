@@ -28,7 +28,7 @@ class BaseSprite(pygame.sprite.Sprite):
 
 
 class BaseAnimatedSprite(BaseSprite):
-    def __init__(self, animation_sheet, pos, speed, columns, rows, layer=settings.LAYERS['main'], *groups):
+    def __init__(self, animation_sheet, speed, columns, rows, pos, layer=settings.LAYERS['main'], *groups):
         super().__init__(animation_sheet, pos, layer, *groups)
         self.animation = ImgEditor.cut_sheet(animation_sheet, columns, rows)
         self.animation_speed = speed
@@ -108,8 +108,6 @@ class BaseScene:
         self.music_changing = True
 
     def run(self, delta_time, events):
-        if 'home' in settings.previous_scene and 'home' in self.name:
-            self.music_started = True
         if not self.music_started:
             self.music.play(loops=-1)
             self.music_started = True
@@ -136,8 +134,7 @@ class BaseScene:
                 self.appearing = False
 
         if self.disappearing:
-            if 'home' not in self.name or 'home' not in self.next_scene:
-                self.music.fadeout(1000)
+            self.music.fadeout(1000)
             self.surface.set_alpha(self.alpha)
             self.screen.blit(self.surface, (0, 0))
             self.alpha += self.speed * delta_time

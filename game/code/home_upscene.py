@@ -1,6 +1,5 @@
 from core import BaseScene, BaseSprite
-from sprites import InvisibleDoor, DialogueSprite
-from tools import ImgEditor
+from sprites import InvisibleDoor, DialogueSprite, Door
 from settings import *
 
 
@@ -17,6 +16,16 @@ class HomeUpScene(BaseScene):
             'down_idle',
             self.visible_sprites
         )
+
+        Door(
+            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/doorD.png'), 4),
+            (1052, 340),
+            LAYERS['main'],
+            self,
+            'denis_room',
+            (880, 590),
+            'up_idle',
+            self.visible_sprites)
 
         self.ksusha = DialogueSprite(
             'Ксюша',

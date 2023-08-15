@@ -6,6 +6,7 @@ from menu import Menu
 from first_street_scene import FirstStreetScene
 from home_scene import HomeScene
 from home_upscene import HomeUpScene
+from denis_room import DenisRoom
 from inventory import Inventory
 from journal import Journal
 from environment import Sun
@@ -49,6 +50,13 @@ class Game:
                     ImgEditor.enhance_image(
                         ImgEditor.load_image('home_upscene/collisions.png'), 4)),
                 'home_day.mp3',
+                settings.CENTER),
+            'denis_room': DenisRoom(
+                ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/denis_room.png'), 4),
+                pygame.mask.from_surface(
+                    ImgEditor.enhance_image(
+                        ImgEditor.load_image('denis_room/collisions.png'), 4)),
+                'denis.mp3',
                 settings.CENTER)
         }
         settings.inventory = Inventory()
