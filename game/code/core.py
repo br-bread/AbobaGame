@@ -132,6 +132,7 @@ class BaseScene:
             self.screen.blit(self.surface, (0, 0))
             self.alpha -= self.speed * delta_time
             if self.alpha <= 0:
+                self.alpha = 0
                 self.appearing = False
 
         if self.disappearing:
@@ -141,6 +142,7 @@ class BaseScene:
             self.screen.blit(self.surface, (0, 0))
             self.alpha += self.speed * delta_time
             if self.alpha >= 255:
+                self.alpha = 255
                 self.disappearing = False
                 self.appearing = True  # set bool variables for next appearance of this scene
                 self.place_player = True

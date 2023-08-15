@@ -51,7 +51,7 @@ class Door(InteractiveSprite):  # just door sprite
         if self.is_accessible(self.get_distance(player_pos)):
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.is_mouse_on():
+                    if self.is_mouse_on() and not self.scene.appearing:
                         self.scene.disappear(self.next_scene, self.player_pos, self.player_status)
 
 
@@ -64,5 +64,5 @@ class InvisibleDoor(BaseSprite):  # passage to another scene, also a door, but i
         self.player_status = player_status
 
     def update(self, dt, events, player_pos, *args, **kwargs):  # will be called MULTIPLE times
-        if self.get_distance(player_pos) <= settings.DOOR_DISTANCE:
+        if self.get_distance(player_pos) <= settings.DOOR_DISTANCE and not self.scene.appearing:
             self.scene.disappear(self.next_scene, self.player_pos, self.player_status)
