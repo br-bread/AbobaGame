@@ -144,6 +144,7 @@ class BaseScene:
                 self.appearing = True  # set bool variables for next appearance of this scene
                 self.place_player = True
                 self.music_started = False
+                settings.dialogue_run = False
                 settings.scene = self.next_scene
                 settings.previous_scene = self.name
 
