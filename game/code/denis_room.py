@@ -23,7 +23,7 @@ class DenisRoom(BaseScene):
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/dinos.png'), 4),
             (788, 336),
             'magnifier',
-            LAYERS['main'],
+            LAYERS['floor'],
             self.visible_sprites)
 
         DialogueSprite(
@@ -59,7 +59,7 @@ class DenisRoom(BaseScene):
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/sock.png'), 4),
             (1000, 368),
             'magnifier',
-            LAYERS['main'],
+            LAYERS['floor'],
             self.visible_sprites)
 
         DialogueSprite(
@@ -68,7 +68,7 @@ class DenisRoom(BaseScene):
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/sock.png'), 4),
             (928, 308),
             'magnifier',
-            LAYERS['main'],
+            LAYERS['floor'],
             self.visible_sprites)
 
         DialogueSprite(
@@ -77,7 +77,7 @@ class DenisRoom(BaseScene):
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/sock.png'), 4),
             (900, 520),
             'magnifier',
-            LAYERS['main'],
+            LAYERS['floor'],
             self.visible_sprites)
 
         DialogueSprite(
@@ -86,7 +86,7 @@ class DenisRoom(BaseScene):
             ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/sock.png'), 4),
             (560, 540),
             'magnifier',
-            LAYERS['main'],
+            LAYERS['floor'],
             self.visible_sprites)
 
         BaseSprite(
