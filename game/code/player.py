@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         # movement
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(pos)
-        self.speed = 140
+        self.speed = 35 * settings.SCALE_K
 
         # collision
         self.hitbox = self.rect.copy().inflate((-40, -90))
@@ -73,10 +73,10 @@ class Player(pygame.sprite.Sprite):
     # animation
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0 and 'idle' not in self.status:
-            self.status = self.status + "_idle"
+            self.status = self.status + '_idle'
 
     def import_frames(self):
-        animation_sheet = ImgEditor.enhance_image(ImgEditor.load_image("player_animation.png"), 4)
+        animation_sheet = ImgEditor.load_image('player_animation.png', settings.SCALE_K)
         frames = ImgEditor.cut_sheet(animation_sheet, 4, 4)
         self.animations = {
             'down': frames[:4],

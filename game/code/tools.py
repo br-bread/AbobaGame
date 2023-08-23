@@ -5,7 +5,9 @@ import pygame
 
 class ImgEditor:
     @staticmethod
-    def load_image(path, colorkey=None):
+    def load_image(path, scale_k=1, colorkey=None):
+        if scale_k < 1:
+            scale_k = 1
         fullname = '..\\assets\graphics\\' + path
         if not os.path.isfile(fullname):
             print(f"Файл с изображением '{fullname}' не найден")
@@ -19,7 +21,8 @@ class ImgEditor:
             image.set_colorkey(colorkey)
         else:
             image = image.convert_alpha()
-        return image
+
+        return ImgEditor.enhance_image(image, scale_k)
 
     @staticmethod
     def enhance_image(img, val):
@@ -51,7 +54,7 @@ class ImgEditor:
         return new_image
 
 
-def blit_text(screen, pos, size, text, font, color, is_dialogue=(False, False)):
+def blit_text(screen, pos, size, text, font, color, scale, is_dialogue=(False, False)):
     words = text.split(' ')
     space = font.size(' ')[0]  # The width of a space.
     max_width = size
@@ -66,15 +69,15 @@ def blit_text(screen, pos, size, text, font, color, is_dialogue=(False, False)):
             # start on a new row
             if is_dialogue[0]:  # if it's dialogue
                 # diagonal end of line
-                max_width -= 80
+                max_width -= 20 * scale
             if is_dialogue[1]:  # if it's base dialogue
                 # diagonal beginning of line
-                pos[0] -= 50
+                pos[0] -= 13 * scale
                 # diagonal end of line (should be different)
-                max_width -= 10
+                max_width -= 2 * scale
 
             x = pos[0]
-            y += 40
+            y += 10 * scale
 
         screen.blit(word_surface, (x, y))
         x += word_width + space

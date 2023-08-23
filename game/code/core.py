@@ -59,10 +59,10 @@ class InteractiveSprite(BaseSprite):
     def update(self, dt, events, player_pos, *args, **kwargs):
         if self.is_mouse_on() and not settings.window_opened:
             if self.is_accessible(self.get_distance(player_pos)):
-                img = ImgEditor.load_image(f'cursors/{self.cursor_image}')
+                img = ImgEditor.load_image(f'cursors/{self.cursor_image}', 1)
             else:
-                img = ImgEditor.load_image(f'cursors/inaccessible/{self.cursor_image}')
-            settings.current_cursor = ImgEditor.enhance_image(img, 4)
+                img = ImgEditor.load_image(f'cursors/inaccessible/{self.cursor_image}', 1)
+            settings.current_cursor = ImgEditor.enhance_image(img, settings.SCALE_K)
 
 
 class BaseScene:

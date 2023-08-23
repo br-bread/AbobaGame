@@ -15,8 +15,8 @@ class FirstStreetScene(BaseScene):
         self.scarecrow = DialogueSprite(
             'пугало',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/scarecrow.png'), 4),
-            (439, 226),
+            ImgEditor.load_image(f'{self.name}/scarecrow.png', SCALE_K),
+            (109 * SCALE_K, 57 * SCALE_K),
             'magnifier',
             LAYERS['main'],
             self.visible_sprites)
@@ -24,8 +24,8 @@ class FirstStreetScene(BaseScene):
         self.signpost = DialogueSprite(
             'указатель',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/signpost.png'), 4),
-            (154, 323),
+            ImgEditor.load_image(f'{self.name}/signpost.png', SCALE_K),
+            (39 * SCALE_K, 81 * SCALE_K),
             'magnifier',
             LAYERS['main'],
             self.visible_sprites)
@@ -33,8 +33,8 @@ class FirstStreetScene(BaseScene):
         self.basket = DialogueSprite(
             'корзинка для пикника',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/basket.png'), 4),
-            (206, 666),
+            ImgEditor.load_image(f'{self.name}/basket.png', SCALE_K),
+            (51 * SCALE_K, 166 * SCALE_K),
             'magnifier',
             LAYERS['main'],
             self.visible_sprites)
@@ -42,8 +42,8 @@ class FirstStreetScene(BaseScene):
         self.flowerbed = DialogueSprite(
             'клумба',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/flowerbed.png'), 4),
-            (593, 238),
+            ImgEditor.load_image(f'{self.name}/flowerbed.png', SCALE_K),
+            (148 * SCALE_K, 60 * SCALE_K),
             'magnifier',
             LAYERS['floor'],
             self.visible_sprites)
@@ -51,8 +51,8 @@ class FirstStreetScene(BaseScene):
         self.window = DialogueSprite(
             'окно',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/window.png'), 4),
-            (996, 62),
+            ImgEditor.load_image(f'{self.name}/window.png', SCALE_K),
+            (249 * SCALE_K, 16 * SCALE_K),
             'magnifier',
             LAYERS['main'],
             self.visible_sprites)
@@ -60,8 +60,8 @@ class FirstStreetScene(BaseScene):
         self.mail = DialogueSprite(
             'почтовый ящик',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/mail.png'), 4),
-            (832, 72),
+            ImgEditor.load_image(f'{self.name}/mail.png', SCALE_K),
+            (208 * SCALE_K, 18 * SCALE_K),
             'magnifier',
             LAYERS['main'],
             self.visible_sprites)
@@ -69,8 +69,8 @@ class FirstStreetScene(BaseScene):
         self.carpet = DialogueSprite(
             'коврик',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/carpet.png'), 4),
-            (888, 132),
+            ImgEditor.load_image(f'{self.name}/carpet.png', SCALE_K),
+            (222 * SCALE_K, 33 * SCALE_K),
             'magnifier',
             LAYERS['floor'],
             self.visible_sprites)
@@ -78,65 +78,66 @@ class FirstStreetScene(BaseScene):
         # Other sprites
         # woods
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/wood1.png'), 4),
-            (1063, 402),
+            ImgEditor.load_image(f'{self.name}/wood1.png', SCALE_K),
+            (266 * SCALE_K, 101 * SCALE_K),
             LAYERS['main'],
             self.visible_sprites)
 
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/wood2.png'), 4),
-            (1062, 519),
+            ImgEditor.load_image(f'{self.name}/wood2.png', SCALE_K),
+            (266 * SCALE_K, 130 * SCALE_K),
             LAYERS['main'],
             self.visible_sprites)
 
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/woods.png'), 4),
-            (1230, 526),
+            ImgEditor.load_image(f'{self.name}/woods.png', SCALE_K),
+            (307 * SCALE_K, 137 * SCALE_K),
             LAYERS['ceiling'],
             self.visible_sprites)
         # bench
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/bench.png'), 4),
-            (608, 336),
+            ImgEditor.load_image(f'{self.name}/bench.png', SCALE_K),
+            (152 * SCALE_K, 84 * SCALE_K),
             LAYERS['main'],
             self.visible_sprites)
         # flowers
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/flowers.png'), 4),
-            (595, 202),
-            LAYERS['ceiling'],
+            ImgEditor.load_image(f'{self.name}/flowers.png', SCALE_K),
+            (149 * SCALE_K, 51 * SCALE_K),
+            LAYERS['main'],
             self.visible_sprites)
 
         # lanterns
-        coords = [(398, 346), (218, 590), (1110, 774)]
+        coords = [(100 * SCALE_K, 87 * SCALE_K), (55 * SCALE_K, 148 * SCALE_K), (278 * SCALE_K, 194 * SCALE_K)]
         for coord in coords:
             BaseSprite(
-                ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/lantern.png'), 4),
+                ImgEditor.load_image(f'{self.name}/lantern.png', SCALE_K),
                 coord,
                 LAYERS['main'],
                 self.visible_sprites)
         # bushes
-        coords = [(488, 344), (722, 350), (88, 646), (322, 592), (472, 606), (1310, 762), ]
+        coords = [(122 * SCALE_K, 86 * SCALE_K), (181 * SCALE_K, 88 * SCALE_K), (22 * SCALE_K, 162 * SCALE_K),
+                  (81 * SCALE_K, 148 * SCALE_K), (118 * SCALE_K, 152 * SCALE_K), (328 * SCALE_K, 191 * SCALE_K), ]
         for i in range(len(coords)):
             BaseSprite(
-                ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png'), 4),
+                ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png', SCALE_K),
                 coords[i],
                 LAYERS['main'],
                 self.visible_sprites)
 
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/bushes7.png'), 4),
-            (880, 832),
+            ImgEditor.load_image(f'{self.name}/bushes7.png', SCALE_K),
+            (220 * SCALE_K, 208 * SCALE_K),
             LAYERS['ceiling'],
             self.visible_sprites)
         # Doors to next scene
         Door(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/door.png'), 4),
-            (888, 76),
+            ImgEditor.load_image(f'{self.name}/door.png', SCALE_K),
+            (222 * SCALE_K, 19 * SCALE_K),
             LAYERS['main'],
             self,
             'home_scene',
-            (674, 750),
+            (169 * SCALE_K, 188 * SCALE_K),
             'up_idle',
             self.visible_sprites)
 

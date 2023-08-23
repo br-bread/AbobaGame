@@ -5,7 +5,7 @@ from tools import ImgEditor
 
 
 class Daytime:
-    time_board = ImgEditor.enhance_image(ImgEditor.load_image('overlay/time_board.png', colorkey=-1), 4)
+    time_board = ImgEditor.load_image('overlay/time_board.png', settings.SCALE_K, colorkey=-1)
 
     @staticmethod
     def run(screen):
@@ -14,7 +14,7 @@ class Daytime:
             hours = '0' + str(hours)
         minutes = int(settings.time['minutes'])
         curr_time = str(hours) + ':' + str(minutes) + '0'
-        time_surf = pygame.font.Font(settings.FONT, 65).render(curr_time, False, settings.TEXT_COLOR)
+        time_surf = pygame.font.Font(settings.FONT, 16* settings.SCALE_K).render(curr_time, False, settings.TEXT_COLOR)
         screen.blit(Daytime.time_board, settings.TIME_BOARD_COORDS)
         screen.blit(time_surf, settings.TIME_COORDS)
 
@@ -22,15 +22,19 @@ class Daytime:
 class MenuWindow:
     def __init__(self):
         self.overlay_group = pygame.sprite.Group()
-        self.menu = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/menu.png'), 4), (1490, 40),
+        self.menu = Button(ImgEditor.load_image('overlay/menu.png', settings.SCALE_K),
+                           (373 * settings.SCALE_K, 10 * settings.SCALE_K),
                            self.overlay_group)
-        self.back = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/cross.png'), 4), (1190, 1440),
+        self.back = Button(ImgEditor.load_image('overlay/cross.png', settings.SCALE_K),
+                           (298 * settings.SCALE_K, 360 * settings.SCALE_K),
                            self.overlay_group)
-        self.main_menu = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/main_menu.png'), 4), (1490, 1440),
+        self.main_menu = Button(ImgEditor.load_image('overlay/main_menu.png', settings.SCALE_K),
+                                (373 * settings.SCALE_K, 360 * settings.SCALE_K),
                                 self.overlay_group)
-        self.exit = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/exit.png'), 4), (1490, 1440),
+        self.exit = Button(ImgEditor.load_image('overlay/exit.png', settings.SCALE_K),
+                           (373 * settings.SCALE_K, 360 * settings.SCALE_K),
                            self.overlay_group)
-        self.menu_background = ImgEditor.enhance_image(ImgEditor.load_image('overlay/menu_window.png', colorkey=-1), 4)
+        self.menu_background = ImgEditor.load_image('overlay/menu_window.png', settings.SCALE_K, colorkey=-1)
         self.is_opened = False
 
     def run(self, screen, dt, events, scene):
@@ -41,19 +45,19 @@ class MenuWindow:
         if self.menu.is_clicked and not settings.window_opened and not settings.dialogue_run:
             settings.window_opened = True
             self.is_opened = True
-            self.back.rect.center = (560, 300)
-            self.main_menu.rect.center = (770, 410)
-            self.exit.rect.center = (770, 490)
+            self.back.rect.center = (140 * settings.SCALE_K, 75 * settings.SCALE_K)
+            self.main_menu.rect.center = (193 * settings.SCALE_K, 103 * settings.SCALE_K)
+            self.exit.rect.center = (193 * settings.SCALE_K, 123 * settings.SCALE_K)
         if self.back.is_clicked:
             settings.window_opened = False
             self.is_opened = False
-            self.back.rect.center = (1190, 1440)
-            self.main_menu.rect.center = (1490, 1340)
-            self.exit.rect.center = (1490, 1540)
+            self.back.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+            self.main_menu.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+            self.exit.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
         if self.main_menu.is_clicked:
-            self.back.rect.center = (1190, 1440)
-            self.main_menu.rect.center = (1490, 1340)
-            self.exit.rect.center = (1490, 1540)
+            self.back.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+            self.main_menu.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+            self.exit.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
             settings.window_opened = False
             self.is_opened = False
             scene.disappear('menu', settings.CENTER, 'down_idle')
@@ -93,7 +97,7 @@ class Button(pygame.sprite.Sprite):
     def update(self, dt, events):
         self.is_clicked = False
         if self.is_mouse_on():
-            settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image(f'cursors/{self.cursor_image}'), 2)
+            settings.current_cursor = ImgEditor.load_image(f'cursors/{self.cursor_image}', settings.SCALE_K - 2)
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN and self.is_mouse_on() and not self.is_pressed:
                 self.is_pressed = True

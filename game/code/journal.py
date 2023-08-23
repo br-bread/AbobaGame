@@ -16,36 +16,36 @@ class Journal:
         self.current_page = 0
         self.quest_count = 0  # showed quests
         self.journal_group = pygame.sprite.Group()
-        self.journal_background = ImgEditor.enhance_image(
-            ImgEditor.load_image('overlay/journal_window.png', colorkey=-1), 4)
+        self.journal_background = ImgEditor.load_image('overlay/journal_window.png', settings.SCALE_K, colorkey=-1)
 
         # buttons
-        self.back = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/cross.png', colorkey=-1), 4),
-                           (1190, 1440),
+        self.back = Button(ImgEditor.load_image('overlay/cross.png', settings.SCALE_K, colorkey=-1),
+                           (373 * settings.SCALE_K, 360 * settings.SCALE_K),
                            self.journal_group)
-        self.left = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/left.png', colorkey=-1), 4),
-                           (1190, 1440),
+        self.left = Button(ImgEditor.load_image('overlay/left.png', settings.SCALE_K, colorkey=-1),
+                           (373 * settings.SCALE_K, 360 * settings.SCALE_K),
                            self.journal_group)
-        self.right = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/right.png', colorkey=-1), 4),
-                            (1190, 1440),
+        self.right = Button(ImgEditor.load_image('overlay/right.png', settings.SCALE_K, colorkey=-1),
+                            (373 * settings.SCALE_K, 360 * settings.SCALE_K),
                             self.journal_group)
-        self.journal_btn = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/journal.png'), 4),
-                                  (1490, 150),
+        self.journal_btn = Button(ImgEditor.load_image('overlay/journal.png', settings.SCALE_K),
+                                  (373 * settings.SCALE_K, 38 * settings.SCALE_K),
                                   self.journal_group)
 
         # fonts
-        self.font = pygame.font.Font(settings.FONT, 47)
-        self.step_font = pygame.font.Font(settings.FONT, 40)
+        self.font = pygame.font.Font(settings.FONT, 12 * settings.SCALE_K)
+        self.step_font = pygame.font.Font(settings.FONT, 10 * settings.SCALE_K)
 
     def show_quest(self, id, coords, screen):
         quest = self.quests[id]
         # exclamation mark
-        screen.blit(settings.QUEST_IMAGE, (coords[0], coords[1] - 10))
+        screen.blit(settings.QUEST_IMAGE, (coords[0], coords[1] - 3 * settings.SCALE_K))
         # name
-        screen.blit(self.font.render(quest.name, False, settings.TEXT_COLOR), (coords[0] + 60, coords[1] - 30))
+        screen.blit(self.font.render(quest.name, False, settings.TEXT_COLOR),
+                    (coords[0] + 16 * settings.SCALE_K, coords[1] - 8 * settings.SCALE_K))
         # step
         screen.blit(self.step_font.render(quest.steps[quest.current_step], False, settings.TEXT_COLOR),
-                    (coords[0] + 60, coords[1] + 5))
+                    (coords[0] + 16 * settings.SCALE_K, coords[1] + 1 * settings.SCALE_K))
 
     def run(self, screen, dt, events):
         self.pages = self.quest_count // 5 + bool(self.quest_count % 5)
@@ -57,21 +57,21 @@ class Journal:
             settings.window_opened = False
             self.is_opened = False
             self.current_page = 0
-            self.back.rect.center = (517, 1500)
-            self.left.rect.center = (600, 1500)
-            self.right.rect.center = (600, 1500)
+            self.back.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+            self.left.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+            self.right.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
         if self.journal_btn.is_clicked:
             if self.is_opened:
-                self.back.rect.center = (517, 1500)
-                self.left.rect.center = (600, 1500)
-                self.right.rect.center = (600, 1500)
+                self.back.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+                self.left.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+                self.right.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
                 self.is_opened = False
                 self.current_page = 0
                 settings.window_opened = False
             elif not settings.window_opened and not settings.dialogue_run:
-                self.back.rect.center = (517, 200)
-                self.left.rect.center = (740, 690)
-                self.right.rect.center = (810, 690)
+                self.back.rect.center = (129 * settings.SCALE_K, 50 * settings.SCALE_K)
+                self.left.rect.center = (185 * settings.SCALE_K, 173 * settings.SCALE_K)
+                self.right.rect.center = (203 * settings.SCALE_K, 173 * settings.SCALE_K)
                 self.is_opened = True
                 settings.window_opened = True
                 settings.new_quest = False
@@ -89,22 +89,22 @@ class Journal:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_j:
                     if self.is_opened:
-                        self.back.rect.center = (517, 1500)
-                        self.left.rect.center = (600, 1500)
-                        self.right.rect.center = (600, 1500)
+                        self.back.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+                        self.left.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+                        self.right.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
                         self.is_opened = False
                         settings.window_opened = False
                     elif not settings.window_opened and not settings.dialogue_run:
-                        self.back.rect.center = (517, 200)
-                        self.left.rect.center = (740, 690)
-                        self.right.rect.center = (810, 690)
+                        self.back.rect.center = (129 * settings.SCALE_K, 50 * settings.SCALE_K)
+                        self.left.rect.center = (185 * settings.SCALE_K, 173 * settings.SCALE_K)
+                        self.right.rect.center = (203 * settings.SCALE_K, 173 * settings.SCALE_K)
                         self.is_opened = True
                         settings.window_opened = True
                         settings.new_quest = False
 
         self.journal_group.draw(screen)
         if settings.new_quest:
-            screen.blit(settings.QUEST_IMAGE, (1430, 127))
+            screen.blit(settings.QUEST_IMAGE, (358 * settings.SCALE_K, 32 * settings.SCALE_K))
         if self.is_opened:
             it = 0
             quest_it = 0

@@ -19,7 +19,7 @@ class HomeUpScene(BaseScene):
         )
 
         self.doorD = Door(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/doorD.png'), 4),
+            ImgEditor.load_image(f'{self.name}/doorD.png', settings.SCALE_K),
             (1052, 340),
             settings.LAYERS['main'],
             self,
@@ -30,7 +30,7 @@ class HomeUpScene(BaseScene):
         self.ksusha = DialogueSprite(
             'Ксюша',
             True,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/ksusha.png'), 4),
+            ImgEditor.load_image(f'{self.name}/ksusha.png', settings.SCALE_K),
             (439, 500),
             'dialogue',
             settings.LAYERS['main'],
@@ -39,7 +39,7 @@ class HomeUpScene(BaseScene):
         DialogueSprite(
             'фикус',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/plant.png'), 4),
+            ImgEditor.load_image(f'{self.name}/plant.png', settings.SCALE_K),
             (1138, 346),
             'magnifier',
             settings.LAYERS['main'],
@@ -48,7 +48,7 @@ class HomeUpScene(BaseScene):
         DialogueSprite(
             'книги',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/books.png'), 4),
+            ImgEditor.load_image(f'{self.name}/books.png', settings.SCALE_K),
             (878, 344),
             'magnifier',
             settings.LAYERS['main'],
@@ -57,7 +57,7 @@ class HomeUpScene(BaseScene):
         DialogueSprite(
             'вязаный Почита',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/pochita.png'), 4),
+            ImgEditor.load_image(f'{self.name}/pochita.png', settings.SCALE_K),
             (936, 278),
             'magnifier',
             settings.LAYERS['main'],
@@ -67,7 +67,7 @@ class HomeUpScene(BaseScene):
         self.roomD = DialogueSprite(
             'комната Дениса',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/doorD.png'), 4),
+            ImgEditor.load_image(f'{self.name}/doorD.png', settings.SCALE_K),
             (1052, 340),
             'magnifier',
             settings.LAYERS['main'],
@@ -76,7 +76,7 @@ class HomeUpScene(BaseScene):
         DialogueSprite(
             'комната Ксюши',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/doorK.png'), 4),
+            ImgEditor.load_image(f'{self.name}/doorK.png', settings.SCALE_K),
             (456, 340),
             'magnifier',
             settings.LAYERS['main'],
@@ -85,7 +85,7 @@ class HomeUpScene(BaseScene):
         DialogueSprite(
             'комната Артёма',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/doorA.png'), 4),
+            ImgEditor.load_image(f'{self.name}/doorA.png', settings.SCALE_K),
             (668, 340),
             'magnifier',
             settings.LAYERS['main'],
@@ -93,13 +93,13 @@ class HomeUpScene(BaseScene):
 
         # ceiling sprites
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/railings.png'), 4),
+            ImgEditor.load_image(f'{self.name}/railings.png', settings.SCALE_K),
             (598, 608),
             settings.LAYERS['ceiling'],
             self.visible_sprites)
 
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/ceiling.png'), 4),
+            ImgEditor.load_image(f'{self.name}/ceiling.png', settings.SCALE_K),
             (982, 566),
             settings.LAYERS['ceiling'],
             self.visible_sprites)

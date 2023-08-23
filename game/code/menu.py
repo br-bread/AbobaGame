@@ -25,26 +25,32 @@ class Menu:
         self.alpha = 255
         self.next_scene = None  # will be set when current scene is disappearing
         # background
-        BaseAnimatedSprite(ImgEditor.enhance_image(ImgEditor.load_image('menu/menu_animation.png'), 4), settings.CENTER,
+        BaseAnimatedSprite(ImgEditor.load_image('menu/menu_animation.png', settings.SCALE_K), settings.CENTER,
                            3, 4, 4, settings.LAYERS['main'], self.visible_sprites)
         # buttons
-        self.begin = Button(ImgEditor.enhance_image(ImgEditor.load_image('menu/begin.png'), 6), (300, 500),
+        self.begin = Button(ImgEditor.load_image('menu/begin.png', settings.BIGGER_SCALE),
+                            (75 * settings.SCALE_K, 125 * settings.SCALE_K),
                             self.visible_sprites)
-        self.exit = Button(ImgEditor.enhance_image(ImgEditor.load_image('menu/exit.png'), 6), (300, 700),
+        self.exit = Button(ImgEditor.load_image('menu/exit.png', settings.BIGGER_SCALE),
+                           (75 * settings.SCALE_K, 175 * settings.SCALE_K),
                            self.visible_sprites)
-        self.authors = Button(ImgEditor.enhance_image(ImgEditor.load_image('menu/authors.png'), 6), (300, 600),
+        self.authors = Button(ImgEditor.load_image('menu/authors.png', settings.BIGGER_SCALE),
+                              (75 * settings.SCALE_K, 150 * settings.SCALE_K),
                               self.visible_sprites)
         # authors view
-        self.authors_background = BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image('menu/authors_window.png'), 4),
-            (1000, 1500), settings.LAYERS['main'], self.visible_sprites)
-        self.back = Button(ImgEditor.enhance_image(ImgEditor.load_image('menu/back.png'), 4), (300, 1500),
+        self.authors_background = BaseSprite(ImgEditor.load_image('menu/authors_window.png', settings.SCALE_K),
+                                             (250 * settings.SCALE_K, 375 * settings.SCALE_K), settings.LAYERS['main'],
+                                             self.visible_sprites)
+        self.back = Button(ImgEditor.load_image('menu/back.png', settings.SCALE_K),
+                           (75 * settings.SCALE_K, 375 * settings.SCALE_K),
                            self.visible_sprites)
-        self.authors_list = [('Ксюша Цыканова', (675, 230)), ('Ксюша Цыканова', (675, 310)),
-                             ('Ксюша Цыканова', (675, 390)),
-                             ('Animal Crossing', (673, 470)), ('Ксюша Цыканова', (675, 550)),
-                             ('Артём Суханов, Денис Криштопа', (590, 630))]
-        self.font = pygame.font.Font(settings.FONT, 47)
+        self.authors_list = [('Ксюша Цыканова', (169 * settings.SCALE_K, 58 * settings.SCALE_K)),
+                             ('Ксюша Цыканова', (169 * settings.SCALE_K, 78 * settings.SCALE_K)),
+                             ('Ксюша Цыканова', (169 * settings.SCALE_K, 98 * settings.SCALE_K)),
+                             ('Animal Crossing', (168 * settings.SCALE_K, 118 * settings.SCALE_K)),
+                             ('Ксюша Цыканова', (169 * settings.SCALE_K, 138 * settings.SCALE_K)),
+                             ('Артём Суханов, Денис Криштопа', (148 * settings.SCALE_K, 158 * settings.SCALE_K))]
+        self.font = pygame.font.Font(settings.FONT, 11 * settings.SCALE_K)
 
     def disappear(self, next_scene, player_pos, player_status):
         if self.alpha < 255:  # disappear method can be called even when scene has disappeared
@@ -81,7 +87,7 @@ class Menu:
 
         if not settings.window_opened:
             if self.begin.is_clicked:
-                self.begin.change_image(ImgEditor.enhance_image(ImgEditor.load_image('menu/continue.png'), 6))
+                self.begin.change_image(ImgEditor.load_image('menu/continue.png', settings.BIGGER_SCALE))
                 self.disappear('first_street_scene', settings.CENTER, 'down_idle')
             if self.exit.is_clicked:
                 pygame.quit()
@@ -89,18 +95,18 @@ class Menu:
             if self.authors.is_clicked:
                 settings.window_opened = True
                 self.authors_background.rect.center = settings.CENTER
-                self.back.rect.center = (517, 200)
-                self.begin.rect.center = (300, 1500)
-                self.exit.rect.center = (300, 1700)
-                self.authors.rect.center = (300, 1600)
+                self.back.rect.center = (129 * settings.SCALE_K, 50 * settings.SCALE_K)
+                self.begin.rect.center = (75 * settings.SCALE_K, 375 * settings.SCALE_K)
+                self.exit.rect.center = (75 * settings.SCALE_K, 375 * settings.SCALE_K)
+                self.authors.rect.center = (75 * settings.SCALE_K, 375 * settings.SCALE_K)
         else:
             if self.back.is_clicked:
                 settings.window_opened = False
-                self.authors_background.rect.center = (400, 1500)
-                self.back.rect.center = (150, 1260)
-                self.begin.rect.center = (300, 500)
-                self.exit.rect.center = (300, 700)
-                self.authors.rect.center = (300, 600)
+                self.authors_background.rect.center = (250 * settings.SCALE_K, 375 * settings.SCALE_K)
+                self.back.rect.center = (75 * settings.SCALE_K, 375 * settings.SCALE_K)
+                self.begin.rect.center = (75 * settings.SCALE_K, 125 * settings.SCALE_K)
+                self.exit.rect.center = (75 * settings.SCALE_K, 175 * settings.SCALE_K)
+                self.authors.rect.center = (75 * settings.SCALE_K, 150 * settings.SCALE_K)
 
             for author in self.authors_list:
                 self.screen.blit(self.font.render(author[0], False, settings.TEXT_COLOR),

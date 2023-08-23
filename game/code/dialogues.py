@@ -1,4 +1,3 @@
-import itertools
 import pygame
 from random import choice
 from tools import ImgEditor, blit_text
@@ -79,7 +78,7 @@ class Dialogue:
         self.descriptions = descriptions
 
         self.pos = list(settings.DIALOGUE_POS)
-        self.font = pygame.font.Font(settings.FONT, 65)
+        self.font = pygame.font.Font(settings.FONT, 16 * settings.SCALE_K)
         self.talk = [[]]  # current talk
         self.current_talk = []  # current part of talk
         self.current_text = ''
@@ -88,12 +87,12 @@ class Dialogue:
         self.stage = 0
         self.is_shown = False
 
-        self.dialogue = BaseSprite(ImgEditor.load_image(f'empty.png'),
+        self.dialogue = BaseSprite(ImgEditor.load_image(f'empty.png', 1),
                                    settings.DIALOGUE_POS,
                                    settings.LAYERS['dialogue'], group)
 
         # animation
-        self.speed = 800  # appearing & disappearing speed
+        self.speed = 200 * settings.SCALE_K  # appearing & disappearing speed
         # text animation
         self.text_frame = 0
         self.text_speed = 23
@@ -116,10 +115,10 @@ class Dialogue:
                 self.current_talk = [choice(self.descriptions)] + self.current_talk
             else:
                 self.current_talk = self.current_talk
-            self.pos[1] = 1000
+            self.pos[1] = 250 * settings.SCALE_K
             self.current_text = self.current_talk[self.stage].text
             self.kind = self.current_talk[self.stage].kind
-            img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png'), 4)
+            img = ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png', settings.SCALE_K)
             self.dialogue.image = img
             self.dialogue.rect = self.dialogue.image.get_rect(center=self.pos)
             self.current_talk[self.stage].run_events()
@@ -136,7 +135,7 @@ class Dialogue:
             else:
                 self.current_text = self.current_talk[self.stage].text
                 self.kind = self.current_talk[self.stage].kind
-                img = ImgEditor.enhance_image(ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png'), 4)
+                img = ImgEditor.load_image(f'/dialogues/{self.kind}_dialogue.png', settings.SCALE_K)
                 self.dialogue.image = img
                 self.dialogue.rect = self.dialogue.image.get_rect(center=self.pos)
                 self.current_talk[self.stage].run_events()
@@ -149,7 +148,7 @@ class Dialogue:
             if self.dialogue.rect.centery > settings.DIALOGUE_POS[1]:
                 self.dialogue.rect.centery -= self.speed * delta_time
         elif self.stage == len(self.current_talk):  # disappearing
-            if self.dialogue.rect.centery < 1000:
+            if self.dialogue.rect.centery < 250 * settings.SCALE_K:
                 self.dialogue.rect.centery += self.speed * delta_time
         else:
             self.dialogue.rect.centery = settings.DIALOGUE_POS[1]
@@ -157,13 +156,14 @@ class Dialogue:
 
         # text
         if self.kind != 'base':
-            pos = (600, 90 + self.dialogue.rect.y)
+            pos = (150 * settings.SCALE_K, 22 * settings.SCALE_K + self.dialogue.rect.y)
         else:
-            pos = (475, 110 + self.dialogue.rect.y)
+            pos = (118 * settings.SCALE_K, 27 * settings.SCALE_K + self.dialogue.rect.y)
         text = self.current_text[:int(self.text_frame)]
         if self.text_frame < len(self.current_text):
             self.text_frame += self.text_speed * delta_time
-        blit_text(screen, pos, 1210, text, self.font, settings.TEXT_COLOR, (True, (self.kind == 'base')))
+        blit_text(screen, pos, 302 * settings.SCALE_K, text, self.font, settings.TEXT_COLOR, settings.SCALE_K,
+                  (True, (self.kind == 'base')))
 
     def update(self, dt, screen):
         self.animate(dt, screen)

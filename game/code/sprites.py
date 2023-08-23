@@ -57,7 +57,7 @@ class Door(InteractiveSprite):  # just door sprite
 
 class InvisibleDoor(BaseSprite):  # passage to another scene, also a door, but invisible and not interactive (by mouse)
     def __init__(self, pos, scene, next_scene, player_pos, player_status, *groups):
-        super().__init__(ImgEditor.load_image('invisible_door.png'), pos, settings.LAYERS['main'], *groups)
+        super().__init__(ImgEditor.load_image('invisible_door.png', 1), pos, settings.LAYERS['main'], *groups)
         self.scene = scene
         self.next_scene = next_scene
         self.player_pos = player_pos

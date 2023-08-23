@@ -8,15 +8,15 @@ class Inventory:
     def __init__(self):
         self.items = {
             'money': Item('Мелочь', 5, 'Несколько монет, лежащих в кармане',
-                          ImgEditor.enhance_image(ImgEditor.load_image('item/money.png', colorkey=-1), 4)),
-            'keyD': Item('Ключ', 0, 'Ключ от комнаты Дениса',
-                         ImgEditor.enhance_image(ImgEditor.load_image('item/keyD.png', colorkey=-1), 4)),
+                          ImgEditor.load_image('item/money.png', settings.SCALE_K, colorkey=-1)),
+            'keyD': Item('Ключ', 1, 'Ключ от комнаты Дениса',
+                         ImgEditor.load_image('item/keyD.png', settings.SCALE_K, colorkey=-1)),
             'candy': Item('Конфета', 0, 'В её честь даже назвали собаку!',
-                          ImgEditor.enhance_image(ImgEditor.load_image('item/candy.png', colorkey=-1), 4)),
+                          ImgEditor.load_image('item/candy.png', settings.SCALE_K, colorkey=-1)),
             'chocolate': Item('Шоколадка', 0, 'Плитка молочного шоколада',
-                              ImgEditor.enhance_image(ImgEditor.load_image('item/chocolate.png', colorkey=-1), 4)),
+                              ImgEditor.load_image('item/chocolate.png', settings.SCALE_K, colorkey=-1)),
             'drum stick': Item('Барабанная палочка', 0, 'От одной маловато толку',
-                               ImgEditor.enhance_image(ImgEditor.load_image('item/chocolate.png', colorkey=-1), 4)),
+                               ImgEditor.load_image('item/chocolate.png', settings.SCALE_K, colorkey=-1)),
         }
         self.is_opened = False
         self.pages = 1
@@ -25,38 +25,38 @@ class Inventory:
         self.inventory_group = pygame.sprite.Group()
 
         # buttons
-        self.back = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/cross.png', colorkey=-1), 4),
-                           (1190, 1440),
+        self.back = Button(ImgEditor.load_image('overlay/cross.png', settings.SCALE_K, colorkey=-1),
+                           (373 * settings.SCALE_K, 360 * settings.SCALE_K),
                            self.inventory_group)
-        self.left = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/left.png', colorkey=-1), 4),
-                           (1190, 1440),
+        self.left = Button(ImgEditor.load_image('overlay/left.png', settings.SCALE_K, colorkey=-1),
+                           (373 * settings.SCALE_K, 360 * settings.SCALE_K),
                            self.inventory_group)
-        self.right = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/right.png', colorkey=-1), 4),
-                            (1190, 1440),
+        self.right = Button(ImgEditor.load_image('overlay/right.png', settings.SCALE_K, colorkey=-1),
+                            (373 * settings.SCALE_K, 360 * settings.SCALE_K),
                             self.inventory_group)
-        self.inventory_btn = Button(ImgEditor.enhance_image(ImgEditor.load_image('overlay/inventory.png'), 4),
-                                    (1490, 95),
+        self.inventory_btn = Button(ImgEditor.load_image('overlay/inventory.png', settings.SCALE_K),
+                                    (373 * settings.SCALE_K, 24 * settings.SCALE_K),
                                     self.inventory_group)
 
-        self.inventory_background = ImgEditor.enhance_image(
-            ImgEditor.load_image('overlay/inventory_window.png', colorkey=-1), 4)
+        self.inventory_background = ImgEditor.load_image('overlay/inventory_window.png', settings.SCALE_K, colorkey=-1)
 
         # fonts
-        self.font = pygame.font.Font(settings.FONT, 47)
-        self.description_font = pygame.font.Font(settings.FONT, 40)
+        self.font = pygame.font.Font(settings.FONT, 12 * settings.SCALE_K)
+        self.description_font = pygame.font.Font(settings.FONT, 10 * settings.SCALE_K)
 
     def show_item(self, name, coords, screen):
         item = self.items[name]
         # image
         screen.blit(item.image, coords)
         # name
-        screen.blit(self.font.render(item.name, False, settings.TEXT_COLOR), (coords[0] + 80, coords[1] - 20))
+        screen.blit(self.font.render(item.name, False, settings.TEXT_COLOR),
+                    (coords[0] + 20 * settings.SCALE_K, coords[1] - 5 * settings.SCALE_K))
         # count
         screen.blit(self.font.render('x' + str(item.count), False, settings.TEXT_COLOR),
-                    (coords[0] + 475, coords[1] - 20))
+                    (coords[0] + 119 * settings.SCALE_K, coords[1] - 5 * settings.SCALE_K))
         # description
         screen.blit(self.description_font.render(item.description, False, settings.TEXT_COLOR),
-                    (coords[0] + 80, coords[1] + 16))
+                    (coords[0] + 20 * settings.SCALE_K, coords[1] + 4 * settings.SCALE_K))
 
     def run(self, screen, dt, events):
         self.pages = self.item_count // 5 + bool(self.item_count % 5)
@@ -68,21 +68,21 @@ class Inventory:
             settings.window_opened = False
             self.is_opened = False
             self.current_page = 0
-            self.back.rect.center = (517, 1500)
-            self.left.rect.center = (600, 1500)
-            self.right.rect.center = (600, 1500)
+            self.back.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+            self.left.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+            self.right.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
         if self.inventory_btn.is_clicked:
             if self.is_opened:
-                self.back.rect.center = (517, 1500)
-                self.left.rect.center = (600, 1500)
-                self.right.rect.center = (600, 1500)
+                self.back.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+                self.left.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+                self.right.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
                 self.is_opened = False
                 self.current_page = 0
                 settings.window_opened = False
             elif not settings.window_opened and not settings.dialogue_run:
-                self.back.rect.center = (517, 200)
-                self.left.rect.center = (740, 690)
-                self.right.rect.center = (810, 690)
+                self.back.rect.center = (129 * settings.SCALE_K, 50 * settings.SCALE_K)
+                self.left.rect.center = (185 * settings.SCALE_K, 173 * settings.SCALE_K)
+                self.right.rect.center = (203 * settings.SCALE_K, 173 * settings.SCALE_K)
                 self.is_opened = True
                 settings.window_opened = True
         if self.right.is_clicked:
@@ -98,15 +98,15 @@ class Inventory:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_i:
                     if self.is_opened:
-                        self.back.rect.center = (517, 1500)
-                        self.left.rect.center = (600, 1500)
-                        self.right.rect.center = (600, 1500)
+                        self.back.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+                        self.left.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
+                        self.right.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
                         self.is_opened = False
                         settings.window_opened = False
                     elif not settings.window_opened and not settings.dialogue_run:
-                        self.back.rect.center = (517, 200)
-                        self.left.rect.center = (740, 690)
-                        self.right.rect.center = (810, 690)
+                        self.back.rect.center = (129 * settings.SCALE_K, 50 * settings.SCALE_K)
+                        self.left.rect.center = (185 * settings.SCALE_K, 173 * settings.SCALE_K)
+                        self.right.rect.center = (203 * settings.SCALE_K, 173 * settings.SCALE_K)
                         self.is_opened = True
                         settings.window_opened = True
 

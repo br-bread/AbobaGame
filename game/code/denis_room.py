@@ -20,7 +20,7 @@ class DenisRoom(BaseScene):
         DialogueSprite(
             'тапочки',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/dinos.png'), 4),
+            ImgEditor.load_image(f'{self.name}/dinos.png', SCALE_K),
             (788, 336),
             'magnifier',
             LAYERS['floor'],
@@ -29,7 +29,7 @@ class DenisRoom(BaseScene):
         DialogueSprite(
             'диплом',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/diploma.png'), 4),
+            ImgEditor.load_image(f'{self.name}/diploma.png', SCALE_K),
             (662, 418),
             'magnifier',
             LAYERS['main'],
@@ -38,7 +38,7 @@ class DenisRoom(BaseScene):
         DialogueSprite(
             'плакат',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/dota.png'), 4),
+            ImgEditor.load_image(f'{self.name}/dota.png', SCALE_K),
             (904, 194),
             'magnifier',
             LAYERS['main'],
@@ -47,7 +47,7 @@ class DenisRoom(BaseScene):
         DialogueSprite(
             'тумбочка',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/table.png'), 4),
+            ImgEditor.load_image(f'{self.name}/table.png', SCALE_K),
             (902, 262),
             'magnifier',
             LAYERS['main'],
@@ -56,7 +56,7 @@ class DenisRoom(BaseScene):
         DialogueSprite(
             'носок',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/sock.png'), 4),
+            ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
             (1000, 368),
             'magnifier',
             LAYERS['floor'],
@@ -65,7 +65,7 @@ class DenisRoom(BaseScene):
         DialogueSprite(
             'носок',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/sock.png'), 4),
+            ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
             (928, 308),
             'magnifier',
             LAYERS['floor'],
@@ -74,7 +74,7 @@ class DenisRoom(BaseScene):
         DialogueSprite(
             'носок',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/sock.png'), 4),
+            ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
             (900, 520),
             'magnifier',
             LAYERS['floor'],
@@ -83,20 +83,20 @@ class DenisRoom(BaseScene):
         DialogueSprite(
             'носок',
             False,
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/sock.png'), 4),
+            ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
             (560, 540),
             'magnifier',
             LAYERS['floor'],
             self.visible_sprites)
 
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/sofa.png'), 4),
+            ImgEditor.load_image(f'{self.name}/sofa.png', SCALE_K),
             (840, 464),
             LAYERS['main'],
             self.visible_sprites)
 
         BaseSprite(
-            ImgEditor.enhance_image(ImgEditor.load_image(f'{self.name}/ceiling.png'), 4),
+            ImgEditor.load_image(f'{self.name}/ceiling.png', SCALE_K),
             (876, 664),
             LAYERS['ceiling'],
             self.visible_sprites)

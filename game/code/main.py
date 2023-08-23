@@ -20,42 +20,38 @@ class Game:
         pygame.display.set_icon(settings.ICON)
 
         # screen
-        self.screen = pygame.display.set_mode((1920, 1080))
         monitor = [pygame.display.Info().current_w, pygame.display.Info().current_h]
         self.screen = pygame.display.set_mode(monitor, pygame.FULLSCREEN)
 
         # cursor
-        settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)
+        settings.current_cursor = ImgEditor.load_image('cursors/base_cursor.png', settings.SCALE_K)
         pygame.mouse.set_visible(False)
 
         # scenes
         self.scenes = {
             'menu': Menu(),
             'first_street_scene': FirstStreetScene(
-                ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/first_street_scene.png'), 4),
+                ImgEditor.load_image('/backgrounds/first_street_scene.png', settings.SCALE_K),
                 pygame.mask.from_surface(
-                    ImgEditor.enhance_image(ImgEditor.load_image('first_street_scene/collisions.png'), 4)),
+                    ImgEditor.load_image('first_street_scene/collisions.png', settings.SCALE_K)),
                 'street_day.mp3',
                 settings.CENTER),
             'home_scene': HomeScene(
-                ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/home_scene.png'), 4),
+                ImgEditor.load_image('/backgrounds/home_scene.png', settings.SCALE_K),
                 pygame.mask.from_surface(
-                    ImgEditor.enhance_image(
-                        ImgEditor.load_image('home_scene/collisions.png'), 4)),
+                    ImgEditor.load_image('home_scene/collisions.png', settings.SCALE_K)),
                 'home_day.mp3',
                 settings.CENTER),
             'home_upscene': HomeUpScene(
-                ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/home_upscene.png'), 4),
+                ImgEditor.load_image('/backgrounds/home_upscene.png', settings.SCALE_K),
                 pygame.mask.from_surface(
-                    ImgEditor.enhance_image(
-                        ImgEditor.load_image('home_upscene/collisions.png'), 4)),
+                    ImgEditor.load_image('home_upscene/collisions.png', settings.SCALE_K)),
                 'home_day.mp3',
                 settings.CENTER),
             'denis_room': DenisRoom(
-                ImgEditor.enhance_image(ImgEditor.load_image('/backgrounds/denis_room.png'), 4),
+                ImgEditor.load_image('/backgrounds/denis_room.png', settings.SCALE_K),
                 pygame.mask.from_surface(
-                    ImgEditor.enhance_image(
-                        ImgEditor.load_image('denis_room/collisions.png'), 4)),
+                    ImgEditor.load_image('denis_room/collisions.png', settings.SCALE_K)),
                 'denis.mp3',
                 settings.CENTER)
         }
@@ -78,7 +74,7 @@ class Game:
             self.scenes[settings.scene].run(delta_time, events)
 
             self.screen.blit(settings.current_cursor, pygame.mouse.get_pos())
-            settings.current_cursor = ImgEditor.enhance_image(ImgEditor.load_image('cursors/base_cursor.png'), 4)
+            settings.current_cursor = ImgEditor.load_image('cursors/base_cursor.png', settings.SCALE_K)
 
             if 'menu' not in settings.scene:
                 self.sun.display(delta_time)

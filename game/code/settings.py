@@ -1,29 +1,32 @@
 from tools import ImgEditor
 
-NAME = 'AbobaGame'
-ICON = ImgEditor.load_image('icon.png', colorkey=-1)
+SCALE_K = 4
+BIGGER_SCALE = SCALE_K * 1.5 - 0.5 * bool(SCALE_K % 2)
 
-SIZE = WIDTH, HEIGHT = 1536, 864
+NAME = 'AbobaGame'
+ICON = ImgEditor.load_image('icon.png', 6, colorkey=-1)
+
+SIZE = WIDTH, HEIGHT = 384 * SCALE_K, 216 * SCALE_K
 CENTER = WIDTH // 2, HEIGHT // 2
 
-INTERACTION_DISTANCE = 148
-DOOR_DISTANCE = 70  # for invisible doors (passages)
+INTERACTION_DISTANCE = 37 * SCALE_K
+DOOR_DISTANCE = 16 * SCALE_K  # for invisible doors (passages)
 
-DIALOGUE_POS = (CENTER[0], 750)
+DIALOGUE_POS = (CENTER[0], 188 * SCALE_K)
 MAX_DIALOGUE_LENGTH = 96
 
 FONT = '../assets/fonts/main.ttf'
 TEXT_COLOR = (97, 57, 34)
 
-TIME_COORDS = (1362, 5)
-TIME_BOARD_COORDS = (1350, 20)
+TIME_COORDS = (342 * SCALE_K, 1 * SCALE_K)
+TIME_BOARD_COORDS = (338 * SCALE_K, 5 * SCALE_K)
 
-ITEM_COORDS = (530, 260)
-ITEM_OFFSET = 75
+ITEM_COORDS = (133 * SCALE_K, 65 * SCALE_K)
+ITEM_OFFSET = 19 * SCALE_K
 
-QUEST_COORDS = (515, 260)
-QUEST_OFFSET = 75
-QUEST_IMAGE = ImgEditor.enhance_image(ImgEditor.load_image('overlay/exclamation mark.png', colorkey=-1), 4)
+QUEST_COORDS = (129 * SCALE_K, 65 * SCALE_K)
+QUEST_OFFSET = 19 * SCALE_K
+QUEST_IMAGE = ImgEditor.load_image('overlay/exclamation mark.png', SCALE_K, colorkey=-1)
 
 LAYERS = {
     'background': 0,
