@@ -43,6 +43,7 @@ journal = None
 inventory = None
 
 # variables that can be changed
+player = ''
 current_cursor = None
 scene = 'menu'
 previous_scene = 'menu'

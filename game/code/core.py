@@ -10,6 +10,7 @@ class BaseSprite(pygame.sprite.Sprite):
     def __init__(self, img, pos, layer=settings.LAYERS['main'], *groups):
         super().__init__(*groups)
         self.image = img
+        self.pos = pos
         self.rect = self.image.get_rect(center=pos)
         self.game_layer = layer
 
@@ -29,8 +30,9 @@ class BaseSprite(pygame.sprite.Sprite):
 
 class BaseAnimatedSprite(BaseSprite):
     def __init__(self, animation_sheet, pos, speed, columns, rows, layer=settings.LAYERS['main'], *groups):
-        super().__init__(animation_sheet, pos, layer, *groups)
         self.animation = ImgEditor.cut_sheet(animation_sheet, columns, rows)
+        super().__init__(self.animation[0], pos, layer, *groups)
+        self.is_animated = True
         self.animation_speed = speed
         self.frame = 0
 
@@ -40,10 +42,11 @@ class BaseAnimatedSprite(BaseSprite):
             self.frame = 0
 
         self.image = self.animation[int(self.frame)]
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect(center=self.pos)
 
     def update(self, delta_time, *args):
-        self.animate(delta_time)
+        if self.is_animated:
+            self.animate(delta_time)
 
 
 class InteractiveSprite(BaseSprite):
