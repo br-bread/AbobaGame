@@ -157,6 +157,9 @@ class BaseScene:
         settings.journal.run(self.screen, delta_time, events)
         self.menu_window.run(self.screen, delta_time, events, self)
 
+        if self.menu_window.save.is_clicked:
+            self.menu_window.saving_manager.save_game_data([settings.time], ['time'])
+
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))
         # player_hitbox_mask = pygame.mask.Mask((self.player.hitbox.width, self.player.hitbox.height))

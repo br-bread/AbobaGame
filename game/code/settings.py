@@ -1,4 +1,5 @@
 from tools import ImgEditor
+from saving_manager import SavingManager
 
 SCALE_K = 4
 BIGGER_SCALE = SCALE_K * 1.5 - 0.5 * bool(SCALE_K % 2)
@@ -38,6 +39,8 @@ LAYERS = {
     'overlay': 6,
 }
 
+saving_manager = SavingManager()
+
 # will be set in main.py
 journal = None
 inventory = None
@@ -52,6 +55,7 @@ time = {
     'hours': 12,
     'minutes': 0,
 }
+time = saving_manager.load_data('time', time)
 
 # for placing player when switching the scenes
 player_pos = CENTER
