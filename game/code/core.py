@@ -123,6 +123,7 @@ class BaseScene:
             self.music_changing = False
 
         if self.place_player:  # placing the player
+            self.player.import_frames()
             self.player.pos.x = settings.player_pos[0]
             self.player.pos.y = settings.player_pos[1]
             self.player.status = settings.player_status

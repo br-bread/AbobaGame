@@ -76,7 +76,7 @@ class Player(pygame.sprite.Sprite):
             self.status = self.status + '_idle'
 
     def import_frames(self):
-        animation_sheet = ImgEditor.load_image('player_animation.png', settings.SCALE_K)
+        animation_sheet = ImgEditor.load_image(f'{settings.player}_animation.png', settings.SCALE_K)
         frames = ImgEditor.cut_sheet(animation_sheet, 4, 4)
         self.animations = {
             'down': frames[:4],
