@@ -4,6 +4,7 @@ import settings
 from tools import ImgEditor
 from player import Player
 from overlay import Daytime, MenuWindow
+from saving_manager import SavingManager
 
 
 class BaseSprite(pygame.sprite.Sprite):
@@ -70,6 +71,7 @@ class InteractiveSprite(BaseSprite):
 
 class BaseScene:
     def __init__(self, background, scene_collision_mask, music, background_pos=(0, 0)):
+        self.saving_manager = SavingManager()
         # sprite groups
         self.visible_sprites = CameraGroup()
         self.collision_sprites = pygame.sprite.Group()
@@ -128,6 +130,7 @@ class BaseScene:
             self.player.pos.y = settings.player_pos[1]
             self.player.status = settings.player_status
             self.place_player = False
+
         self.visible_sprites.draw_sprites(self.player)
         if self.appearing:
             self.surface.set_alpha(self.alpha)
@@ -158,9 +161,13 @@ class BaseScene:
         self.menu_window.run(self.screen, delta_time, events, self)
 
         if self.menu_window.save.is_clicked:
-            self.menu_window.saving_manager.save_game_data([settings.time, settings.new_quest,
-                                                            'menu', settings.scene],
-                                                           ['time', 'new_quest', 'scene', 'previous_scene'])
+            self.menu_window.saving_manager.save_game_data([
+                settings.time, settings.time_color,
+                settings.new_quest,
+                'menu', settings.scene,
+                self.player.pos.xy],
+                ['time', 'time_color', 'new_quest', 'scene', 'previous_scene',
+                 'player_pos'])
 
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))

@@ -58,9 +58,10 @@ time = {
     'minutes': 0,
 }
 time = saving_manager.load_data('time', time)
+time_color = None
 
 # for placing player when switching the scenes
-player_pos = CENTER
+player_pos = saving_manager.load_data('player_pos', CENTER)
 player_status = 'down_idle'
 
 window_opened = False

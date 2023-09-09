@@ -1,9 +1,11 @@
 import pygame
 import settings
+from saving_manager import SavingManager
 
 
 class Sun:  # for changing light and daytime
     def __init__(self):
+        saving_manager = SavingManager()
         self.screen = pygame.display.get_surface()
         self.full_surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))
         self.speed = 0.7  # speed of light changing
@@ -12,7 +14,7 @@ class Sun:  # for changing light and daytime
         evening = [255, 155, 213]  # 159 (255 - 96)   434 total
         night = [96, 80, 185]  # 175 (255 - 80)
         self.time = [noon, evening, night]  # different colors of different times
-        self.current_time = noon[:]
+        self.current_time = saving_manager.load_data('time_color', noon[:])
         self.next_time = evening[:]
         self.next_time_index = 1
         # for self.step color steps there is one time step (+10 min)
@@ -39,6 +41,7 @@ class Sun:  # for changing light and daytime
                     settings.time['minutes'] += 1
                     if settings.time['hours'] == 11 and settings.time['minutes'] == 6:
                         self.current_time = self.time[0][:]
+                    settings.time_color = self.current_time
                     break
 
         # changing next_time
