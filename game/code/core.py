@@ -158,7 +158,9 @@ class BaseScene:
         self.menu_window.run(self.screen, delta_time, events, self)
 
         if self.menu_window.save.is_clicked:
-            self.menu_window.saving_manager.save_game_data([settings.time], ['time'])
+            self.menu_window.saving_manager.save_game_data([settings.time, settings.new_quest,
+                                                            'menu', settings.scene],
+                                                           ['time', 'new_quest', 'scene', 'previous_scene'])
 
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))

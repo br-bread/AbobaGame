@@ -156,7 +156,7 @@ class CharacterChoice:
                         settings.player = 'denis'
                         settings.window_opened = False
                         self.is_opened = False
-                        scene.disappear('first_street_scene', settings.CENTER, 'down_idle')
+                        scene.disappear(settings.previous_scene, settings.CENTER, 'down_idle')
 
             else:
                 self.denis.image = self.denis.animation[0]
@@ -173,7 +173,7 @@ class CharacterChoice:
                         settings.player = 'artem'
                         settings.window_opened = False
                         self.is_opened = False
-                        scene.disappear('first_street_scene', settings.CENTER, 'down_idle')
+                        scene.disappear(settings.previous_scene, settings.CENTER, 'down_idle')
 
             else:
                 self.artem.image = self.artem.animation[0]

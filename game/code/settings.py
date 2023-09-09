@@ -49,7 +49,9 @@ inventory = None
 player = 'denis'
 current_cursor = None
 scene = 'menu'
-previous_scene = 'menu'
+previous_scene = 'first_street_scene'
+scene = saving_manager.load_data('scene', scene)
+previous_scene = saving_manager.load_data('previous_scene', previous_scene)
 
 time = {
     'hours': 12,
@@ -65,3 +67,4 @@ window_opened = False
 dialogue_run = False
 
 new_quest = False
+new_quest = saving_manager.load_data('new_quest', new_quest)
