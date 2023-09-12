@@ -4,7 +4,7 @@ import pickle
 
 class SavingManager:
     def __init__(self):
-        self.extension = '.save'
+        self.extension = '.pkl'
         self.folder = '..\saves'
 
     def save_data(self, data, name):

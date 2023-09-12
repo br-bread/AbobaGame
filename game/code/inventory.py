@@ -2,10 +2,12 @@ import pygame
 import settings
 from overlay import Button
 from tools import ImgEditor
+from saving_manager import SavingManager
 
 
 class Inventory:
     def __init__(self):
+        saving_manager = SavingManager()
         self.items = {
             'money': Item('Мелочь', 5, 'Несколько монет, лежащих в кармане',
                           ImgEditor.load_image('item/money.png', settings.SCALE_K, colorkey=-1)),
@@ -18,6 +20,11 @@ class Inventory:
             'drum stick': Item('Барабанная палочка', 0, 'От одной маловато толку',
                                ImgEditor.load_image('item/chocolate.png', settings.SCALE_K, colorkey=-1)),
         }
+        item_counts = saving_manager.load_data('inventory', [5, 1, 0, 0, 0])
+        i = 0
+        for k, v in self.items.items():
+            self.items[k].count = item_counts[i]
+            i += 1
         self.is_opened = False
         self.pages = 1
         self.current_page = 0
