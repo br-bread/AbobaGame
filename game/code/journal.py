@@ -2,19 +2,27 @@ import pygame
 import settings
 from overlay import Button
 from tools import ImgEditor
+from saving_manager import SavingManager
 
 
 class Journal:
     def __init__(self):
+        saving_manager = SavingManager()
         self.quests = [
             Quest('Что происходит?', None, 'Расспросить Ксюшу'),
             Quest('Комната Дениса', None, 'Найти ключ'),
         ]
+        quest_locks = saving_manager.load_data('journal', [False, False])
+        for i in range(len(self.quests)):
+            self.quests[i].is_showed = quest_locks[i]
         # general
         self.is_opened = False
         self.pages = 1
         self.current_page = 0
         self.quest_count = 0  # showed quests
+        for i in self.quests:
+            if i.is_showed:
+                self.quest_count += 1
         self.journal_group = pygame.sprite.Group()
         self.journal_background = ImgEditor.load_image('overlay/journal_window.png', settings.SCALE_K, colorkey=-1)
 
@@ -126,7 +134,6 @@ class Quest:
         self.steps = steps
         self.current_step = 0
         self.is_showed = False
-        self.is_done = False
 
     def next_step(self):
         self.current_step += 1

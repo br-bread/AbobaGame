@@ -166,9 +166,10 @@ class BaseScene:
                 settings.new_quest,
                 'menu', settings.scene,
                 self.player.pos.xy,
-                [v.count for k, v in settings.inventory.items.items()]],
+                [v.count for k, v in settings.inventory.items.items()],
+                [i.is_showed for i in settings.journal.quests]],
                 ['time', 'time_color', 'new_quest', 'scene', 'previous_scene',
-                 'player_pos', 'inventory'])
+                 'player_pos', 'inventory', 'journal'])
 
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))
