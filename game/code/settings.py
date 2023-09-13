@@ -27,9 +27,14 @@ TIME_BOARD_COORDS = (1352, 18)
 ITEM_COORDS = (133 * SCALE_K, 65 * SCALE_K)
 ITEM_OFFSET = 19 * SCALE_K
 
-QUEST_COORDS = (129 * SCALE_K, 65 * SCALE_K)
+QUEST_COORDS = (132 * SCALE_K, 68 * SCALE_K)
 QUEST_OFFSET = 19 * SCALE_K
 QUEST_IMAGE = ImgEditor.load_image('overlay/exclamation mark.png', SCALE_K, colorkey=-1)
+
+ACHIEVE_COORDS = (132 * SCALE_K, 68 * SCALE_K)
+ACHIEVE_OFFSET = 21 * SCALE_K
+ACHIEVE_IMAGE = ImgEditor.load_image('overlay/achievement.png', SCALE_K, colorkey=-1)
+LOCKED_ACHIEVE_IMAGE = ImgEditor.load_image('overlay/locked_achievement.png', SCALE_K, colorkey=-1)
 
 LAYERS = {
     'background': 0,
@@ -46,6 +51,7 @@ saving_manager = SavingManager()
 # will be set in main.py
 journal = None
 inventory = None
+achieves = None
 menu_window = None
 
 # variables that can be changed
@@ -71,4 +77,6 @@ window_opened = False
 dialogue_run = False
 
 new_quest = False
+new_achieve = True
 new_quest = saving_manager.load_data('new_quest', new_quest)
+new_achieve = saving_manager.load_data('new_achieve', new_achieve)

@@ -35,6 +35,12 @@ class DialogueLine:
                         settings.journal.quest_count += 1
                         settings.new_quest = True
                         settings.ADD_SOUND.play()
+                elif event[1] == 'achieve':  # unlock quest id
+                    if settings.achieves.achieves[int(event[2])].is_locked:
+                        settings.achieves.achieves[int(event[2])].unlock()
+                        settings.achieves.achieve_count += 1
+                        settings.new_achieve = True
+                        settings.ADD_SOUND.play()
                 else:  # unlock name id
                     for talk in dialogues[event[1]]:
                         for part in talk:
@@ -46,6 +52,13 @@ class DialogueLine:
                 if event[1] == 'quest':
                     settings.journal.quests[int(event[2])].lock()
                     settings.journal.quest_count -= 1
+                    if settings.journal.quest_count == 0:
+                        settings.new_quest = False
+                elif event[1] == 'achieve':
+                    settings.achieves.achieve[int(event[2])].lock()
+                    settings.achieves.achieve_count -= 1
+                    if settings.achieves.achieve_count == 0:
+                        settings.new_achieve = False
                 else:  # lock name id
                     for talk in dialogues[event[1]]:
                         for part in talk:

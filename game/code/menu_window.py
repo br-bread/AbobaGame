@@ -71,15 +71,17 @@ class MenuWindow:
                 settings.time,
                 settings.time_color,
                 settings.new_quest,
+                settings.new_achieve,
                 'menu',
                 settings.scene,
                 scene.player.pos.xy,
                 [v.count for k, v in settings.inventory.items.items()],
                 [i.is_showed for i in settings.journal.quests],
+                [i.is_locked for i in settings.achieves.achieves],
                 dialogues],
-                ['time', 'time_color', 'new_quest', 'scene',
+                ['time', 'time_color', 'new_quest', 'new_achieve', 'scene',
                  'previous_scene', 'player_pos', 'inventory',
-                 'journal', 'dialogues'])
+                 'journal', 'achieves', 'dialogues'])
 
         self.overlay_group.update(dt, events)
         self.overlay_group.draw(screen)

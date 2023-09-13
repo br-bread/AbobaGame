@@ -158,6 +158,7 @@ class BaseScene:
         Daytime.run(self.screen)
         settings.inventory.run(self.screen, delta_time, events)
         settings.journal.run(self.screen, delta_time, events)
+        settings.achieves.run(self.screen, delta_time, events)
         settings.menu_window.run(self.screen, delta_time, events, self)
 
         # collision debug
