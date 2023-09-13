@@ -10,6 +10,8 @@ ICON = ImgEditor.load_image('icon.png', 6, colorkey=-1)
 SIZE = WIDTH, HEIGHT = 384 * SCALE_K, 216 * SCALE_K
 CENTER = WIDTH // 2, HEIGHT // 2
 
+ADD_SOUND = None  # will be set in main.py
+
 INTERACTION_DISTANCE = 37 * SCALE_K
 DOOR_DISTANCE = 16 * SCALE_K  # for invisible doors (passages)
 
@@ -44,6 +46,7 @@ saving_manager = SavingManager()
 # will be set in main.py
 journal = None
 inventory = None
+menu_window = None
 
 # variables that can be changed
 player = 'denis'

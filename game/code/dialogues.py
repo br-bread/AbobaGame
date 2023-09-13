@@ -15,9 +15,7 @@ class DialogueLine:
         self.id = id  # to lock/unlock particular line
         self.priority = priority
         self.is_locked = is_locked  # if dialogue can be shown or not
-        self.events = list(events)  # what will happen after line has been shown (add item apple)\
-        # sound of new quest or item
-        self.sound = pygame.mixer.Sound('..\\assets\\audio\\add.mp3')
+        self.events = list(events)  # what will happen after line has been shown (add item apple)
 
     def lock(self):
         self.is_locked = True
@@ -36,7 +34,7 @@ class DialogueLine:
                         settings.journal.quests[int(event[2])].unlock()
                         settings.journal.quest_count += 1
                         settings.new_quest = True
-                        self.sound.play()
+                        settings.ADD_SOUND.play()
                 else:  # unlock name id
                     for talk in dialogues[event[1]]:
                         for part in talk:
@@ -56,7 +54,7 @@ class DialogueLine:
                                     line.lock()
                                     break
             elif event[0] == 'add':  # add item count
-                self.sound.play()
+                settings.ADD_SOUND.play()
                 settings.inventory.items[event[1]].add(int(event[2]))
                 if settings.inventory.items[event[1]].count == 1:
                     settings.inventory.item_count += 1
@@ -369,6 +367,8 @@ dialogues = {
           DialogueLine('ksusha', 'Хорошо.')]]
     ],
 }
+
+dialogues = settings.saving_manager.load_data('dialogues', dialogues)
 
 # going through the dialogue strings to find out if some parts are too long
 for name, talks in dialogues.items():

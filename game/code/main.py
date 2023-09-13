@@ -9,6 +9,7 @@ from home_upscene import HomeUpScene
 from denis_room import DenisRoom
 from inventory import Inventory
 from journal import Journal
+from menu_window import MenuWindow
 from environment import Sun
 
 
@@ -55,8 +56,10 @@ class Game:
                 'denis.mp3',
                 settings.CENTER)
         }
+        settings.ADD_SOUND = pygame.mixer.Sound('..\\assets\\audio\\add.mp3')
         settings.inventory = Inventory()
         settings.journal = Journal()
+        settings.menu_window = MenuWindow()
         self.sun = Sun()
         self.clock = pygame.time.Clock()
 

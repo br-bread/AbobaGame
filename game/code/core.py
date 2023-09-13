@@ -3,7 +3,7 @@ from math import sqrt
 import settings
 from tools import ImgEditor
 from player import Player
-from overlay import Daytime, MenuWindow
+from overlay import Daytime
 from saving_manager import SavingManager
 
 
@@ -81,7 +81,6 @@ class BaseScene:
         self.name = 'scene'
         self.collision_mask = scene_collision_mask
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'], self.visible_sprites)
-        self.menu_window = MenuWindow()  # overlay
         # music
         self.music = pygame.mixer.Sound(f'..\\assets\\audio\\music\\{music}')
         self.music_started = False
@@ -132,6 +131,7 @@ class BaseScene:
             self.place_player = False
 
         self.visible_sprites.draw_sprites(self.player)
+
         if self.appearing:
             self.surface.set_alpha(self.alpha)
             self.screen.blit(self.surface, (0, 0))
@@ -158,18 +158,7 @@ class BaseScene:
         Daytime.run(self.screen)
         settings.inventory.run(self.screen, delta_time, events)
         settings.journal.run(self.screen, delta_time, events)
-        self.menu_window.run(self.screen, delta_time, events, self)
-
-        if self.menu_window.save.is_clicked:
-            self.menu_window.saving_manager.save_game_data([
-                settings.time, settings.time_color,
-                settings.new_quest,
-                'menu', settings.scene,
-                self.player.pos.xy,
-                [v.count for k, v in settings.inventory.items.items()],
-                [i.is_showed for i in settings.journal.quests]],
-                ['time', 'time_color', 'new_quest', 'scene', 'previous_scene',
-                 'player_pos', 'inventory', 'journal'])
+        settings.menu_window.run(self.screen, delta_time, events, self)
 
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))
