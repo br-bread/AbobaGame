@@ -107,6 +107,7 @@ class Menu:
         elif self.authors_is_opened:
             if self.back.is_clicked:
                 settings.window_opened = False
+                self.authors_is_opened = False
                 self.authors_background.rect.center = (250 * settings.SCALE_K, 375 * settings.SCALE_K)
                 self.back.rect.center = (75 * settings.SCALE_K, 375 * settings.SCALE_K)
                 self.begin.rect.center = (75 * settings.SCALE_K, 125 * settings.SCALE_K)
