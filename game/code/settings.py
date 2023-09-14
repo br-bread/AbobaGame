@@ -53,10 +53,12 @@ journal = None
 inventory = None
 achieves = None
 menu_window = None
+music_player = None
 
 # variables that can be changed
 player = 'denis'
 current_cursor = None
+
 scene = 'menu'
 previous_scene = 'first_street_scene'
 scene = saving_manager.load_data('scene', scene)

@@ -139,6 +139,7 @@ class HomeScene(BaseScene):
             (675, 850),
             self,
             'first_street_scene',
+            'street_day.mp3',
             (890, 100),
             'down_idle',
             self.visible_sprites
@@ -148,6 +149,7 @@ class HomeScene(BaseScene):
             (1150, 330),
             self,
             'home_upscene',
+            self.music_name,
             (985, 470),
             'up_idle',
             self.visible_sprites

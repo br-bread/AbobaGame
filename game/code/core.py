@@ -82,11 +82,7 @@ class BaseScene:
         self.collision_mask = scene_collision_mask
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'], self.visible_sprites)
         # music
-        self.music = pygame.mixer.Sound(f'..\\assets\\audio\\music\\{music}')
-        self.music_started = False
-        self.music_changing = False  # to change music during the day
-        self.music_fading = 0  # dt when music start
-        self.new_music = None
+        self.music_name = music
         # animation
         self.appearing = True  # if appearing animation should be shown
         self.disappearing = False  # same
@@ -96,32 +92,18 @@ class BaseScene:
         self.surface.fill('black')
         self.alpha = 255
         self.next_scene = None  # will be set when current scene is disappearing
+        self.next_music = None
 
-    def disappear(self, next_scene, player_pos, player_status):
+    def disappear(self, next_scene, next_music, player_pos, player_status):
         if self.alpha < 255:  # disappear method can be called even when scene has disappeared
             self.disappearing = True  # so this parameter will be set wrong (without this if statement)
         # set player pos in next scene
         settings.player_pos = player_pos
         settings.player_status = player_status
         self.next_scene = next_scene
-
-    def change_music(self, new_music):
-        self.music.fadeout(3000)
-        self.music_fading = 0
-        self.new_music = new_music
-        self.music_changing = True
+        self.next_music = next_music
 
     def run(self, delta_time, events):
-        if not self.music_started:
-            self.music.play(loops=-1)
-            self.music_started = True
-
-        if self.music_fading < 5:
-            self.music_fading += delta_time
-        elif self.music_changing:
-            self.music = self.new_music
-            self.music.play(loops=-1)
-            self.music_changing = False
 
         if self.place_player:  # placing the player
             self.player.import_frames()
@@ -141,7 +123,7 @@ class BaseScene:
                 self.appearing = False
 
         if self.disappearing:
-            self.music.fadeout(1000)
+            settings.music_player.change_music(self.next_music)
             self.surface.set_alpha(self.alpha)
             self.screen.blit(self.surface, (0, 0))
             self.alpha += self.speed * delta_time
@@ -150,7 +132,6 @@ class BaseScene:
                 self.disappearing = False
                 self.appearing = True  # set bool variables for next appearance of this scene
                 self.place_player = True
-                self.music_started = False
                 settings.dialogue_run = False
                 settings.scene = self.next_scene
                 settings.previous_scene = self.name
@@ -160,6 +141,7 @@ class BaseScene:
         settings.journal.run(self.screen, delta_time, events)
         settings.achieves.run(self.screen, delta_time, events)
         settings.menu_window.run(self.screen, delta_time, events, self)
+        settings.music_player.run(delta_time)
 
         # collision debug
         # self.screen.blit(self.collision_mask.to_surface(), (0, 0))

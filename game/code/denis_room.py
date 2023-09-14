@@ -12,6 +12,7 @@ class DenisRoom(BaseScene):
             (880, 680),
             self,
             'home_upscene',
+            'home_day.mp3',
             (1050, 380),
             'down_idle',
             self.visible_sprites

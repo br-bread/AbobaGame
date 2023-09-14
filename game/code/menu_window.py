@@ -60,7 +60,7 @@ class MenuWindow:
             self.save.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
             settings.window_opened = False
             self.is_opened = False
-            scene.disappear('menu', scene.player.pos, 'down_idle')
+            scene.disappear('menu', 'menu.mp3', scene.player.pos, 'down_idle')
 
         if self.exit.is_clicked:
             pygame.quit()

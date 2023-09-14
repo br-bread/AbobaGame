@@ -13,6 +13,7 @@ class HomeUpScene(BaseScene):
             (990, 560),
             self,
             'home_scene',
+            self.music_name,
             (1155, 410),
             'down_idle',
             self.visible_sprites
@@ -24,6 +25,7 @@ class HomeUpScene(BaseScene):
             settings.LAYERS['main'],
             self,
             'denis_room',
+            'denis.mp3',
             (880, 590),
             'up_idle')
 

@@ -38,10 +38,11 @@ class DialogueSprite(InteractiveSprite):
 
 
 class Door(InteractiveSprite):  # just door sprite
-    def __init__(self, img, pos, layer, scene, next_scene, player_pos, player_status, *groups):
+    def __init__(self, img, pos, layer, scene, next_scene, next_music, player_pos, player_status, *groups):
         super().__init__(img, pos, layer, *groups)
         self.cursor_image = 'arrow_cursor.png'
         self.next_scene = next_scene
+        self.next_music = next_music
         self.scene = scene
         self.player_pos = player_pos
         self.player_status = player_status
@@ -52,17 +53,18 @@ class Door(InteractiveSprite):  # just door sprite
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.is_mouse_on() and not self.scene.appearing:
-                        self.scene.disappear(self.next_scene, self.player_pos, self.player_status)
+                        self.scene.disappear(self.next_scene, self.next_music, self.player_pos, self.player_status)
 
 
 class InvisibleDoor(BaseSprite):  # passage to another scene, also a door, but invisible and not interactive (by mouse)
-    def __init__(self, pos, scene, next_scene, player_pos, player_status, *groups):
+    def __init__(self, pos, scene, next_scene, next_music, player_pos, player_status, *groups):
         super().__init__(ImgEditor.load_image('invisible_door.png', 1), pos, settings.LAYERS['main'], *groups)
         self.scene = scene
         self.next_scene = next_scene
+        self.next_music = next_music
         self.player_pos = player_pos
         self.player_status = player_status
 
     def update(self, dt, events, player_pos, *args, **kwargs):  # will be called MULTIPLE times
         if self.get_distance(player_pos) <= settings.DOOR_DISTANCE and not self.scene.appearing:
-            self.scene.disappear(self.next_scene, self.player_pos, self.player_status)
+            self.scene.disappear(self.next_scene, self.next_music, self.player_pos, self.player_status)

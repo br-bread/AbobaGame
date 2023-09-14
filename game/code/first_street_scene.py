@@ -1,6 +1,4 @@
-import pygame.mixer
-
-from settings import *
+import settings
 from core import BaseScene, BaseSprite
 from sprites import DialogueSprite, Door
 from tools import ImgEditor
@@ -10,6 +8,8 @@ class FirstStreetScene(BaseScene):
     def __init__(self, background, scene_collision_mask, music, background_pos=(0, 0)):
         super().__init__(background, scene_collision_mask, music, background_pos)
         self.name = 'first_street_scene'
+        SCALE_K = settings.SCALE_K
+        LAYERS = settings.LAYERS
 
         # Dialogue sprites
         self.scarecrow = DialogueSprite(
@@ -137,14 +137,16 @@ class FirstStreetScene(BaseScene):
             LAYERS['main'],
             self,
             'home_scene',
+            'home_day.mp3',
             (169 * SCALE_K, 188 * SCALE_K),
             'up_idle',
             self.visible_sprites)
 
     def run(self, delta_time, events):
         super().run(delta_time, events)
-        if time['hours'] == 18 and time['minutes'] == 0 and not self.music_changing:
-            self.change_music(pygame.mixer.Sound('..\\assets\\audio\\music\\street_night.mp3'))
+        if (settings.time['hours'] >= 18 or settings.time[
+            'hours'] < 7) and settings.music_player.music_name != 'street_night.mp3':
+            settings.music_player.change_music('street_night.mp3')
 
-        if time['hours'] == 9 and time['minutes'] == 0 and not self.music_changing:
-            self.change_music(pygame.mixer.Sound('..\\assets\\audio\\music\\street_day.mp3'))
+        elif 7 <= settings.time['hours'] < 18 and settings.music_player.music_name != 'street_day.mp3':
+            settings.music_player.change_music('street_day.mp3')

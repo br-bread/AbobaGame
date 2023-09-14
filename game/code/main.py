@@ -11,6 +11,7 @@ from inventory import Inventory
 from journal import Journal
 from achievements import Achieves
 from menu_window import MenuWindow
+from music import MusicPlayer
 from environment import Sun
 
 
@@ -62,6 +63,7 @@ class Game:
         settings.journal = Journal()
         settings.achieves = Achieves()
         settings.menu_window = MenuWindow()
+        settings.music_player = MusicPlayer()
         self.sun = Sun()
         self.clock = pygame.time.Clock()
 

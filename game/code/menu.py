@@ -14,7 +14,6 @@ class Menu:
         # general
         self.screen = pygame.display.get_surface()
         self.name = 'menu'
-        self.music = pygame.mixer.Sound(f'..\\assets\\audio\\music\\menu.mp3')
         self.music_started = False
         # animation
         self.appearing = True  # if appearing animation should be shown
@@ -65,7 +64,7 @@ class Menu:
 
     def run(self, delta_time, events):
         if not self.music_started:
-            self.music.play(loops=-1)
+            settings.music_player.set_music('menu.mp3')
             self.music_started = True
         self.visible_sprites.draw(self.screen)
         if self.appearing:
@@ -76,14 +75,13 @@ class Menu:
                 self.appearing = False
 
         if self.disappearing:
-            self.music.fadeout(1000)
+            settings.music_player.fadeout()
             self.surface.set_alpha(self.alpha)
             self.screen.blit(self.surface, (0, 0))
             self.alpha += self.speed * delta_time
             if self.alpha >= 255:
                 self.disappearing = False
                 self.appearing = True  # set bool variables for next appearance of this scene
-                self.music_started = False
                 settings.scene = self.next_scene
 
         self.visible_sprites.update(delta_time, events)
