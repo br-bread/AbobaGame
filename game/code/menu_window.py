@@ -70,6 +70,7 @@ class MenuWindow:
             self.saving_manager.save_game_data([
                 settings.time,
                 settings.time_color,
+                settings.next_time,
                 settings.new_quest,
                 settings.new_achieve,
                 'menu',
@@ -79,7 +80,8 @@ class MenuWindow:
                 [i.is_showed for i in settings.journal.quests],
                 [i.is_locked for i in settings.achieves.achieves],
                 dialogues],
-                ['time', 'time_color', 'new_quest', 'new_achieve', 'scene',
+                ['time', 'time_color', 'next_time_index', 'new_quest',
+                 'new_achieve', 'scene',
                  'previous_scene', 'player_pos', 'inventory',
                  'journal', 'achieves', 'dialogues'])
 

@@ -15,11 +15,11 @@ class Sun:  # for changing light and daytime
         night = [96, 80, 185]  # 175 (255 - 80)
         self.time = [noon, evening, night]  # different colors of different times
         self.current_time = saving_manager.load_data('time_color', noon[:])
-        self.next_time = evening[:]
-        self.next_time_index = 1
+        self.next_time_index = saving_manager.load_data('next_time_index', 1)
+        self.next_time = self.time[self.next_time_index]
         # for self.step color steps there is one time step (+10 min)
         self.step = 434 // 144  # 3
-        self.last_time = noon[:]  # color which was <=10min ago
+        self.last_time = self.current_time.copy()  # color which was <=10min ago
 
     def display(self, delta_time):
         for j in range(3):
@@ -42,6 +42,7 @@ class Sun:  # for changing light and daytime
                     if settings.time['hours'] == 11 and settings.time['minutes'] == 6:
                         self.current_time = self.time[0][:]
                     settings.time_color = self.current_time
+                    settings.next_time = self.next_time_index
                     break
 
         # changing next_time
@@ -57,7 +58,6 @@ class Sun:  # for changing light and daytime
             settings.time['hours'] = 0
 
         self.full_surface.fill(self.current_time)
-        print(self.current_time)
         if 'home' not in settings.scene and 'menu' not in settings.scene and 'room' not in settings.scene:
             self.screen.blit(self.full_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 

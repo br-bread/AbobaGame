@@ -70,6 +70,7 @@ time = {
 }
 time = saving_manager.load_data('time', time)
 time_color = None
+next_time = 1
 
 # for placing player when switching the scenes
 player_pos = saving_manager.load_data('player_pos', CENTER)
