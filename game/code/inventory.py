@@ -8,27 +8,39 @@ from saving_manager import SavingManager
 class Inventory:
     def __init__(self):
         saving_manager = SavingManager()
-        self.items = {
+        self.denis_items = {
             'money': Item('Мелочь', 5, 'Несколько монет, лежащих в кармане',
                           ImgEditor.load_image('item/money.png', settings.SCALE_K, colorkey=-1)),
             'keyD': Item('Ключ', 1, 'Ключ от комнаты Дениса',
+                         ImgEditor.load_image('item/keyD.png', settings.SCALE_K, colorkey=-1)),
+        }
+        self.artem_items = {
+            'money': Item('Мелочь', 5, 'Несколько монет, лежащих в кармане',
+                          ImgEditor.load_image('item/money.png', settings.SCALE_K, colorkey=-1)),
+            'keyA': Item('Ключ', 1, 'Ключ от комнаты Артёма',
                          ImgEditor.load_image('item/keyD.png', settings.SCALE_K, colorkey=-1)),
             'candy': Item('Конфета', 0, 'В её честь даже назвали собаку!',
                           ImgEditor.load_image('item/candy.png', settings.SCALE_K, colorkey=-1)),
             'chocolate': Item('Шоколадка', 0, 'Плитка молочного шоколада',
                               ImgEditor.load_image('item/chocolate.png', settings.SCALE_K, colorkey=-1)),
-            'drum stick': Item('Барабанная палочка', 0, 'От одной маловато толку',
-                               ImgEditor.load_image('item/chocolate.png', settings.SCALE_K, colorkey=-1)),
         }
-        item_counts = saving_manager.load_data('inventory', [5, 1, 0, 0, 0])
+        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 1, 0, 0, 0])
+        denis_item_counts = saving_manager.load_data('denis_inventory', [5, 1, 0, 0, 0])
         i = 0
-        for k, v in self.items.items():
-            self.items[k].count = item_counts[i]
+        for k, v in self.artem_items.items():
+            self.artem_items[k].count = artem_item_counts[i]
             i += 1
+
+        i = 0
+        for k, v in self.denis_items.items():
+            self.denis_items[k].count = denis_item_counts[i]
+            i += 1
+
         self.is_opened = False
         self.pages = 1
         self.current_page = 0
-        self.item_count = 1  # items in inventory which count > 0
+        self.artem_item_count = 1  # items in inventory which count > 0
+        self.denis_item_count = 1
         self.inventory_group = pygame.sprite.Group()
 
         # buttons
@@ -52,7 +64,11 @@ class Inventory:
         self.description_font = pygame.font.Font(settings.FONT, 10 * settings.SCALE_K)
 
     def show_item(self, name, coords, screen):
-        item = self.items[name]
+        if settings.player == 'artem':
+            items = self.artem_items
+        else:
+            items = self.denis_items
+        item = items[name]
         # image
         screen.blit(item.image, coords)
         # name
@@ -66,7 +82,10 @@ class Inventory:
                     (coords[0] + 20 * settings.SCALE_K, coords[1] + 4 * settings.SCALE_K))
 
     def run(self, screen, dt, events):
-        self.pages = self.item_count // 5 + bool(self.item_count % 5)
+        if settings.player == 'artem':
+            self.pages = self.artem_item_count // 5 + bool(self.artem_item_count % 5)
+        else:
+            self.pages = self.denis_item_count // 5 + bool(self.denis_item_count % 5)
         if self.is_opened:
             screen.blit(self.inventory_background,
                         (settings.CENTER[0] - self.inventory_background.get_width() // 2,
@@ -119,9 +138,13 @@ class Inventory:
 
         self.inventory_group.draw(screen)
         if self.is_opened:
+            if settings.player == 'artem':
+                items = self.artem_items
+            else:
+                items = self.denis_items
             it = 0
             item = 0
-            for key, val in self.items.items():
+            for key, val in items.items():
                 if self.current_page * 5 <= item < (self.current_page + 1) * 5:
                     if val.count > 0:
                         self.show_item(key,

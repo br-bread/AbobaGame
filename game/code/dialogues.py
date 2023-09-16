@@ -30,17 +30,17 @@ class DialogueLine:
                 pass
             elif event[0] == 'unlock':  # unlock quest id
                 if event[1] == 'quest':
-                        if settings.player == 'denis':
-                            if not settings.journal.denis_quests[int(event[2])].is_showed:
-                                settings.journal.denis_quests[int(event[2])].unlock()
-                                settings.journal.denis_quest_count += 1
-                                settings.denis_new_quest = True
-                        else:
-                            if not settings.journal.artem_quests[int(event[2])].is_showed:
-                                settings.journal.artem_quests[int(event[2])].unlock()
-                                settings.journal.artem_quest_count += 1
-                                settings.artem_new_quest = True
-                        settings.ADD_SOUND.play()
+                    if settings.player == 'denis':
+                        if not settings.journal.denis_quests[int(event[2])].is_showed:
+                            settings.journal.denis_quests[int(event[2])].unlock()
+                            settings.journal.denis_quest_count += 1
+                            settings.denis_new_quest = True
+                    else:
+                        if not settings.journal.artem_quests[int(event[2])].is_showed:
+                            settings.journal.artem_quests[int(event[2])].unlock()
+                            settings.journal.artem_quest_count += 1
+                            settings.artem_new_quest = True
+                    settings.ADD_SOUND.play()
                 elif event[1] == 'achieve':  # unlock quest id
                     if settings.achieves.achieves[int(event[2])].is_locked:
                         settings.achieves.achieves[int(event[2])].unlock()
@@ -89,13 +89,23 @@ class DialogueLine:
                                     break
             elif event[0] == 'add':  # add item count
                 settings.ADD_SOUND.play()
-                settings.inventory.items[event[1]].add(int(event[2]))
-                if settings.inventory.items[event[1]].count == 1:
-                    settings.inventory.item_count += 1
+                if settings.player == 'artem':
+                    settings.inventory.artem_items[event[1]].add(int(event[2]))
+                    if settings.inventory.artem_items[event[1]].count == 1:
+                        settings.inventory.artem_item_count += 1
+                else:
+                    settings.inventory.denis_items[event[1]].add(int(event[2]))
+                    if settings.inventory.denis_items[event[1]].count == 1:
+                        settings.inventory.denis_item_count += 1
             elif event[0] == 'remove':  # remove item count
-                settings.inventory.items[event[1]].remove(int(event[2]))
-                if settings.inventory.items[event[1]].count == 0:
-                    settings.inventory.item_count -= 1
+                if settings.player == 'artem':
+                    settings.inventory.artem_items[event[1]].remove(int(event[2]))
+                    if settings.inventory.artem_items[event[1]].count == 0:
+                        settings.inventory.artem_item_count -= 1
+                else:
+                    settings.inventory.denis_items[event[1]].remove(int(event[2]))
+                    if settings.inventory.denis_items[event[1]].count == 0:
+                        settings.inventory.denis_item_count -= 1
             elif event[0] == 'next_step':  # next_step id
                 settings.journal.quests[int(event[1])].next_step()
             # for talk in dialogues['Артём']:

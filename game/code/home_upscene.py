@@ -108,6 +108,10 @@ class HomeUpScene(BaseScene):
 
     def run(self, delta_time, events):
         super().run(delta_time, events)
-        if settings.inventory.items['keyD'].count == 1:
+        if settings.player == 'artem':
+            inventory = settings.inventory.artem_items
+        else:
+            inventory = settings.inventory.denis_items
+        if 'keyD' in inventory.keys() and inventory['keyD'].count == 1:
             self.roomD.kill()
             self.doorD.add(self.visible_sprites)

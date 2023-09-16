@@ -77,7 +77,8 @@ class MenuWindow:
                 settings.new_achieve,
                 'menu', settings.scene,
                 scene.player.pos.xy,
-                [v.count for k, v in settings.inventory.items.items()],
+                [v.count for k, v in settings.inventory.artem_items.items()],
+                [v.count for k, v in settings.inventory.denis_items.items()],
                 [i.is_locked for i in settings.achieves.achieves],
                 denis_dialogues, artem_dialogues],
                 ['time', 'time_color', 'next_time_index',
@@ -85,7 +86,8 @@ class MenuWindow:
                  'denis_journal_locks', 'denis_journal_steps',
                  'artem_journal_locks', 'artem_journal_steps',
                  'new_achieve', 'scene',
-                 'previous_scene', 'player_pos', 'inventory',
+                 'previous_scene', 'player_pos',
+                 'artem_inventory', 'denis_inventory',
                  'achieves', 'denis_dialogues', 'artem_dialogues'])
 
         self.overlay_group.update(dt, events)
