@@ -4,7 +4,7 @@ import settings
 from overlay import Button
 from tools import ImgEditor
 from saving_manager import SavingManager
-from dialogues import dialogues
+from dialogues import denis_dialogues, artem_dialogues
 
 
 class MenuWindow:
@@ -79,11 +79,11 @@ class MenuWindow:
                 [v.count for k, v in settings.inventory.items.items()],
                 [i.is_showed for i in settings.journal.quests],
                 [i.is_locked for i in settings.achieves.achieves],
-                dialogues],
+                denis_dialogues, artem_dialogues],
                 ['time', 'time_color', 'next_time_index', 'new_quest',
                  'new_achieve', 'scene',
                  'previous_scene', 'player_pos', 'inventory',
-                 'journal', 'achieves', 'dialogues'])
+                 'journal', 'achieves', 'denis_dialogues', 'artem_dialogues'])
 
         self.overlay_group.update(dt, events)
         self.overlay_group.draw(screen)

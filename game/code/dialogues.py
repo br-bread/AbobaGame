@@ -42,6 +42,10 @@ class DialogueLine:
                         settings.new_achieve = True
                         settings.ADD_SOUND.play()
                 else:  # unlock name id
+                    if settings.player == 'denis':
+                        dialogues = denis_dialogues
+                    elif settings.player == 'artem':
+                        dialogues = artem_dialogues
                     for talk in dialogues[event[1]]:
                         for part in talk:
                             for line in part:
@@ -60,6 +64,10 @@ class DialogueLine:
                     if settings.achieves.achieve_count == 0:
                         settings.new_achieve = False
                 else:  # lock name id
+                    if settings.player == 'denis':
+                        dialogues = denis_dialogues
+                    elif settings.player == 'artem':
+                        dialogues = artem_dialogues
                     for talk in dialogues[event[1]]:
                         for part in talk:
                             for line in part:
@@ -115,7 +123,10 @@ class Dialogue:
             self.stage = 0
 
             # choosing random talk which is not locked
-            talks = dialogues[self.name]
+            if settings.player == 'denis':
+                talks = denis_dialogues[self.name]
+            elif settings.player == 'artem':
+                talks = artem_dialogues[self.name]
             while True:
                 self.talk = choice(talks)
                 if not self.talk[0][0].is_locked:
@@ -184,7 +195,151 @@ class Dialogue:
 # Артём - 1**
 # Ксюша - 2**
 # rest - 0
-dialogues = {
+artem_dialogues = {
+    'пугало': [
+        [[DialogueLine('artem', 'Где-то я это уже видел...'),
+          DialogueLine('artem', 'Зачем ставить пугало рядом с клумбой?')]],
+    ],
+    'указатель': [
+        [[DialogueLine('base', '"Торговец".'),
+          DialogueLine('artem', 'Надпись почти не разобрать.')]],
+    ],
+    'корзинка для пикника': [
+        [[DialogueLine('artem', 'Внутри ничего нет... *вздыхает*')]],
+    ],
+    'клумба': [
+        [[DialogueLine('artem', 'Земля ещё сырая, я недавно поливал.')]],
+    ],
+    'окно': [
+        [[DialogueLine('artem', 'Ничего не видно.')]]
+    ],
+    'почтовый ящик': [
+        [[DialogueLine('artem', 'Новой почты нет.')]]
+    ],
+    'коврик': [
+        [[DialogueLine('artem', 'Под ковриком лежат ключи... Один от двери, другие от наших комнат.', 1)]],
+        [[DialogueLine('artem', 'А вот и он.', 2, 0, True, 'add keyD 1', 'lock коврик 2',
+                       'unlock коврик 3', 'lock quest 1')]],
+        [[DialogueLine('base', 'Под ковриком лежат ключи.', 3, 0, True)]],
+    ],
+    'Боб': [
+        [[DialogueLine('base', 'Его зовут Боб, и он не папоротник, он боб. Его же так и зовут!'),
+          DialogueLine('base', 'Что не понятного? Это Боб!')]],
+    ],
+    'коробка из-под роллов': [
+        [[DialogueLine('artem', '"Томми Фиш".'),
+          DialogueLine('denis-grudge', '"Оригами" лучше.'),
+          DialogueLine('artem-thinking', 'Для меня все роллы одинаковые.')]],
+    ],
+    'консервы': [
+        [[DialogueLine('artem-thinking', 'А где нож?')]],
+    ],
+    'сундук': [
+        [[DialogueLine('artem', 'Пластинок нет.')]],
+    ],
+    'барабанная установка': [
+        [[DialogueLine('artem', 'Это у Ксюши.')]],
+    ],
+    'холодильник': [
+        [[DialogueLine('base', 'Внутри лежит багет с ветчиной.'),
+          DialogueLine('artem', 'Ксюшин багет...'),
+          DialogueLine('artem-thinking', 'Когда она уже его съест?'),
+          ]],
+    ],
+    'записки': [
+        [[DialogueLine('base', 'Артём: помыть посуду'),
+          DialogueLine('base', 'Денис: пропылесосить'),
+          DialogueLine('base', 'Ксюша: собрать установку'),
+          DialogueLine('artem', 'Денис так и не пылесосил.'),
+          DialogueLine('denis-angry', 'Пошёл нахуй.'),
+          ]],
+    ],
+    'салат': [
+        [[DialogueLine('artem', 'Сколько уже он тут стоит?...')]],
+    ],
+    'коробка с чаем': [
+        [[DialogueLine('artem-thinking', 'Остался только "Сочное яблоко".')]],
+    ],
+    'фикус': [
+        [[DialogueLine('artem', 'Они размножаются со скоростью света.')]]
+    ],
+    'книги': [
+        [[DialogueLine('base', 'Вы берёте случайную книгу.'),
+          DialogueLine('artem', '"Преступление и наказание". Не, уже читал.')]],
+        [[DialogueLine('base', 'Вы берёте случайную книгу.'),
+          DialogueLine('artem', '"Обломов". Не, уже читал.')]],
+        [[DialogueLine('base', 'Вы берёте случайную книгу.'),
+          DialogueLine('artem', '"Мёртвые души 2 том". Не, уже читал.'),
+          DialogueLine('artem-surprized', 'Стоп, что?'),
+          DialogueLine('base', 'Книга сгорела на ваших глазах подобно фениксу.')]],
+    ],
+    'вязаный Почита': [
+        [[DialogueLine('artem', 'Почита Дениса.')]]
+    ],
+    'комната Ксюши': [
+        [[DialogueLine('artem', 'Не думаю, что стоит заходить без разрешения.')]]
+    ],
+    'комната Артёма': [
+        [[DialogueLine('artem', 'Чёрт, забыл взять ключи. Они должны быть внизу под ковриком.', 0, 0, False,
+                       'unlock quest 1', 'lock коврик 1',
+                       'unlock коврик 2')]]
+    ],
+    'комната Дениса': [
+        [[DialogueLine('artem', 'Не думаю, что стоит заходить без разрешения.')]]
+    ],
+    'тапочки': [
+        [[DialogueLine('denis-surprized', 'Мои тапочки-динозавры!')]]
+    ],
+    'диплом': [
+        [[DialogueLine('artem', 'Мой диплом it-школы cамсунг.')]]
+    ],
+    'плакат': [
+        [[DialogueLine('denis', 'Дота... Лучшая игра.')]]
+    ],
+    'тумбочка': [
+        [[DialogueLine('artem', 'Внутри пусто.')]]
+    ],
+    'носок': [
+        [[DialogueLine('artem', 'Надо бы как-нибудь прибраться.')]]
+    ],
+    'Артём': [
+        [[DialogueLine('artem', 'Ксюша лохушка у неё забаговалась игра.')]]
+    ],
+    'Ксюша': [
+        [[DialogueLine('ksusha', 'Артём! С днём рождения!! У меня есть для тебя подарок!', 200),
+          DialogueLine('base', 'Вы получили конфету.', 0, 0, False, 'add candy 1'),
+          DialogueLine('artem', 'Спасибо!'),
+          DialogueLine('ksusha', 'Кстати, ты можешь открыть инвентарь, нажав i.'),
+          DialogueLine('ksusha-left', 'А для журнала заданий j.'),
+          DialogueLine('artem', 'Да, я уже знаю.'),
+          DialogueLine('ksusha', '...'),
+          DialogueLine('ksusha-left', 'Ну да. Ты-то уже в курсе, что это игра.'),
+          DialogueLine('ksusha', '...'),
+          DialogueLine('ksusha-sad', '...'),
+          DialogueLine('ksusha-sad', '....'),
+          DialogueLine('ksusha-sad', '.....'),
+          DialogueLine('ksusha-sad', '......'),
+          DialogueLine('artem-thinking', 'Ты же в курсе, что я всё скипаю?'),
+          DialogueLine('ksusha-sad', 'И что потом?'),
+          DialogueLine('ksusha-grudge', 'Всю игру проскипаешь?'),
+          DialogueLine('ksusha-grudge', 'Просто выйдешь и всё?'),
+          DialogueLine('artem-thinking', 'Тут диалог как у Дениса, кринжовая. Я не хочу это всё опять читать.'),
+          DialogueLine('ksusha-sad', 'Я старалась.'),
+          DialogueLine('ksusha-sad', 'Не выходи сразу, пожалуйста.'),
+          DialogueLine('ksusha', 'Но теперь тут уже есть сохранения!'),
+          DialogueLine('artem', 'Круто!'),
+          DialogueLine('ksusha-sad', '...'),
+          DialogueLine('ksusha-sad', 'Ладно, я тебя выпускаю.'),
+          DialogueLine('ksusha', 'Хорошей игры!'),
+          DialogueLine('artem', 'Спасибо!', 0, 0, False, 'lock Ксюша 200', 'unlock Ксюша 201'),
+          ]],
+        [[DialogueLine('ksusha', 'м? Что-то случилось?', 201, 0, True),
+          DialogueLine('artem', 'Да нет, я просто подошёл.'),
+          DialogueLine('ksusha', 'Хорошо.')]]
+    ],
+}
+
+denis_dialogues = {
     'пугало': [
         [[DialogueLine('denis', 'Это пугало как будто говорит воронам: "Страдай или вали".'),
           DialogueLine('denis', 'Зачем ставить пугало рядом с клумбой?')]],
@@ -381,10 +536,11 @@ dialogues = {
     ],
 }
 
-dialogues = settings.saving_manager.load_data('dialogues', dialogues)
+denis_dialogues = settings.saving_manager.load_data('denis_dialogues', denis_dialogues)
+artem_dialogues = settings.saving_manager.load_data('artem_dialogues', artem_dialogues)
 
 # going through the dialogue strings to find out if some parts are too long
-for name, talks in dialogues.items():
+for name, talks in denis_dialogues.items():
     new_talks = []
     for talk in talks:
         new_talk = []
@@ -404,7 +560,7 @@ for name, talks in dialogues.items():
                     new_part.append(line)
             new_talk.append(new_part)
         new_talks.append(new_talk)
-    dialogues[name] = new_talks
+    denis_dialogues[name] = new_talks
 
 # looking for id of particular line
 
