@@ -16,6 +16,7 @@ class HomeUpScene(BaseScene):
             self.music_name,
             (1155, 410),
             'down_idle',
+            'h',
             self.visible_sprites
         )
 

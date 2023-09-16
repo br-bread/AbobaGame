@@ -4,6 +4,7 @@ import settings
 from tools import ImgEditor
 from menu import Menu
 from first_street_scene import FirstStreetScene
+from second_street_scene import SecondStreetScene
 from home_scene import HomeScene
 from home_upscene import HomeUpScene
 from denis_room import DenisRoom
@@ -37,6 +38,12 @@ class Game:
                 ImgEditor.load_image('/backgrounds/first_street_scene.png', settings.SCALE_K),
                 pygame.mask.from_surface(
                     ImgEditor.load_image('first_street_scene/collisions.png', settings.SCALE_K)),
+                'street_day.mp3',
+                settings.CENTER),
+            'second_street_scene': SecondStreetScene(
+                ImgEditor.load_image('/backgrounds/second_street_scene.png', settings.SCALE_K),
+                pygame.mask.from_surface(
+                    ImgEditor.load_image('second_street_scene/collisions.png', settings.SCALE_K)),
                 'street_day.mp3',
                 settings.CENTER),
             'home_scene': HomeScene(

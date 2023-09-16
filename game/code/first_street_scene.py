@@ -1,6 +1,6 @@
 import settings
 from core import BaseScene, BaseSprite
-from sprites import DialogueSprite, Door
+from sprites import DialogueSprite, Door, InvisibleDoor
 from tools import ImgEditor
 
 
@@ -142,11 +142,24 @@ class FirstStreetScene(BaseScene):
             'up_idle',
             self.visible_sprites)
 
+        InvisibleDoor(
+            (-5, 400),
+            self,
+            'second_street_scene',
+            self.music_name,
+            (1450, 424),
+            'left_idle',
+            'v',
+            self.visible_sprites
+        )
+
     def run(self, delta_time, events):
         super().run(delta_time, events)
         if (settings.time['hours'] >= 18 or settings.time[
             'hours'] < 7) and settings.music_player.music_name != 'street_night.mp3':
+            self.music_name = 'street_night.mp3'
             settings.music_player.change_music('street_night.mp3')
 
         elif 7 <= settings.time['hours'] < 18 and settings.music_player.music_name != 'street_day.mp3':
+            self.music_name = 'street_day.mp3'
             settings.music_player.change_music('street_day.mp3')
