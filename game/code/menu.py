@@ -75,7 +75,7 @@ class Menu:
                 self.appearing = False
 
         if self.disappearing:
-            settings.music_player.fadeout()
+            settings.music_player.change_music(settings.next_music)
             self.surface.set_alpha(self.alpha)
             self.screen.blit(self.surface, (0, 0))
             self.alpha += self.speed * delta_time
@@ -115,6 +115,8 @@ class Menu:
             for author in self.authors_list:
                 self.screen.blit(self.font.render(author[0], False, settings.TEXT_COLOR),
                                  author[1])
+
+        settings.music_player.run(delta_time)
 
 
 class CharacterChoice:

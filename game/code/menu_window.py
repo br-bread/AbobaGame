@@ -60,6 +60,7 @@ class MenuWindow:
             self.save.rect.center = (373 * settings.SCALE_K, 360 * settings.SCALE_K)
             settings.window_opened = False
             self.is_opened = False
+            settings.next_music = settings.music_player.music_name
             scene.disappear('menu', 'menu.mp3', scene.player.pos, 'down_idle')
 
         if self.exit.is_clicked:
@@ -76,7 +77,7 @@ class MenuWindow:
                 [i.current_step for i in settings.journal.artem_quests],
                 settings.new_achieve,
                 'menu', settings.scene,
-                scene.player.pos.xy,
+                scene.player.pos.xy, settings.music_player.music_name,
                 [v.count for k, v in settings.inventory.artem_items.items()],
                 [v.count for k, v in settings.inventory.denis_items.items()],
                 [i.is_locked for i in settings.achieves.achieves],
@@ -85,8 +86,8 @@ class MenuWindow:
                  'denis_new_quest', 'artem_new_quest',
                  'denis_journal_locks', 'denis_journal_steps',
                  'artem_journal_locks', 'artem_journal_steps',
-                 'new_achieve', 'scene',
-                 'previous_scene', 'player_pos',
+                 'new_achieve', 'scene', 'previous_scene',
+                 'player_pos', 'next_music',
                  'artem_inventory', 'denis_inventory',
                  'achieves', 'denis_dialogues', 'artem_dialogues'])
 

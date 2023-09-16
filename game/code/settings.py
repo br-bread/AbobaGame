@@ -64,6 +64,8 @@ previous_scene = 'first_street_scene'
 scene = saving_manager.load_data('scene', scene)
 previous_scene = saving_manager.load_data('previous_scene', previous_scene)
 
+next_music = saving_manager.load_data('next_music', 'street_day.mp3')
+
 time = {
     'hours': 12,
     'minutes': 0,
