@@ -79,7 +79,7 @@ player_status = 'down_idle'
 window_opened = False
 dialogue_run = False
 
-new_quest = False
 new_achieve = False
-new_quest = saving_manager.load_data('new_quest', new_quest)
+denis_new_quest = saving_manager.load_data('denis_new_quest', False)
+artem_new_quest = saving_manager.load_data('artem_new_quest', True)
 new_achieve = saving_manager.load_data('new_achieve', new_achieve)

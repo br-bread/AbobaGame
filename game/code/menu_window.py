@@ -68,22 +68,25 @@ class MenuWindow:
 
         if self.save.is_clicked:
             self.saving_manager.save_game_data([
-                settings.time,
-                settings.time_color,
-                settings.next_time,
-                settings.new_quest,
+                settings.time, settings.time_color, settings.next_time,
+                settings.denis_new_quest, settings.artem_new_quest,
+                [i.is_showed for i in settings.journal.denis_quests],
+                [i.current_step for i in settings.journal.denis_quests],
+                [i.is_showed for i in settings.journal.artem_quests],
+                [i.current_step for i in settings.journal.artem_quests],
                 settings.new_achieve,
-                'menu',
-                settings.scene,
+                'menu', settings.scene,
                 scene.player.pos.xy,
                 [v.count for k, v in settings.inventory.items.items()],
-                [i.is_showed for i in settings.journal.quests],
                 [i.is_locked for i in settings.achieves.achieves],
                 denis_dialogues, artem_dialogues],
-                ['time', 'time_color', 'next_time_index', 'new_quest',
+                ['time', 'time_color', 'next_time_index',
+                 'denis_new_quest', 'artem_new_quest',
+                 'denis_journal_locks', 'denis_journal_steps',
+                 'artem_journal_locks', 'artem_journal_steps',
                  'new_achieve', 'scene',
                  'previous_scene', 'player_pos', 'inventory',
-                 'journal', 'achieves', 'denis_dialogues', 'artem_dialogues'])
+                 'achieves', 'denis_dialogues', 'artem_dialogues'])
 
         self.overlay_group.update(dt, events)
         self.overlay_group.draw(screen)

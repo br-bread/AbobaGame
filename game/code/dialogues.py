@@ -30,10 +30,16 @@ class DialogueLine:
                 pass
             elif event[0] == 'unlock':  # unlock quest id
                 if event[1] == 'quest':
-                    if not settings.journal.quests[int(event[2])].is_showed:
-                        settings.journal.quests[int(event[2])].unlock()
-                        settings.journal.quest_count += 1
-                        settings.new_quest = True
+                        if settings.player == 'denis':
+                            if not settings.journal.denis_quests[int(event[2])].is_showed:
+                                settings.journal.denis_quests[int(event[2])].unlock()
+                                settings.journal.denis_quest_count += 1
+                                settings.denis_new_quest = True
+                        else:
+                            if not settings.journal.artem_quests[int(event[2])].is_showed:
+                                settings.journal.artem_quests[int(event[2])].unlock()
+                                settings.journal.artem_quest_count += 1
+                                settings.artem_new_quest = True
                         settings.ADD_SOUND.play()
                 elif event[1] == 'achieve':  # unlock quest id
                     if settings.achieves.achieves[int(event[2])].is_locked:
@@ -44,7 +50,7 @@ class DialogueLine:
                 else:  # unlock name id
                     if settings.player == 'denis':
                         dialogues = denis_dialogues
-                    elif settings.player == 'artem':
+                    else:
                         dialogues = artem_dialogues
                     for talk in dialogues[event[1]]:
                         for part in talk:
@@ -54,10 +60,17 @@ class DialogueLine:
                                     break
             elif event[0] == 'lock':  # lock quest id
                 if event[1] == 'quest':
-                    settings.journal.quests[int(event[2])].lock()
-                    settings.journal.quest_count -= 1
-                    if settings.journal.quest_count == 0:
-                        settings.new_quest = False
+                    if settings.player == 'denis':
+                        settings.journal.denis_quests[int(event[2])].lock()
+                        settings.journal.denis_quest_count -= 1
+                        if settings.journal.denis_quest_count == 0:
+                            settings.denis_new_quest = False
+                    else:
+                        settings.journal.artem_quests[int(event[2])].lock()
+                        settings.journal.artem_quest_count -= 1
+                        if settings.journal.artem_quest_count == 0:
+                            settings.artem_new_quest = False
+
                 elif event[1] == 'achieve':
                     settings.achieves.achieve[int(event[2])].lock()
                     settings.achieves.achieve_count -= 1

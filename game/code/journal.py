@@ -2,27 +2,49 @@ import pygame
 import settings
 from overlay import Button
 from tools import ImgEditor
-from saving_manager import SavingManager
 
 
 class Journal:
     def __init__(self):
-        saving_manager = SavingManager()
-        self.quests = [
+        self.artem_quests = [
+            Quest('Кто-то приедет', None, 'Расспросить Ксюшу'),
+            Quest('Комната Артёма', None, 'Найти ключ'),
+        ]
+        self.denis_quests = [
             Quest('Что происходит?', None, 'Расспросить Ксюшу'),
             Quest('Комната Дениса', None, 'Найти ключ'),
         ]
-        quest_locks = saving_manager.load_data('journal', [False, False])
-        for i in range(len(self.quests)):
-            self.quests[i].is_showed = quest_locks[i]
+        denis_quest_locks = settings.saving_manager.load_data('denis_journal_locks', [False, False])
+        for i in range(len(self.denis_quests)):
+            self.denis_quests[i].is_showed = denis_quest_locks[i]
+
+        artem_quest_locks = settings.saving_manager.load_data('artem_journal_locks', [True, False])
+        for i in range(len(self.artem_quests)):
+            self.artem_quests[i].is_showed = artem_quest_locks[i]
+
+        denis_quest_steps = settings.saving_manager.load_data('denis_journal_steps', [0, 0])
+        for i in range(len(self.denis_quests)):
+            self.denis_quests[i].current_step = denis_quest_steps[i]
+
+        artem_quest_steps = settings.saving_manager.load_data('artem_journal_steps', [0, 0])
+        for i in range(len(self.artem_quests)):
+            self.artem_quests[i].current_step = artem_quest_steps[i]
+
         # general
         self.is_opened = False
         self.pages = 1
         self.current_page = 0
-        self.quest_count = 0  # showed quests
-        for i in self.quests:
+
+        self.denis_quest_count = 0  # showed quests
+        for i in self.denis_quests:
             if i.is_showed:
-                self.quest_count += 1
+                self.denis_quest_count += 1
+
+        self.artem_quest_count = 0  # showed quests
+        for i in self.artem_quests:
+            if i.is_showed:
+                self.artem_quest_count += 1
+
         self.journal_group = pygame.sprite.Group()
         self.journal_background = ImgEditor.load_image('overlay/journal_window.png', settings.SCALE_K, colorkey=-1)
 
@@ -45,7 +67,11 @@ class Journal:
         self.step_font = pygame.font.Font(settings.FONT, 10 * settings.SCALE_K)
 
     def show_quest(self, id, coords, screen):
-        quest = self.quests[id]
+        if settings.player == 'denis':
+            quests = self.denis_quests
+        else:
+            quests = self.artem_quests
+        quest = quests[id]
         # exclamation mark
         screen.blit(settings.QUEST_IMAGE, (coords[0], coords[1] - 3 * settings.SCALE_K))
         # name
@@ -56,7 +82,10 @@ class Journal:
                     (coords[0] + 16 * settings.SCALE_K, coords[1] + 1 * settings.SCALE_K))
 
     def run(self, screen, dt, events):
-        self.pages = self.quest_count // 5 + bool(self.quest_count % 5)
+        if settings.player == 'artem':
+            self.pages = self.artem_quest_count // 5 + bool(self.artem_quest_count % 5)
+        else:
+            self.pages = self.denis_quest_count // 5 + bool(self.denis_quest_count % 5)
         if self.is_opened:
             screen.blit(self.journal_background,
                         (settings.CENTER[0] - self.journal_background.get_width() // 2,
@@ -82,7 +111,10 @@ class Journal:
                 self.right.rect.center = (203 * settings.SCALE_K, 173 * settings.SCALE_K)
                 self.is_opened = True
                 settings.window_opened = True
-                settings.new_quest = False
+                if settings.player == 'artem':
+                    settings.artem_new_quest = False
+                else:
+                    settings.denis_new_quest = False
 
         if self.right.is_clicked:
             self.current_page += 1
@@ -108,15 +140,23 @@ class Journal:
                         self.right.rect.center = (203 * settings.SCALE_K, 173 * settings.SCALE_K)
                         self.is_opened = True
                         settings.window_opened = True
-                        settings.new_quest = False
+                        if settings.player == 'artem':
+                            settings.artem_new_quest = False
+                        else:
+                            settings.denis_new_quest = False
 
         self.journal_group.draw(screen)
-        if settings.new_quest:
+        if (settings.denis_new_quest and settings.player == 'denis') or (
+                settings.artem_new_quest and settings.player == 'artem'):
             screen.blit(settings.QUEST_IMAGE, (358 * settings.SCALE_K, 32 * settings.SCALE_K))
         if self.is_opened:
             it = 0
             quest_it = 0
-            for quest in self.quests:
+            if settings.player == 'denis':
+                quests = self.denis_quests
+            else:
+                quests = self.artem_quests
+            for quest in quests:
                 if self.current_page * 5 <= quest_it < (self.current_page + 1) * 5:
                     if quest.is_showed:
                         self.show_quest(quest_it,
