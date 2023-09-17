@@ -30,6 +30,16 @@ class HomeUpScene(BaseScene):
             (880, 590),
             'up_idle')
 
+        self.doorA = Door(
+            ImgEditor.load_image(f'{self.name}/doorA.png', settings.SCALE_K),
+            (668, 340),
+            settings.LAYERS['main'],
+            self,
+            'artem_room',
+            'artem.mp3',
+            (810, 610),
+            'up_idle')
+
         self.ksusha = DialogueSprite(
             'Ксюша',
             True,
@@ -85,7 +95,7 @@ class HomeUpScene(BaseScene):
             settings.LAYERS['main'],
             self.visible_sprites)
 
-        DialogueSprite(
+        self.roomA = DialogueSprite(
             'комната Артёма',
             False,
             ImgEditor.load_image(f'{self.name}/doorA.png', settings.SCALE_K),
@@ -113,6 +123,11 @@ class HomeUpScene(BaseScene):
             inventory = settings.inventory.artem_items
         else:
             inventory = settings.inventory.denis_items
+
+        if 'keyA' in inventory.keys() and inventory['keyA'].count == 1:
+            self.roomA.kill()
+            self.doorA.add(self.visible_sprites)
+
         if 'keyD' in inventory.keys() and inventory['keyD'].count == 1:
             self.roomD.kill()
             self.doorD.add(self.visible_sprites)

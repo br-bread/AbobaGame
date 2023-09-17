@@ -8,6 +8,7 @@ from second_street_scene import SecondStreetScene
 from home_scene import HomeScene
 from home_upscene import HomeUpScene
 from denis_room import DenisRoom
+from artem_room import ArtemRoom
 from inventory import Inventory
 from journal import Journal
 from achievements import Achieves
@@ -63,6 +64,12 @@ class Game:
                 pygame.mask.from_surface(
                     ImgEditor.load_image('denis_room/collisions.png', settings.SCALE_K)),
                 'denis.mp3',
+                settings.CENTER),
+            'artem_room': ArtemRoom(
+                ImgEditor.load_image('/backgrounds/artem_room.png', settings.SCALE_K),
+                pygame.mask.from_surface(
+                    ImgEditor.load_image('artem_room/collisions.png', settings.SCALE_K)),
+                'artem.mp3',
                 settings.CENTER)
         }
         settings.ADD_SOUND = pygame.mixer.Sound('..\\assets\\audio\\add.mp3')

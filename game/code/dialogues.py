@@ -35,12 +35,13 @@ class DialogueLine:
                             settings.journal.denis_quests[int(event[2])].unlock()
                             settings.journal.denis_quest_count += 1
                             settings.denis_new_quest = True
+                            settings.ADD_SOUND.play()
                     else:
                         if not settings.journal.artem_quests[int(event[2])].is_showed:
                             settings.journal.artem_quests[int(event[2])].unlock()
                             settings.journal.artem_quest_count += 1
                             settings.artem_new_quest = True
-                    settings.ADD_SOUND.play()
+                            settings.ADD_SOUND.play()
                 elif event[1] == 'achieve':  # unlock quest id
                     if settings.achieves.achieves[int(event[2])].is_locked:
                         settings.achieves.achieves[int(event[2])].unlock()
@@ -149,7 +150,6 @@ class Dialogue:
             if settings.player == 'denis':
                 talks = denis_dialogues[self.name]
             elif settings.player == 'artem':
-                print('пугало' in artem_dialogues)
                 talks = artem_dialogues[self.name]
             while True:
                 self.talk = choice(talks)
@@ -242,7 +242,7 @@ artem_dialogues = {
     ],
     'коврик': [
         [[DialogueLine('artem', 'Под ковриком лежат ключи... Один от двери, другие от наших комнат.', 1)]],
-        [[DialogueLine('artem', 'А вот и он.', 2, 0, True, 'add keyD 1', 'lock коврик 2',
+        [[DialogueLine('artem', 'А вот и он.', 2, 0, True, 'add keyA 1', 'lock коврик 2',
                        'unlock коврик 3', 'lock quest 1')]],
         [[DialogueLine('base', 'Под ковриком лежат ключи.', 3, 0, True)]],
     ],
@@ -318,7 +318,7 @@ artem_dialogues = {
         [[DialogueLine('artem', 'Мой диплом it-школы cамсунг.')]]
     ],
     'плакат': [
-        [[DialogueLine('denis', 'Дота... Лучшая игра.')]]
+        [[DialogueLine('artem', 'Это Рик!')]]
     ],
     'тумбочка': [
         [[DialogueLine('artem', 'Внутри пусто.')]]
