@@ -23,6 +23,8 @@ class Inventory:
                           ImgEditor.load_image('item/candy.png', settings.SCALE_K, colorkey=-1)),
             'chocolate': Item('Шоколадка', 0, 'Плитка молочного шоколада',
                               ImgEditor.load_image('item/chocolate.png', settings.SCALE_K, colorkey=-1)),
+            'nut_chocolate': Item('Ореховая шоколадка', 0, 'Плитка орехового шоколада',
+                                  ImgEditor.load_image('item/nut_chocolate.png', settings.SCALE_K, colorkey=-1)),
         }
         artem_item_counts = saving_manager.load_data('artem_inventory', [5, 1, 0, 0, 0])
         denis_item_counts = saving_manager.load_data('denis_inventory', [5, 1, 0, 0, 0])

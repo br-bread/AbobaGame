@@ -15,6 +15,7 @@ from achievements import Achieves
 from menu_window import MenuWindow
 from music import MusicPlayer
 from environment import Sun
+from dialogues import artem_dialogues
 
 
 class Game:
@@ -101,6 +102,16 @@ class Game:
                 self.sun.display(delta_time)
 
             pygame.display.update()
+            if settings.player == 'artem' and settings.inventory.artem_items['nut_chocolate'].count == 1 and \
+                    settings.journal.artem_quests[4].is_showed:
+                for talk in artem_dialogues['Джефф']:
+                    for part in talk:
+                        for line in part:
+                            if line.id == 503:
+                                line.unlock()
+
+                            elif line.id == 501:
+                                line.lock()
 
 
 if __name__ == '__main__':

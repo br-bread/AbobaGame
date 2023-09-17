@@ -47,7 +47,7 @@ class DenisRoom(BaseScene):
             self.visible_sprites)
 
         DialogueSprite(
-            'тумбочка',
+            'тумба',
             False,
             ImgEditor.load_image(f'{self.name}/table.png', SCALE_K),
             (902, 262),

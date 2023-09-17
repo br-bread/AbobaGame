@@ -7,25 +7,29 @@ from tools import ImgEditor
 class Journal:
     def __init__(self):
         self.artem_quests = [
-            Quest('Кто-то приедет', None, 'Расспросить Ксюшу'),
             Quest('Комната Артёма', None, 'Найти ключ'),
+            Quest('Ты проставляешься', None, 'Найти еду'),
+            Quest('И попить', None, 'Найти попить'),
+            Quest('Генеральная уборка', None, 'Прибраться в комнате', 'Убедиться, что у Дениса тоже чисто'),
+            Quest('Шоколад для Джесс', 'money 15', 'Найти ореховый шоколад'),
         ]
         self.denis_quests = [
             Quest('Комната Дениса', None, 'Найти ключ'),
         ]
-        denis_quest_locks = settings.saving_manager.load_data('denis_journal_locks', [False, False])
+        denis_quest_locks = settings.saving_manager.load_data('denis_journal_locks', [False])
         for i in range(len(self.denis_quests)):
             self.denis_quests[i].is_showed = denis_quest_locks[i]
 
-        artem_quest_locks = settings.saving_manager.load_data('artem_journal_locks', [True, False])
+        artem_quest_locks = settings.saving_manager.load_data('artem_journal_locks',
+                                                              [False, False, False, False, False])
         for i in range(len(self.artem_quests)):
             self.artem_quests[i].is_showed = artem_quest_locks[i]
 
-        denis_quest_steps = settings.saving_manager.load_data('denis_journal_steps', [0, 0])
+        denis_quest_steps = settings.saving_manager.load_data('denis_journal_steps', [0])
         for i in range(len(self.denis_quests)):
             self.denis_quests[i].current_step = denis_quest_steps[i]
 
-        artem_quest_steps = settings.saving_manager.load_data('artem_journal_steps', [0, 0])
+        artem_quest_steps = settings.saving_manager.load_data('artem_journal_steps', [0, 0, 0, 0, 0])
         for i in range(len(self.artem_quests)):
             self.artem_quests[i].current_step = artem_quest_steps[i]
 

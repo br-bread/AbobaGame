@@ -83,5 +83,5 @@ dialogue_run = False
 
 new_achieve = False
 denis_new_quest = saving_manager.load_data('denis_new_quest', False)
-artem_new_quest = saving_manager.load_data('artem_new_quest', True)
+artem_new_quest = saving_manager.load_data('artem_new_quest', False)
 new_achieve = saving_manager.load_data('new_achieve', new_achieve)

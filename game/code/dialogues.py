@@ -306,7 +306,7 @@ artem_dialogues = {
     ],
     'комната Артёма': [
         [[DialogueLine('artem', 'Чёрт, забыл взять ключи. Они должны быть внизу под ковриком.', 0, 0, False,
-                       'unlock quest 1', 'lock коврик 1',
+                       'unlock quest 0', 'lock коврик 1',
                        'unlock коврик 2')]]
     ],
     'комната Дениса': [
@@ -322,7 +322,10 @@ artem_dialogues = {
         [[DialogueLine('artem', 'Это Рик!')]]
     ],
     'тумбочка': [
-        [[DialogueLine('artem', 'Внутри пусто.')]]
+        [[DialogueLine('artem-surprized', 'Ореховая шоколадка! Откуда она здесь?', 10, 0, False, 'lock тумбочка 10',
+                       'unlock тумбочка 11'),
+          DialogueLine('base', 'Вы получили ореховую шоколадку.', 0, 0, False, 'add nut_chocolate 1')]],
+        [[DialogueLine('artem-thinking', 'Внутри пусто.', 11, 0, True)]]
     ],
     'носок': [
         [[DialogueLine('artem', 'Надо бы как-нибудь прибраться.')]]
@@ -336,11 +339,12 @@ artem_dialogues = {
           DialogueLine('artem', 'Спасибо, Денис!'),
           DialogueLine('denis-grudge', 'Чё, ты в курсе что ты проставляешься?'),
           DialogueLine('artem-surprized', 'Эээ... Нет.'),
-          DialogueLine('denis', 'Ну вот. Мы сегодня празднуем, с тебя еда.'),
+          DialogueLine('denis', 'Ну вот. Мы сегодня празднуем, с тебя еда.', 0, 0, False, 'unlock quest 1',
+                       'unlock quest 2'),
           DialogueLine('artem', 'Ладно, что-нибудь придумаю.'),
           DialogueLine('denis-grudge',
                        'А ещё должна приехать Яна, и надо подготовить дом к её приезду. '
-                       'Каждый убирается в своей комнате.'),
+                       'Каждый убирается в своей комнате.', 0, 0, False, 'unlock quest 3'),
           DialogueLine('artem-thinking', 'Да блин. Ладно.', 0, 0, False, 'lock Денис 300', 'unlock Денис 301')]],
         [[DialogueLine('denis', 'Чё, Тём? Тебе что-то нужно?', 301, 0, True),
           DialogueLine('artem', 'Да нет, я просто подошёл.'),
@@ -409,8 +413,23 @@ artem_dialogues = {
           DialogueLine('jeff', 'Да, мы типа двойняшки.'),
           DialogueLine('artem', 'Круто! У вас типа семейный бизнес?'),
           DialogueLine('jeff', 'Вроде того.', 0, 0, False,
-                       'unlock Джефф 501', 'lock Джефф 500'),
+                       'unlock Джефф 502', 'lock Джефф 500'),
           ]],
+        [[DialogueLine('jeff', 'Ты не мог бы оказать мне одну услугу?', 502, 0, True),
+          DialogueLine('artem', 'Что-то случилось?'),
+          DialogueLine('jeff',
+                       'Моя сестра очень расстраивается из-за проблем с баром.'
+                       ' Мне бы хотелось порадовать её.'),
+          DialogueLine('artem', 'Нужно с чем-то помочь?'),
+          DialogueLine('jeff',
+                       'Она очень любит ореховый шоколад. Это обычный шоколад, но в зелёной упаковке. '
+                       'Я не знаю, где его можно взять, но если ты принесёшь мне такую плитку, я заплачу тебе.'),
+          DialogueLine('artem', 'Хорошо, попробую где-нибудь найти.', 0, 0, False, 'lock Джефф 502',
+                       'unlock Джефф 501', 'unlock quest 4')]],
+        [[DialogueLine('artem', 'Я принёс ореховый шоколад.', 503, 0, True),
+          DialogueLine('jeff', 'Ого! Спасибо большое! Вот твои деньги.'),
+          DialogueLine('base', 'Вы получили 15 монет.', 0, 0, False, 'lock Джефф 503', 'unlock Джефф 501',
+                       'add money 15', 'remove nut_chocolate 1', 'lock quest 4')]],
         [[DialogueLine('jeff', 'Тебе что-то нужно?', 501, 0, True),
           DialogueLine('artem', 'Нет, просто мимо проходил.'),
           DialogueLine('jeff', 'Хорошо.')]]
@@ -537,7 +556,7 @@ denis_dialogues = {
     'плакат': [
         [[DialogueLine('denis', 'Дота... Лучшая игра.')]]
     ],
-    'тумбочка': [
+    'тумба': [
         [[DialogueLine('denis', 'Внутри пусто.')]]
     ],
     'носок': [
@@ -644,6 +663,28 @@ for name, talks in denis_dialogues.items():
             new_talk.append(new_part)
         new_talks.append(new_talk)
     denis_dialogues[name] = new_talks
+
+for name, talks in artem_dialogues.items():
+    new_talks = []
+    for talk in talks:
+        new_talk = []
+        for part in talk:
+            new_part = []
+            for line in part:
+                if len(line.text) > settings.MAX_DIALOGUE_LENGTH:
+                    part = ''
+                    for word in line.text.split():
+                        if len(part) + len(word) <= settings.MAX_DIALOGUE_LENGTH:
+                            part += word + ' '
+                        else:
+                            new_part.append(DialogueLine(line.kind, part))
+                            part = word + ' '
+                    new_part.append(DialogueLine(line.kind, part, False, *line.events))
+                else:
+                    new_part.append(line)
+            new_talk.append(new_part)
+        new_talks.append(new_talk)
+    artem_dialogues[name] = new_talks
 
 # looking for id of particular line
 
