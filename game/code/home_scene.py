@@ -8,6 +8,7 @@ class HomeScene(BaseScene):
     def __init__(self, background, scene_collision_mask, music, background_pos=(0, 0)):
         super().__init__(background, scene_collision_mask, music, background_pos)
         self.name = 'home_scene'
+        self.cur_player = 'denis'
 
         self.artem = DialogueSprite(
             'Артём',
@@ -17,6 +18,16 @@ class HomeScene(BaseScene):
             'dialogue',
             settings.LAYERS['main'],
             self.visible_sprites)
+
+        self.denis = DialogueSprite(
+            'Денис',
+            True,
+            ImgEditor.load_image(f'{self.name}/denis.png', settings.SCALE_K),
+            (946, 480),
+            'dialogue',
+            settings.LAYERS['main'],
+            self.visible_sprites)
+        self.denis.kill()
 
         DialogueSprite(
             'Боб',
@@ -156,3 +167,14 @@ class HomeScene(BaseScene):
             'h',
             self.visible_sprites
         )
+
+    def run(self, delta_time, events):
+        super().run(delta_time, events)
+        if settings.player == 'denis' and self.cur_player != 'denis':
+            self.cur_player = 'denis'
+            self.denis.kill()
+            self.artem.add(self.visible_sprites)
+        elif settings.player == 'artem' and self.cur_player != 'artem':
+            self.cur_player = 'artem'
+            self.artem.kill()
+            self.denis.add(self.visible_sprites)

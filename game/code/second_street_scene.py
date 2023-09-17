@@ -11,6 +11,24 @@ class SecondStreetScene(BaseScene):
         SCALE_K = settings.SCALE_K
         LAYERS = settings.LAYERS
 
+        # characters
+        self.denis = DialogueSprite(
+            'Джесс',
+            True,
+            ImgEditor.load_image(f'{self.name}/jess.png', settings.SCALE_K),
+            (706, 320),
+            'dialogue',
+            settings.LAYERS['main'],
+            self.visible_sprites)
+        self.denis = DialogueSprite(
+            'Джефф',
+            True,
+            ImgEditor.load_image(f'{self.name}/jeff.png', settings.SCALE_K),
+            (626, 300),
+            'dialogue',
+            settings.LAYERS['main'],
+            self.visible_sprites)
+
         # doors
         InvisibleDoor(
             (1560, 428),

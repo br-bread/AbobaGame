@@ -11,7 +11,6 @@ class Journal:
             Quest('Комната Артёма', None, 'Найти ключ'),
         ]
         self.denis_quests = [
-            Quest('Что происходит?', None, 'Расспросить Ксюшу'),
             Quest('Комната Дениса', None, 'Найти ключ'),
         ]
         denis_quest_locks = settings.saving_manager.load_data('denis_journal_locks', [False, False])

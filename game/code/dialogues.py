@@ -218,6 +218,7 @@ class Dialogue:
 # id
 # Артём - 1**
 # Ксюша - 2**
+# Денис - 3**
 # rest - 0
 artem_dialogues = {
     'пугало': [
@@ -329,6 +330,22 @@ artem_dialogues = {
     'Артём': [
         [[DialogueLine('artem', 'Ксюша лохушка у неё забаговалась игра.')]]
     ],
+    'Денис': [
+        [[DialogueLine('denis', 'С днём рождения, лошара.', 300),
+          DialogueLine('base', 'Вы получили шоколадку.', 0, 0, False, 'add chocolate 1'),
+          DialogueLine('artem', 'Спасибо, Денис!'),
+          DialogueLine('denis-grudge', 'Чё, ты в курсе что ты проставляешься?'),
+          DialogueLine('artem-surprized', 'Эээ... Нет.'),
+          DialogueLine('denis', 'Ну вот. Мы сегодня празднуем, с тебя еда.'),
+          DialogueLine('artem', 'Ладно, что-нибудь придумаю.'),
+          DialogueLine('denis-grudge',
+                       'А ещё должна приехать Яна, и надо подготовить дом к её приезду. '
+                       'Каждый убирается в своей комнате.'),
+          DialogueLine('artem-thinking', 'Да блин. Ладно.', 0, 0, False, 'lock Денис 300', 'unlock Денис 301')]],
+        [[DialogueLine('denis', 'Чё, Тём? Тебе что-то нужно?', 301, 0, True),
+          DialogueLine('artem', 'Да нет, я просто подошёл.'),
+          DialogueLine('denis', 'Ок.')]]
+    ],
     'Ксюша': [
         [[DialogueLine('ksusha', 'Артём! С днём рождения!! У меня есть для тебя подарок!', 200),
           DialogueLine('base', 'Вы получили конфету.', 0, 0, False, 'add candy 1'),
@@ -352,6 +369,7 @@ artem_dialogues = {
           DialogueLine('ksusha-sad', 'Не выходи сразу, пожалуйста.'),
           DialogueLine('ksusha', 'Но теперь тут уже есть сохранения!'),
           DialogueLine('artem', 'Круто!'),
+          DialogueLine('ksusha', 'Спасибо!'),
           DialogueLine('ksusha-sad', '...'),
           DialogueLine('ksusha-sad', 'Ладно, я тебя выпускаю.'),
           DialogueLine('ksusha', 'Хорошей игры!'),
@@ -360,6 +378,42 @@ artem_dialogues = {
         [[DialogueLine('ksusha', 'м? Что-то случилось?', 201, 0, True),
           DialogueLine('artem', 'Да нет, я просто подошёл.'),
           DialogueLine('ksusha', 'Хорошо.')]]
+    ],
+    'Джесс': [
+        [[DialogueLine('jess', 'Рады вас видеть в местном баре "Дж"!... Только мы пока закрыты.', 400),
+          DialogueLine('artem', 'А что случилось?'),
+          DialogueLine('jess',
+                       'Думаем сворачивать бизнес. Клиентов настолько мало, '
+                       'что мы работаем в минус... '),
+          DialogueLine('artem', 'Ты тут работаешь?'),
+          DialogueLine('jess', 'Да, я местный бармен. Была, по крайней мере. Больше я ничего не умею... '
+                               'Не знаю, где теперь найти деньги.'),
+          DialogueLine('artem', 'Почему? Тут же есть торговец, и вроде зарабатывает.'),
+          DialogueLine('jess', 'Когда-нибудь у меня тоже будет своя лавка, но только не здесь. '
+                               'Тут слишком мало людей для торговли.'),
+          DialogueLine('artem', 'Ну, как знаешь.', 0, 0, False,
+                       'unlock Джесс 401', 'lock Джесс 400'),
+          ]],
+        [[DialogueLine('jess', 'Тебе что-то нужно?', 401, 0, True),
+          DialogueLine('artem', 'Нет, просто мимо проходил.'),
+          DialogueLine('jess', 'Хорошо.')]]
+    ],
+    'Джефф': [
+        [[DialogueLine('jeff', 'Мы закрыты.', 500),
+          DialogueLine('artem', 'Ты тут работаешь?'),
+          DialogueLine('jeff', 'Обычно да.'),
+          DialogueLine('artem', 'Ты бармен?'),
+          DialogueLine('jeff', 'Нет. Джесс пыталась научить меня, но пока ещё не вышло.'
+                               ' А так, я официант.'),
+          DialogueLine('artem', 'А Джесс - твоя сестра?'),
+          DialogueLine('jeff', 'Да, мы типа двойняшки.'),
+          DialogueLine('artem', 'Круто! У вас типа семейный бизнес?'),
+          DialogueLine('jeff', 'Вроде того.', 0, 0, False,
+                       'unlock Джефф 501', 'lock Джефф 500'),
+          ]],
+        [[DialogueLine('jeff', 'Тебе что-то нужно?', 501, 0, True),
+          DialogueLine('artem', 'Нет, просто мимо проходил.'),
+          DialogueLine('jeff', 'Хорошо.')]]
     ],
     'бочки': [
         [[DialogueLine('artem-thinking', 'Что там внутри?')]]
@@ -489,87 +543,65 @@ denis_dialogues = {
     'носок': [
         [[DialogueLine('denis', 'Надо бы как-нибудь прибраться.')]]
     ],
+    'Денис': [
+        [[DialogueLine('denis', 'Ксюша лохушка у неё забаговалась игра.')]]
+    ],
     'Артём': [
-        [[DialogueLine('artem', 'Привет, Денис! С днём рождения! Это тебе.', 100),
-          DialogueLine('base', 'Вы получили шоколадку.', 0, 0, False, 'add chocolate 1'),
-          DialogueLine('denis', 'Спасибо.'),
-          DialogueLine('artem', 'Что-то случилось?'),
-          DialogueLine('denis', 'Я что-то запутался... Что это за место?'),
-          DialogueLine('artem-thinking', 'В смысле?'),
-          DialogueLine('denis-angry',
-                       'Ты дурак блять? Что это за место? Где мы находимся? Что это за дом? Всё, '
-                       'что я помню - мы вместе сидели и праздновали мой день рождения, а теперь я нахуй здесь.'),
-          DialogueLine('artem-thinking', '(У него точно всё хорошо?..) Ладно, если ты ничего не помнишь, '
-                                         'спроси у Ксюши. Обычно, если происходит что-то '
-                                         'странное, она всегда в курсе.'),
-          DialogueLine('denis', 'Что? Почему?'),
-          DialogueLine('artem-thinking', 'Не знаю. Если что, она наверху.', 0, 0, False,
-                       'unlock quest 0', 'unlock Артём 101', 'lock Артём 100'),
+        [[DialogueLine('artem', 'Привет, Денис!', 100),
+          DialogueLine('denis', 'Привет. Как проходит день рождения?'),
+          DialogueLine('artem', 'Пока неплохо.'),
+          DialogueLine('denis', 'Окей.', 0, 0, False,
+                       'unlock Артём 101', 'lock Артём 100'),
           ]],
         [[DialogueLine('artem', 'Чё, Денис? Тебе что-то нужно?', 101, 0, True),
           DialogueLine('denis', 'Да нет, я просто подошёл.'),
           DialogueLine('artem', 'Ок.')]]
     ],
     'Ксюша': [
-        [[DialogueLine('ksusha', 'Денис! С днём рождения!! У меня есть для тебя подарок!', 200),
-          DialogueLine('base', 'Вы получили конфету.', 0, 0, False, 'add candy 1'),
-          DialogueLine('denis', 'Спасибо.'),
-          DialogueLine('ksusha', 'Кстати, ты можешь открыть инвентарь, нажав i.'),
-          DialogueLine('ksusha-left', 'А для журнала заданий j.'),
-          DialogueLine('denis', 'Что ты имеешь ввиду?'),
+        [[DialogueLine('ksusha', 'Привет!', 200),
+          DialogueLine('denis', 'Чё как дела?'),
           DialogueLine('ksusha', '...'),
-          DialogueLine('ksusha-left', 'Это же игра, Денис.'),
-          DialogueLine('denis', 'А как отсюда выйти-то? Как мне вернуться?'),
-          DialogueLine('ksusha', 'Это не так просто! Ты уверен, что справишься?'),
-          DialogueLine('denis', '...'),
-          DialogueLine('denis-grudge', 'Я блять на лоха похож?'),
-          DialogueLine('ksusha',
-                       'Это будет твоя главная цель игры! Для начала тебе нужно найти кого-то, '
-                       'кто даст тебе квест. Это должен быть кто-то очень серьёзный! '
-                       'Главный босс. Кто-то, кто знает больше остальных. '
-                       'Кто-то, кто знает, по каким правилам работает этот мир.'),
-          DialogueLine('denis-grudge', 'Разве это не ты?'),
-          DialogueLine('ksusha', '...'),
-          DialogueLine('ksusha-left', 'Ну да.'),
-          DialogueLine('denis-angry', 'Ну и чё бля?'),
-          DialogueLine('ksusha', 'Видишь кнопку в правом верхнем углу?'),
-          DialogueLine('denis', 'Ну.'),
-          DialogueLine('ksusha-left', 'Нажми на неё.'),
-          DialogueLine('denis-grudge', 'Ничего не происходит.'),
-          DialogueLine('ksusha',
-                       'Потому что ты в диалоге, гений. Когда нажмёшь на неё, '
-                       'у тебя появится кнопка "Выход". Вот и всё.'),
-          DialogueLine('denis', '...'),
-          DialogueLine('denis-grudge', 'И? Ты можешь нахуй закрыть диалог?'),
-          DialogueLine('ksusha', '...'),
-          DialogueLine('ksusha-sad', '...'),
-          DialogueLine('denis-grudge', 'Чё с лицом?'),
-          DialogueLine('ksusha-sad', '....'),
-          DialogueLine('ksusha-sad', '.....'),
-          DialogueLine('ksusha-sad', '......'),
-          DialogueLine('denis-grudge', 'Ты же в курсе, что я всё скипаю?'),
-          DialogueLine('ksusha-sad', 'И что потом?'),
-          DialogueLine('ksusha-grudge', 'Всю игру проскипаешь?'),
-          DialogueLine('ksusha-grudge', 'Просто выйдешь и всё?'),
-          DialogueLine('denis', 'Я не знаю. Как пойдёт.'),
-          DialogueLine('ksusha-sad', 'Я старалась.'),
-          DialogueLine('denis', 'Ок.'),
-          DialogueLine('ksusha-sad', 'Не выходи сразу, пожалуйста.'),
-          DialogueLine('denis', 'Ок.'),
-          DialogueLine('ksusha-sad', 'Тут пока нет сохранений.'),
-          DialogueLine('denis', 'Ок.'),
-          DialogueLine('ksusha-sad', 'Если выйдешь, придётся болтать со мной заново.'),
-          DialogueLine('denis', '...Ок.'),
-          DialogueLine('ksusha-sad', '...'),
-          DialogueLine('ksusha-sad', 'Ладно, я тебя выпускаю.'),
-          DialogueLine('denis-grudge', 'Делай чё хочешь, мне насрать.'),
-          DialogueLine('ksusha', 'Хорошей игры!'),
-          DialogueLine('denis', 'Ок. Спасибо.', 0, 0, False, 'lock quest 0', 'lock Ксюша 200', 'unlock Ксюша 201',
-                       'unlock Артём 101', 'lock Артём 100'),
+          DialogueLine('ksusha-left', 'Почему спрашиваешь?'),
+          DialogueLine('denis', 'Не знаю, чем заняться.'),
+          DialogueLine('ksusha', 'Тогда лучше переключись на Артёма.'),
+          DialogueLine('ksusha-left', 'У него квестов побольше.'),
+          DialogueLine('denis', 'Ок.', 0, 0, False, 'lock Ксюша 200', 'unlock Ксюша 201', ),
           ]],
-        [[DialogueLine('ksusha', 'м? Что-то случилось?', 201, 0, True),
+        [[DialogueLine('ksusha', 'Да?', 201, 0, True),
+          DialogueLine('denis', 'Чё нового здесь появилось?'),
+          DialogueLine('ksusha',
+                       'Достижения, например. За них ты можешь получить в награду несколько монет.'
+                       ' Окно достижений можно открыть при помощи "k".'),
+          DialogueLine('denis', 'Круто.'),
+          DialogueLine('ksusha', 'Слева от дома кстати теперь находятся бар и торговец.'),
+          DialogueLine('denis', 'А когда бар откроется?'),
+          DialogueLine('ksusha-sad', 'Пока не знаю...', 0, 0, False, 'lock Ксюша 201', 'unlock Ксюша 202', ),
+          ]],
+        [[DialogueLine('ksusha', 'м? Что-то случилось?', 202, 0, True),
           DialogueLine('denis', 'Да нет, я просто подошёл.'),
           DialogueLine('ksusha', 'Хорошо.')]]
+    ],
+    'Джесс': [
+        [[DialogueLine('jess', 'Рады вас видеть в местном баре "Дж"!... Только мы пока закрыты.', 400),
+          DialogueLine('denis', 'Всё-таки решили закрыться?'),
+          DialogueLine('jess', 'Пока не решили. Но думаю, что да.'),
+          DialogueLine('denis', 'Ну, удачи вам.'),
+          DialogueLine('jess', 'Спасибо.', 0, 0, False,
+                       'unlock Джесс 401', 'lock Джесс 400'),
+          ]],
+        [[DialogueLine('jess', 'Тебе что-то нужно?', 401, 0, True),
+          DialogueLine('denis', 'Нет, просто мимо проходил.'),
+          DialogueLine('jess', 'Хорошо.')]]
+    ],
+    'Джефф': [
+        [[DialogueLine('jeff', 'Привет. Мы закрыты.', 500),
+          DialogueLine('denis', 'Жаль. Но ты главное не расстраивайся.'),
+          DialogueLine('jeff', 'Да, спасибо.', 0, 0, False,
+                       'unlock Джефф 501', 'lock Джефф 500'),
+          ]],
+        [[DialogueLine('jeff', 'Тебе что-то нужно?', 501, 0, True),
+          DialogueLine('denis', 'Нет, просто мимо проходил.'),
+          DialogueLine('jeff', 'Хорошо.')]]
     ],
     'бочки': [
         [[DialogueLine('denis-grudge', 'Что там внутри?')]]
@@ -583,7 +615,7 @@ denis_dialogues = {
     ],
     'вывеска': [
         [[DialogueLine('base', 'Бар "Дж".'),
-          DialogueLine('denis-grudge', 'Почему "Дж"?')]]
+          DialogueLine('denis', 'Первая буква имён владельцев.')]]
     ],
 }
 
