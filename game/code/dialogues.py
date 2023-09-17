@@ -149,6 +149,7 @@ class Dialogue:
             if settings.player == 'denis':
                 talks = denis_dialogues[self.name]
             elif settings.player == 'artem':
+                print('пугало' in artem_dialogues)
                 talks = artem_dialogues[self.name]
             while True:
                 self.talk = choice(talks)
@@ -360,8 +361,21 @@ artem_dialogues = {
           DialogueLine('artem', 'Да нет, я просто подошёл.'),
           DialogueLine('ksusha', 'Хорошо.')]]
     ],
+    'бочки': [
+        [[DialogueLine('artem-thinking', 'Что там внутри?')]]
+    ],
+    'товары': [
+        [[DialogueLine('artem-thinking', 'Какие-то яблоки...'),
+          DialogueLine('artem', 'И яблочный сидр.')]]
+    ],
+    'торговец': [
+        [[DialogueLine('base', 'Немой торговец молча кивнул.')]]
+    ],
+    'вывеска': [
+        [[DialogueLine('base', 'Бар "Дж".'),
+          DialogueLine('artem-thinking', 'Почему "Дж"?')]]
+    ],
 }
-
 denis_dialogues = {
     'пугало': [
         [[DialogueLine('denis', 'Это пугало как будто говорит воронам: "Страдай или вали".'),
@@ -556,6 +570,20 @@ denis_dialogues = {
         [[DialogueLine('ksusha', 'м? Что-то случилось?', 201, 0, True),
           DialogueLine('denis', 'Да нет, я просто подошёл.'),
           DialogueLine('ksusha', 'Хорошо.')]]
+    ],
+    'бочки': [
+        [[DialogueLine('denis-grudge', 'Что там внутри?')]]
+    ],
+    'товары': [
+        [[DialogueLine('denis-grudge', 'Какие-то яблоки...'),
+          DialogueLine('denis', 'И яблочный сидр.')]]
+    ],
+    'торговец': [
+        [[DialogueLine('base', 'Немой торговец молча кивнул.')]]
+    ],
+    'вывеска': [
+        [[DialogueLine('base', 'Бар "Дж".'),
+          DialogueLine('denis-grudge', 'Почему "Дж"?')]]
     ],
 }
 
