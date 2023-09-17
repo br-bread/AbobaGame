@@ -127,7 +127,13 @@ class HomeUpScene(BaseScene):
         if 'keyA' in inventory.keys() and inventory['keyA'].count == 1:
             self.roomA.kill()
             self.doorA.add(self.visible_sprites)
+        else:
+            self.doorA.kill()
+            self.roomA.add(self.visible_sprites)
 
         if 'keyD' in inventory.keys() and inventory['keyD'].count == 1:
             self.roomD.kill()
             self.doorD.add(self.visible_sprites)
+        else:
+            self.doorD.kill()
+            self.roomD.add(self.visible_sprites)
