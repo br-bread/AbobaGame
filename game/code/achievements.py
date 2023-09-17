@@ -6,12 +6,15 @@ from tools import ImgEditor
 
 class Achieves:
     def __init__(self):
-        self.achieves = [Achievement('achieve 1', 'you got an achieve!'),
-                         Achievement('achieve 2', 'you got an achieve!'),
-                         Achievement('achieve 3', 'you got an achieve!'),
-                         Achievement('achieve 4', 'you got an achieve!'),
-                         Achievement('achieve 5', 'you got an achieve!')]
-        achieves_locks = settings.saving_manager.load_data('achieves', [False, True, False, True, False])
+        self.achieves = [Achievement('Долой носки', 'Убрать все носки'),
+                         Achievement('Ты проставляешься', 'Найти еду для праздника'),
+                         Achievement('Орехи', 'Принести Джеффу шоколадку'),
+                         Achievement('Харизма', 'Пообщаться со всеми персонажами'),
+                         Achievement('Микро-путешествие', 'Побывать во всех игровых локациях'),
+                         Achievement('Пиксель-хантер', 'Осмотреть все предметы'),
+                         Achievement('18+', 'Украсть яблочный сидр')]
+        achieves_locks = settings.saving_manager.load_data('achieves',
+                                                           [True, True, True, True, True, True, True])
         for i in range(len(self.achieves)):
             self.achieves[i].is_locked = achieves_locks[i]
 
@@ -57,6 +60,21 @@ class Achieves:
                         (coords[0] + 20 * settings.SCALE_K, coords[1] + 1 * settings.SCALE_K))
 
     def run(self, screen, dt, events):
+        if settings.talked_characters == 5 and self.achieves[3].is_locked:
+            self.achieves[3].unlock()
+            self.achieve_count += 1
+            settings.new_achieve = True
+            settings.ADD_SOUND.play()
+        if settings.seen_objects == 41 and self.achieves[5].is_locked:
+            self.achieves[5].unlock()
+            self.achieve_count += 1
+            settings.new_achieve = True
+            settings.ADD_SOUND.play()
+        if settings.visited_scenes == 6 and self.achieves[4].is_locked:
+            self.achieves[4].unlock()
+            self.achieve_count += 1
+            settings.new_achieve = True
+            settings.ADD_SOUND.play()
         self.pages = self.achieve_count // 5 + bool(self.achieve_count % 5)
         if self.is_opened:
             screen.blit(self.achieves_background,
@@ -144,7 +162,7 @@ class Achievement:
         self.is_locked = False
 
     def unlock(self):
-        self.is_locked = True
+        self.is_locked = False
 
     def lock(self):
-        self.is_locked = False
+        self.is_locked = True

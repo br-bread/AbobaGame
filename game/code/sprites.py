@@ -11,7 +11,9 @@ class DialogueSprite(InteractiveSprite):
         # general
         self.name = name
         self.cursor_image = f'{cursor}_cursor.png'
+        self.is_person = is_person
         # dialogue
+        self.was_opened = False
         cap_name = name.capitalize()
         if len(name.split()) > 1:
             cap_name = name.split()[0].capitalize() + ' ' + ' '.join(name.split()[1:])
@@ -31,6 +33,12 @@ class DialogueSprite(InteractiveSprite):
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN and self.is_mouse_on() and not settings.dialogue_run:
                     self.dialogue.run()
+                    if not self.was_opened:
+                        self.was_opened = True
+                        if self.is_person:
+                            settings.talked_characters += 1
+                        else:
+                            settings.seen_objects += 1
                 if self.dialogue.is_shown and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     self.dialogue.run()
 

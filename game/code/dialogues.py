@@ -42,7 +42,7 @@ class DialogueLine:
                             settings.journal.artem_quest_count += 1
                             settings.artem_new_quest = True
                             settings.ADD_SOUND.play()
-                elif event[1] == 'achieve':  # unlock quest id
+                elif event[1] == 'achieve':  # unlock achieve id
                     if settings.achieves.achieves[int(event[2])].is_locked:
                         settings.achieves.achieves[int(event[2])].unlock()
                         settings.achieves.achieve_count += 1
@@ -429,7 +429,7 @@ artem_dialogues = {
         [[DialogueLine('artem', 'Я принёс ореховый шоколад.', 503, 0, True),
           DialogueLine('jeff', 'Ого! Спасибо большое! Вот твои деньги.'),
           DialogueLine('base', 'Вы получили 15 монет.', 0, 0, False, 'lock Джефф 503', 'unlock Джефф 501',
-                       'add money 15', 'remove nut_chocolate 1', 'lock quest 4')]],
+                       'add money 15', 'remove nut_chocolate 1', 'lock quest 4', 'unlock achieve 2')]],
         [[DialogueLine('jeff', 'Тебе что-то нужно?', 501, 0, True),
           DialogueLine('artem', 'Нет, просто мимо проходил.'),
           DialogueLine('jeff', 'Хорошо.')]]

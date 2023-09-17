@@ -81,6 +81,7 @@ class BaseScene:
         self.name = 'scene'
         self.collision_mask = scene_collision_mask
         self.background = BaseSprite(background, background_pos, settings.LAYERS['background'], self.visible_sprites)
+        self.was_visited = False
         # music
         self.music_name = music
         # animation
@@ -104,7 +105,9 @@ class BaseScene:
         self.next_music = next_music
 
     def run(self, delta_time, events):
-
+        if not self.was_visited:
+            self.was_visited = True
+            settings.visited_scenes += 1
         if self.place_player:  # placing the player
             self.player.import_frames()
             self.player.pos.x = settings.player_pos[0]

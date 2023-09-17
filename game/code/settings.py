@@ -85,3 +85,7 @@ new_achieve = False
 denis_new_quest = saving_manager.load_data('denis_new_quest', False)
 artem_new_quest = saving_manager.load_data('artem_new_quest', False)
 new_achieve = saving_manager.load_data('new_achieve', new_achieve)
+
+talked_characters = 0
+visited_scenes = 0
+seen_objects = 0
