@@ -25,9 +25,11 @@ class Inventory:
                               ImgEditor.load_image('item/chocolate.png', settings.SCALE_K, colorkey=-1)),
             'nut_chocolate': Item('Ореховая шоколадка', 0, 'Плитка орехового шоколада',
                                   ImgEditor.load_image('item/nut_chocolate.png', settings.SCALE_K, colorkey=-1)),
+            'sidr': Item('Яблочный сидр', 0, 'Строго 18+',
+                         ImgEditor.load_image('item/sidr.png', settings.SCALE_K, colorkey=-1)),
         }
-        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 1, 0, 0, 0])
-        denis_item_counts = saving_manager.load_data('denis_inventory', [5, 1, 0, 0, 0])
+        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 0, 0, 0, 0, 0])
+        denis_item_counts = saving_manager.load_data('denis_inventory', [5, 0, 0, 0, 0, 0])
         i = 0
         for k, v in self.artem_items.items():
             self.artem_items[k].count = artem_item_counts[i]
@@ -147,7 +149,7 @@ class Inventory:
             it = 0
             item = 0
             for key, val in items.items():
-                if self.current_page * 5 <= item < (self.current_page + 1) * 5:
+                if self.current_page * 5 <= item <= (self.current_page + 1) * 5:
                     if val.count > 0:
                         self.show_item(key,
                                        (settings.ITEM_COORDS[0],

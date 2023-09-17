@@ -113,7 +113,10 @@ class Game:
                             elif line.id == 501:
                                 line.lock()
 
-
+            if settings.player == 'artem' and settings.inventory.artem_items['sidr'].count == 1 and \
+                    settings.journal.artem_quests[2].is_showed:
+                settings.journal.artem_quests[2].lock()
+                settings.achieves[6].unlock()
 
 
 if __name__ == '__main__':

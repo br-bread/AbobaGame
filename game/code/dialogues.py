@@ -341,11 +341,8 @@ artem_dialogues = {
           DialogueLine('artem-surprized', 'Эээ... Нет.'),
           DialogueLine('denis', 'Ну вот. Мы сегодня празднуем, с тебя еда.', 0, 0, False, 'unlock quest 1',
                        'unlock quest 2'),
-          DialogueLine('artem', 'Ладно, что-нибудь придумаю.'),
-          DialogueLine('denis-grudge',
-                       'А ещё должна приехать Яна, и надо подготовить дом к её приезду. '
-                       'Каждый убирается в своей комнате.', 0, 0, False, 'unlock quest 3'),
-          DialogueLine('artem-thinking', 'Да блин. Ладно.', 0, 0, False, 'lock Денис 300', 'unlock Денис 301')]],
+          DialogueLine('artem-thinking', 'Ладно, что-нибудь придумаю.', 0, 0, False, 'lock Денис 300',
+                       'unlock Денис 301')]],
         [[DialogueLine('denis', 'Чё, Тём? Тебе что-то нужно?', 301, 0, True),
           DialogueLine('artem', 'Да нет, я просто подошёл.'),
           DialogueLine('denis', 'Ок.')]]
@@ -438,8 +435,11 @@ artem_dialogues = {
         [[DialogueLine('artem-thinking', 'Что там внутри?')]]
     ],
     'товары': [
-        [[DialogueLine('artem-thinking', 'Какие-то яблоки...'),
-          DialogueLine('artem', 'И яблочный сидр.')]]
+        [[DialogueLine('artem-thinking', 'Какие-то яблоки...', 20, 0, False),
+          DialogueLine('artem', 'И яблочный сидр.', 0, 0, False, 'unlock товары 21', 'lock товары 20')]],
+        [[DialogueLine('artem', 'Я одолжу одну бутылочку... Только одну!', 21, 0, True),
+          DialogueLine('base', 'Вы получили яблочный сидр.', 0, 0, False, 'lock товары 21',
+                       'unlock товары 20', 'add sidr 1')]],
     ],
     'торговец': [
         [[DialogueLine('base', 'Немой торговец молча кивнул.')]]
