@@ -31,6 +31,7 @@ class DialogueLine:
             elif event[0] == 'unlock':  # unlock quest id
                 if event[1] == 'quest':
                     if settings.player == 'denis':
+                        print(self.text, event[0], event[1], int(event[2]))
                         if not settings.journal.denis_quests[int(event[2])].is_showed:
                             settings.journal.denis_quests[int(event[2])].unlock()
                             settings.journal.denis_quest_count += 1
@@ -244,7 +245,7 @@ artem_dialogues = {
     'коврик': [
         [[DialogueLine('artem', 'Под ковриком лежат ключи... Один от двери, другие от наших комнат.', 1)]],
         [[DialogueLine('artem', 'А вот и он.', 2, 0, True, 'add keyA 1', 'lock коврик 2',
-                       'unlock коврик 3', 'lock quest 1')]],
+                       'unlock коврик 3', 'lock quest 0')]],
         [[DialogueLine('base', 'Под ковриком лежат ключи.', 3, 0, True)]],
     ],
     'Боб': [
@@ -334,13 +335,13 @@ artem_dialogues = {
         [[DialogueLine('artem', 'Ксюша лохушка у неё забаговалась игра.')]]
     ],
     'Денис': [
-        [[DialogueLine('denis', 'С днём рождения, лошара.', 300),
+        [[DialogueLine('denis', 'С новым годом, лошара.', 300),
           DialogueLine('base', 'Вы получили шоколадку.', 0, 0, False, 'add chocolate 1'),
           DialogueLine('artem', 'Спасибо, Денис!'),
           DialogueLine('denis-grudge', 'Чё, ты в курсе что ты проставляешься?'),
           DialogueLine('artem-surprized', 'Эээ... Нет.'),
-          DialogueLine('denis', 'Ну вот. Мы сегодня празднуем, с тебя еда.', 0, 0, False, 'unlock quest 1',
-                       'unlock quest 2'),
+          DialogueLine('denis', 'Ну вот. С тебя еда. И попить.', 0, 0, False, 'unlock quest 1',
+                       'unlock quest 2', 'lock товары 20', 'unlock товары 21'),
           DialogueLine('artem-thinking', 'Ладно, что-нибудь придумаю.', 0, 0, False, 'lock Денис 300',
                        'unlock Денис 301')]],
         [[DialogueLine('denis', 'Чё, Тём? Тебе что-то нужно?', 301, 0, True),
@@ -348,7 +349,7 @@ artem_dialogues = {
           DialogueLine('denis', 'Ок.')]]
     ],
     'Ксюша': [
-        [[DialogueLine('ksusha', 'Артём! С днём рождения!! У меня есть для тебя подарок!', 200),
+        [[DialogueLine('ksusha', 'Артём! С новым годом!! У меня есть для тебя подарок!', 200),
           DialogueLine('base', 'Вы получили конфету.', 0, 0, False, 'add candy 1'),
           DialogueLine('artem', 'Спасибо!'),
           DialogueLine('ksusha', 'Кстати, ты можешь открыть инвентарь, нажав i.'),
@@ -436,8 +437,10 @@ artem_dialogues = {
     ],
     'товары': [
         [[DialogueLine('artem-thinking', 'Какие-то яблоки...', 20, 0, False),
-          DialogueLine('artem', 'И яблочный сидр.', 0, 0, False, 'unlock товары 21', 'lock товары 20')]],
-        [[DialogueLine('artem', 'Я одолжу одну бутылочку... Только одну!', 21, 0, True),
+          DialogueLine('artem', 'И яблочный сидр.')]],
+        [[DialogueLine('artem-thinking', 'Какие-то яблоки...', 21, 0, True),
+          DialogueLine('artem', 'И яблочный сидр.'),
+          DialogueLine('artem', 'Я одолжу одну бутылочку... Только одну!'),
           DialogueLine('base', 'Вы получили яблочный сидр.', 0, 0, False, 'lock товары 21',
                        'unlock товары 20', 'add sidr 1')]],
     ],
@@ -474,7 +477,7 @@ denis_dialogues = {
     'коврик': [
         [[DialogueLine('denis', 'Под ковриком лежат ключи... Один от двери, от чего другие?', 1)]],
         [[DialogueLine('denis', 'Наверное, это ключ от моей комнаты.', 2, 0, True, 'add keyD 1', 'lock коврик 2',
-                       'unlock коврик 3', 'lock quest 1')]],
+                       'unlock коврик 3', 'lock quest 0')]],
         [[DialogueLine('denis', 'Под ковриком лежат ключи.', 3, 0, True)]],
     ],
     'Боб': [
@@ -544,7 +547,7 @@ denis_dialogues = {
         [[DialogueLine('denis', 'Не думаю, что стоит заходить без разрешения.')]]
     ],
     'комната Дениса': [
-        [[DialogueLine('denis', 'Закрыто. Нужно найти ключ.', 0, 0, False, 'unlock quest 1', 'lock коврик 1',
+        [[DialogueLine('denis', 'Закрыто. Нужно найти ключ.', 0, 0, False, 'unlock quest 0', 'lock коврик 1',
                        'unlock коврик 2')]]
     ],
     'тапочки': [
@@ -567,7 +570,7 @@ denis_dialogues = {
     ],
     'Артём': [
         [[DialogueLine('artem', 'Привет, Денис!', 100),
-          DialogueLine('denis', 'Привет. Как проходит день рождения?'),
+          DialogueLine('denis', 'Привет. Как проходит новый год?'),
           DialogueLine('artem', 'Пока неплохо.'),
           DialogueLine('denis', 'Окей.', 0, 0, False,
                        'unlock Артём 101', 'lock Артём 100'),
@@ -593,7 +596,7 @@ denis_dialogues = {
                        ' Окно достижений можно открыть при помощи "k".'),
           DialogueLine('denis', 'Круто.'),
           DialogueLine('ksusha', 'Слева от дома кстати теперь находятся бар и торговец.'),
-          DialogueLine('denis', 'А когда бар откроется?'),
+          DialogueLine('denis', 'А внизу что?'),
           DialogueLine('ksusha-sad', 'Пока не знаю...', 0, 0, False, 'lock Ксюша 201', 'unlock Ксюша 202', ),
           ]],
         [[DialogueLine('ksusha', 'м? Что-то случилось?', 202, 0, True),

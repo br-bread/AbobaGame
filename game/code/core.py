@@ -92,6 +92,7 @@ class BaseScene:
         self.surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))
         self.surface.fill('black')
         self.alpha = 255
+
         self.next_scene = None  # will be set when current scene is disappearing
         self.next_music = None
 
@@ -115,7 +116,7 @@ class BaseScene:
             self.player.status = settings.player_status
             self.place_player = False
 
-        self.visible_sprites.draw_sprites(self.player)
+        self.visible_sprites.draw_sprites()
 
         if self.appearing:
             self.surface.set_alpha(self.alpha)
@@ -162,9 +163,7 @@ class CameraGroup(pygame.sprite.Group):
         self.screen = pygame.display.get_surface()
         # self.offset = [0, 0]
 
-    def draw_sprites(self, player):
-        # self.offset[0] = player.rect.centerx - settings.CENTER[0]
-        # self.offset[1] = player.rect.centery - settings.CENTER[1]
+    def draw_sprites(self):
         for layer in settings.LAYERS.values():
             for sprite in sorted(self.sprites(), key=lambda x: x.rect.centery):  # fake 3d effect
                 if sprite.game_layer == layer:

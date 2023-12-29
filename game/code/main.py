@@ -116,7 +116,11 @@ class Game:
             if settings.player == 'artem' and settings.inventory.artem_items['sidr'].count == 1 and \
                     settings.journal.artem_quests[2].is_showed:
                 settings.journal.artem_quests[2].lock()
-                settings.achieves[6].unlock()
+
+                settings.achieves.achieves[6].unlock()
+                settings.achieves.achieve_count += 1
+                settings.new_achieve = True
+                settings.ADD_SOUND.play()
 
 
 if __name__ == '__main__':

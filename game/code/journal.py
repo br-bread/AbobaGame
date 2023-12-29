@@ -2,6 +2,7 @@ import pygame
 import settings
 from overlay import Button
 from tools import ImgEditor
+from core import BaseAnimatedSprite
 
 
 class Journal:
@@ -50,6 +51,10 @@ class Journal:
 
         self.journal_group = pygame.sprite.Group()
         self.journal_background = ImgEditor.load_image('overlay/journal_window.png', settings.SCALE_K, colorkey=-1)
+
+        self.new_quest = BaseAnimatedSprite(ImgEditor.load_image('overlay/exclamation_mark.png', settings.SCALE_K),
+                                            (363 * settings.SCALE_K, 37 * settings.SCALE_K),
+                                            3, 2, 1, settings.LAYERS['overlay'], self.journal_group)
 
         # buttons
         self.back = Button(ImgEditor.load_image('overlay/cross.png', settings.SCALE_K, colorkey=-1),
@@ -151,7 +156,10 @@ class Journal:
         self.journal_group.draw(screen)
         if (settings.denis_new_quest and settings.player == 'denis') or (
                 settings.artem_new_quest and settings.player == 'artem'):
-            screen.blit(settings.QUEST_IMAGE, (358 * settings.SCALE_K, 32 * settings.SCALE_K))
+            self.new_quest.add(self.journal_group)
+        else:
+            self.new_quest.kill()
+
         if self.is_opened:
             it = 0
             quest_it = 0
@@ -168,6 +176,7 @@ class Journal:
                         it += 1
                 quest_it += 1
         self.journal_group.update(dt, events)
+
 
 
 class Quest:

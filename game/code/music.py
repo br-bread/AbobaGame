@@ -30,7 +30,7 @@ class MusicPlayer:
             self.musics[self.music_name] = pygame.mixer.Sound(f'..\\assets\\audio\\music\\{self.music_name}')
         self.music = self.musics[self.music_name]
         self.play()
-        self.music.set_volume(0.1)
+        self.music.set_volume(0.4)
 
     def change_music(self, new_name):
         if new_name != self.music_name and not self.is_changing:

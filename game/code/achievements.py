@@ -2,27 +2,38 @@ import pygame
 import settings
 from overlay import Button
 from tools import ImgEditor
+from core import BaseAnimatedSprite
 
 
 class Achieves:
     def __init__(self):
-        self.achieves = [Achievement('Долой носки', 'Убрать все носки'),
-                         Achievement('Ты проставляешься', 'Найти еду для праздника'),
-                         Achievement('Орехи', 'Принести Джеффу шоколадку'),
-                         Achievement('Харизма', 'Пообщаться со всеми персонажами'),
-                         Achievement('Микро-путешествие', 'Побывать во всех игровых локациях'),
-                         Achievement('Пиксель-хантер', 'Осмотреть все предметы'),
-                         Achievement('18+', 'Украсть яблочный сидр')]
+        self.achieves = [Achievement('Долой носки', 'Убрать все носки', 3),
+                         Achievement('Ты проставляешься', 'Найти еду для праздника', 3),
+                         Achievement('Орехи', 'Принести Джеффу шоколадку', 0),
+                         Achievement('Харизма', 'Пообщаться со всеми персонажами', 5),
+                         Achievement('Микро-путешествие', 'Побывать во всех игровых локациях', 5),
+                         Achievement('Пиксель-хантер', 'Осмотреть все предметы', 10),
+                         Achievement('18+', 'Украсть яблочный сидр', 3),
+                         Achievement('Секретная локация', 'Попасть в комнату Ксюши', 5),
+                         Achievement('И жили они долго и счастливо', 'Встретить Яну с Артёмом', 3)]
         achieves_locks = settings.saving_manager.load_data('achieves',
-                                                           [True, True, True, True, True, True, True])
+                                                           [True, True, True, True, True, True, True, True, True])
         for i in range(len(self.achieves)):
             self.achieves[i].is_locked = achieves_locks[i]
+            if self.achieves[i].cost == 3:
+                self.achieves[i].description += f' ({self.achieves[i].cost} монеты)'
+            else:
+                self.achieves[i].description += f' ({self.achieves[i].cost} монет)'
 
         self.is_opened = False
         self.pages = 1
         self.current_page = 0
         self.achieve_count = len(self.achieves)
         self.achieves_group = pygame.sprite.Group()
+
+        self.new_achieve = BaseAnimatedSprite(ImgEditor.load_image('overlay/exclamation_mark.png', settings.SCALE_K),
+                                              (363 * settings.SCALE_K, 52 * settings.SCALE_K),
+                                              3, 2, 1, settings.LAYERS['overlay'], self.achieves_group)
 
         # buttons
         self.back = Button(ImgEditor.load_image('overlay/cross.png', settings.SCALE_K, colorkey=-1),
@@ -130,7 +141,10 @@ class Achieves:
 
         self.achieves_group.draw(screen)
         if settings.new_achieve:
-            screen.blit(settings.QUEST_IMAGE, (358 * settings.SCALE_K, 46 * settings.SCALE_K))
+            self.new_achieve.add(self.achieves_group)
+        else:
+            self.new_achieve.kill()
+
         if self.is_opened:
             it = 0
             achieve_it = 0
@@ -156,13 +170,15 @@ class Achieves:
 
 
 class Achievement:
-    def __init__(self, name, description=''):
+    def __init__(self, name, description, cost):
         self.name = name
         self.description = description
+        self.cost = cost
         self.is_locked = False
 
     def unlock(self):
         self.is_locked = False
+        settings.inventory.artem_items['money'].add(self.cost)
 
     def lock(self):
         self.is_locked = True

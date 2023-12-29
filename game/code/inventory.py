@@ -9,15 +9,15 @@ class Inventory:
     def __init__(self):
         saving_manager = SavingManager()
         self.denis_items = {
-            'money': Item('Мелочь', 5, 'Несколько монет, лежащих в кармане',
+            'money': Item('Мелочь', 0, 'Несколько монет, лежащих в кармане',
                           ImgEditor.load_image('item/money.png', settings.SCALE_K, colorkey=-1)),
-            'keyD': Item('Ключ', 1, 'Ключ от комнаты Дениса',
+            'keyD': Item('Ключ', 0, 'Ключ от комнаты Дениса',
                          ImgEditor.load_image('item/keyD.png', settings.SCALE_K, colorkey=-1)),
         }
         self.artem_items = {
-            'money': Item('Мелочь', 5, 'Несколько монет, лежащих в кармане',
+            'money': Item('Мелочь', 0, 'Несколько монет, лежащих в кармане',
                           ImgEditor.load_image('item/money.png', settings.SCALE_K, colorkey=-1)),
-            'keyA': Item('Ключ', 1, 'Ключ от комнаты Артёма',
+            'keyA': Item('Ключ', 0, 'Ключ от комнаты Артёма',
                          ImgEditor.load_image('item/keyD.png', settings.SCALE_K, colorkey=-1)),
             'candy': Item('Конфета', 0, 'В её честь даже назвали собаку!',
                           ImgEditor.load_image('item/candy.png', settings.SCALE_K, colorkey=-1)),
@@ -28,7 +28,7 @@ class Inventory:
             'sidr': Item('Яблочный сидр', 0, 'Строго 18+',
                          ImgEditor.load_image('item/sidr.png', settings.SCALE_K, colorkey=-1)),
         }
-        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 0, 0, 0, 0, 0])
+        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 1, 0, 0, 1, 0])
         denis_item_counts = saving_manager.load_data('denis_inventory', [5, 0, 0, 0, 0, 0])
         i = 0
         for k, v in self.artem_items.items():
