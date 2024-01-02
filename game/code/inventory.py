@@ -19,6 +19,8 @@ class Inventory:
                           ImgEditor.load_image('item/money.png', settings.SCALE_K, colorkey=-1)),
             'keyA': Item('Ключ', 0, 'Ключ от комнаты Артёма',
                          ImgEditor.load_image('item/keyD.png', settings.SCALE_K, colorkey=-1)),
+            'keyK': Item('Странный ключ', 0, 'На нём висит брелок с сиба-ину',
+                         ImgEditor.load_image('item/keyD.png', settings.SCALE_K, colorkey=-1)),
             'candy': Item('Конфета', 0, 'В её честь даже назвали собаку!',
                           ImgEditor.load_image('item/candy.png', settings.SCALE_K, colorkey=-1)),
             'chocolate': Item('Шоколадка', 0, 'Плитка молочного шоколада',
@@ -28,8 +30,8 @@ class Inventory:
             'sidr': Item('Яблочный сидр', 0, 'Строго 18+',
                          ImgEditor.load_image('item/sidr.png', settings.SCALE_K, colorkey=-1)),
         }
-        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 1, 0, 0, 1, 0])
-        denis_item_counts = saving_manager.load_data('denis_inventory', [5, 0, 0, 0, 0, 0])
+        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 1, 1, 0, 0, 0, 0])
+        denis_item_counts = saving_manager.load_data('denis_inventory', [5, 0])
         i = 0
         for k, v in self.artem_items.items():
             self.artem_items[k].count = artem_item_counts[i]

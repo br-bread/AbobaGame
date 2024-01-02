@@ -119,6 +119,7 @@ class BaseScene:
         self.visible_sprites.draw_sprites()
 
         if self.appearing:
+            self.music_name = settings.music_player.music_name
             self.surface.set_alpha(self.alpha)
             self.screen.blit(self.surface, (0, 0))
             self.alpha -= self.speed * delta_time

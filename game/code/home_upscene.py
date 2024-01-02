@@ -30,6 +30,16 @@ class HomeUpScene(BaseScene):
             (880, 590),
             'up_idle')
 
+        self.doorK = Door(
+            ImgEditor.load_image(f'{self.name}/doorK.png', settings.SCALE_K),
+            (456, 340),
+            settings.LAYERS['main'],
+            self,
+            'ksusha_room',
+            'ksusha.mp3',
+            (800, 560),
+            'up_idle')
+
         self.doorA = Door(
             ImgEditor.load_image(f'{self.name}/doorA.png', settings.SCALE_K),
             (668, 340),
@@ -86,7 +96,7 @@ class HomeUpScene(BaseScene):
             settings.LAYERS['main'],
             self.visible_sprites)
 
-        DialogueSprite(
+        self.roomK = DialogueSprite(
             'комната Ксюши',
             False,
             ImgEditor.load_image(f'{self.name}/doorK.png', settings.SCALE_K),
@@ -127,6 +137,13 @@ class HomeUpScene(BaseScene):
         if 'keyA' in inventory.keys() and inventory['keyA'].count == 1:
             self.roomA.kill()
             self.doorA.add(self.visible_sprites)
+        else:
+            self.doorA.kill()
+            self.roomA.add(self.visible_sprites)
+
+        if 'keyK' in inventory.keys() and inventory['keyK'].count == 1:
+            self.roomK.kill()
+            self.doorK.add(self.visible_sprites)
         else:
             self.doorA.kill()
             self.roomA.add(self.visible_sprites)

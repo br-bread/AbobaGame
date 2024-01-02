@@ -220,6 +220,8 @@ class Dialogue:
 # Артём - 1**
 # Ксюша - 2**
 # Денис - 3**
+# Джесс - 4**
+# Джефф - 5**
 # rest - 0
 artem_dialogues = {
     'пугало': [
@@ -382,33 +384,39 @@ artem_dialogues = {
           DialogueLine('ksusha', 'Хорошо.')]]
     ],
     'Джесс': [
-        [[DialogueLine('jess', 'Рады вас видеть в местном баре "Дж"!... Только мы пока закрыты.', 400),
-          DialogueLine('artem', 'А что случилось?'),
-          DialogueLine('jess',
-                       'Думаем сворачивать бизнес. Клиентов настолько мало, '
-                       'что мы работаем в минус... '),
-          DialogueLine('artem', 'Ты тут работаешь?'),
-          DialogueLine('jess', 'Да, я местный бармен. Была, по крайней мере. Больше я ничего не умею... '
-                               'Не знаю, где теперь найти деньги.'),
-          DialogueLine('artem', 'Почему? Тут же есть торговец, и вроде зарабатывает.'),
-          DialogueLine('jess', 'Когда-нибудь у меня тоже будет своя лавка, но только не здесь. '
-                               'Тут слишком мало людей для торговли.'),
-          DialogueLine('artem', 'Ну, как знаешь.', 0, 0, False,
+        [[DialogueLine('jess-happy', 'Рады вас видеть в местном баре "Дж"!', 400),
+          DialogueLine('jess', 'Только мы не обслуживаем несовершеннолетних.'),
+          DialogueLine('artem-sad', 'Беда.'),
+          DialogueLine('jess-smile', 'Но если хорошо заплатишь, могу сделать исключение.'),
+          DialogueLine('jess-sad', 'А то мы работаем в минус...'),
+          DialogueLine('artem', 'И сколько тебе нужно?'),
+          DialogueLine('jess', '200 монет.'),
+          DialogueLine('artem-sad', 'У меня столько нет...'),
+          DialogueLine('jess', 'Приходи, как появится.', 0, 0, False,
                        'unlock Джесс 401', 'lock Джесс 400'),
           ]],
+        [[DialogueLine('jess', 'Тебе что-то нужно?', 402, 0, True),
+          DialogueLine('artem', 'Я видел постер о наборе музыкантов.'),
+          DialogueLine('jess-smile', 'Играешь на чем-нибудь?'),
+          DialogueLine('artem', 'Нет, но знаю одного барабанщика.'),
+          DialogueLine('jess', 'У нас уже есть барабанщица.'),
+          DialogueLine('artem-thinking', 'И саксофониста.'),
+          DialogueLine('jess', 'У нас уже есть саксофонист.'),
+          DialogueLine('artem', '...'),
+          DialogueLine('artem-thinking', 'Больше никого не знаю.', 0, 0, False, 'lock Джесс 402', 'unlock Джесс 401')]],
         [[DialogueLine('jess', 'Тебе что-то нужно?', 401, 0, True),
           DialogueLine('artem', 'Нет, просто мимо проходил.'),
           DialogueLine('jess', 'Хорошо.')]]
     ],
     'Джефф': [
-        [[DialogueLine('jeff', 'Мы закрыты.', 500),
+        [[DialogueLine('jeff', 'Добро пожаловать.', 500),
           DialogueLine('artem', 'Ты тут работаешь?'),
           DialogueLine('jeff', 'Обычно да.'),
           DialogueLine('artem', 'Ты бармен?'),
-          DialogueLine('jeff', 'Нет. Джесс пыталась научить меня, но пока ещё не вышло.'
-                               ' А так, я официант.'),
-          DialogueLine('artem', 'А Джесс - твоя сестра?'),
-          DialogueLine('jeff', 'Да, мы типа двойняшки.'),
+          DialogueLine('jeff', 'Нет.'
+                               ' Я официант.'),
+          DialogueLine('artem', 'А бармен - твоя сестра?'),
+          DialogueLine('jeff', 'Да, мы двойняшки.'),
           DialogueLine('artem', 'Круто! У вас типа семейный бизнес?'),
           DialogueLine('jeff', 'Вроде того.', 0, 0, False,
                        'unlock Джефф 502', 'lock Джефф 500'),
@@ -450,6 +458,47 @@ artem_dialogues = {
     'вывеска': [
         [[DialogueLine('base', 'Бар "Дж".'),
           DialogueLine('artem-thinking', 'Почему "Дж"?')]]
+    ],
+    'постер': [
+        [[DialogueLine('base', '"Идёт набор музыкантов в джазовый ансамбль! Для подробностей обращайтесь к барменке."',
+                       30, 0, False, 'unlock Джесс 402', 'lock постер 30', 'unlock постер 31', 'lock Джесс 401'),
+          DialogueLine('artem', 'Ха-ха, барменка.')]],
+        [[DialogueLine('base', '"Идёт набор музыкантов в джазовый ансамбль! Для подробностей обращайтесь к барменке."',
+                       31, 0, True),
+          DialogueLine('artem', 'Ха-ха, барменка.')]]
+    ],
+    'табличка': [
+        [[DialogueLine('base', '"Идёт ремонт. Второй этаж откроется через пару дней."'),
+          DialogueLine('ksusha', 'Псс!'),
+          DialogueLine('ksusha-grudge', 'Моего диалога здесь не должно быть...'),
+          DialogueLine('ksusha', 'Но я дам тебе маленькую подсказку!'),
+          DialogueLine('ksusha-left', 'Чтобы открыть второй этаж, нужно выполнить квесты Дениса.')]]
+    ],
+    'забавный плакат': [
+        [[DialogueLine('ksusha', 'Это Астарион!'),
+          DialogueLine('ksusha-sad', 'Он меня отшил...')]]
+    ],
+    'необычный плакат': [
+        [[DialogueLine('ksusha', 'Это Гейл!'),
+          DialogueLine('ksusha-sad', 'Я его случайно отшила...')]]
+    ],
+    'пыльная тумбочка': [
+        [[DialogueLine('ksusha-grudge', 'Не ройся в моих вещах.')]]
+    ],
+    'гитара': [
+        [[DialogueLine('ksusha', 'Фендер Стратокастер!'),
+          DialogueLine('ksusha-sad', 'Сейчас он стоит как почка...')]]
+    ],
+    'барабанные палочки': [
+        [[DialogueLine('ksusha', 'Палки вик фёрф.'),
+          DialogueLine('ksusha-grudge', 'Очень дорогие, поэтому я на них только смотрю.')]]
+    ],
+    'ковёр': [
+        [[DialogueLine('base', 'Похоже на ручную работу.'),
+          DialogueLine('ksusha', 'У меня ушло на него 5 месяцев!')]]
+    ],
+    'помятый диплом': [
+        [[DialogueLine('ksusha-sad', 'Мой диплом it-школы cамсунг.')]]
     ],
 }
 denis_dialogues = {
@@ -605,7 +654,7 @@ denis_dialogues = {
     ],
     'Джесс': [
         [[DialogueLine('jess', 'Рады вас видеть в местном баре "Дж"!... Только мы пока закрыты.', 400),
-          DialogueLine('denis', 'Всё-таки решили закрыться?'),
+          DialogueLine('denis', 'Ещё не решили закрыться?'),
           DialogueLine('jess', 'Пока не решили. Но думаю, что да.'),
           DialogueLine('denis', 'Ну, удачи вам.'),
           DialogueLine('jess', 'Спасибо.', 0, 0, False,
@@ -616,7 +665,7 @@ denis_dialogues = {
           DialogueLine('jess', 'Хорошо.')]]
     ],
     'Джефф': [
-        [[DialogueLine('jeff', 'Привет. Мы закрыты.', 500),
+        [[DialogueLine('jeff', 'Привет. Возможно, мы скоро закроемся.', 500),
           DialogueLine('denis', 'Жаль. Но ты главное не расстраивайся.'),
           DialogueLine('jeff', 'Да, спасибо.', 0, 0, False,
                        'unlock Джефф 501', 'lock Джефф 500'),
@@ -638,6 +687,44 @@ denis_dialogues = {
     'вывеска': [
         [[DialogueLine('base', 'Бар "Дж".'),
           DialogueLine('denis', 'Первая буква имён владельцев.')]]
+    ],
+    'постер': [
+        [[DialogueLine('base', '"Идёт набор музыкантов в джазовый ансамбль! Для подробностей обращайтесь к барменке."'),
+          DialogueLine('denis', 'Ха-ха, барменка.')]]
+    ],
+    'табличка': [
+        [[DialogueLine('base', '"Идёт ремонт. Второй этаж откроется через пару дней."'),
+          DialogueLine('ksusha', 'Псс!'),
+          DialogueLine('ksusha-grudge', 'Моего диалога здесь не должно быть...'),
+          DialogueLine('ksusha', 'Но я дам тебе маленькую подсказку!'),
+          DialogueLine('ksusha-left', 'Чтобы открыть второй этаж, нужно выполнить квесты Дениса.'),
+          DialogueLine('ksusha', 'Играя за Артёма, конечно.')]]
+    ],
+    'забавный плакат': [
+        [[DialogueLine('ksusha', 'Это Астарион!'),
+          DialogueLine('ksusha-sad', 'Он меня отшил...')]]
+    ],
+    'необычный плакат': [
+        [[DialogueLine('ksusha', 'Это Гейл!'),
+          DialogueLine('ksusha-sad', 'Я его случайно отшила...')]]
+    ],
+    'пыльная тумбочка': [
+        [[DialogueLine('ksusha-grudge', 'Не ройся в моих вещах.')]]
+    ],
+    'гитара': [
+        [[DialogueLine('ksusha', 'Фендер Стратокастер!'),
+          DialogueLine('ksusha-sad', 'Сейчас он стоит как почка...')]]
+    ],
+    'Барабанные палочки': [
+        [[DialogueLine('ksusha', 'Палки вик фёрф.'),
+          DialogueLine('ksusha-grudge', 'Очень дорогие, поэтому я на них только смотрю.')]]
+    ],
+    'ковёр': [
+        [[DialogueLine('base', 'Похоже на ручную работу.'),
+          DialogueLine('ksusha', 'У меня ушло на него 5 месяцев!')]]
+    ],
+    'помятый диплом': [
+        [[DialogueLine('ksusha-sad', 'Мой диплом it-школы cамсунг.')]]
     ],
 }
 

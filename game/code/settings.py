@@ -60,7 +60,7 @@ player = 'denis'
 current_cursor = None
 
 scene = 'menu'
-previous_scene = 'first_street_scene'
+previous_scene = 'home_upscene'
 scene = saving_manager.load_data('scene', scene)
 previous_scene = saving_manager.load_data('previous_scene', previous_scene)
 

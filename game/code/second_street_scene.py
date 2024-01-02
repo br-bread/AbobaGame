@@ -11,26 +11,19 @@ class SecondStreetScene(BaseScene):
         SCALE_K = settings.SCALE_K
         LAYERS = settings.LAYERS
 
-        # characters
-        self.denis = DialogueSprite(
-            'Джесс',
-            True,
-            ImgEditor.load_image(f'{self.name}/jess.png', settings.SCALE_K),
-            (706, 320),
-            'dialogue',
-            settings.LAYERS['main'],
-            self.visible_sprites)
-        self.denis = DialogueSprite(
-            'Джефф',
-            True,
-            ImgEditor.load_image(f'{self.name}/jeff.png', settings.SCALE_K),
-            (626, 300),
-            'dialogue',
-            settings.LAYERS['main'],
+        # doors
+        Door(
+            ImgEditor.load_image(f'{self.name}/door.png', SCALE_K),
+            (244 * SCALE_K, 89 * SCALE_K),
+            LAYERS['main'],
+            self,
+            'bar_scene',
+            'bar.mp3',
+            (185 * SCALE_K, 165 * SCALE_K),
+            'up_idle',
             self.visible_sprites)
 
-        # doors
-        InvisibleDoor(
+        self.d = InvisibleDoor(
             (1560, 428),
             self,
             'first_street_scene',
@@ -136,3 +129,9 @@ class SecondStreetScene(BaseScene):
         elif 7 <= settings.time['hours'] < 18 and settings.music_player.music_name != 'street_day.mp3':
             self.music_name = 'street_day.mp3'
             settings.music_player.change_music('street_day.mp3')
+
+        if self.music_name == 'street_night.mp3':
+            self.d.next_music = 'street_night.mp3'
+
+        if self.music_name == 'street_day.mp3':
+            self.d.next_music = 'street_day.mp3'

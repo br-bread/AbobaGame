@@ -58,7 +58,7 @@ class Sun:  # for changing light and daytime
             settings.time['hours'] = 0
 
         self.full_surface.fill(self.current_time)
-        if 'home' not in settings.scene and 'menu' not in settings.scene and 'room' not in settings.scene:
+        if 'home' not in settings.scene and 'menu' not in settings.scene and 'room' not in settings.scene and 'bar' not in settings.scene:
             self.screen.blit(self.full_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
 

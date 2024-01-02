@@ -142,7 +142,7 @@ class FirstStreetScene(BaseScene):
             'up_idle',
             self.visible_sprites)
 
-        InvisibleDoor(
+        self.d = InvisibleDoor(
             (-5, 400),
             self,
             'second_street_scene',
@@ -163,3 +163,9 @@ class FirstStreetScene(BaseScene):
         elif 7 <= settings.time['hours'] < 18 and settings.music_player.music_name != 'street_day.mp3':
             self.music_name = 'street_day.mp3'
             settings.music_player.change_music('street_day.mp3')
+
+        if self.music_name == 'street_night.mp3':
+            self.d.next_music = 'street_night.mp3'
+
+        if self.music_name == 'street_day.mp3':
+            self.d.next_music = 'street_day.mp3'

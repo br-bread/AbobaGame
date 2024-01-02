@@ -81,7 +81,7 @@ class Achieves:
             self.achieve_count += 1
             settings.new_achieve = True
             settings.ADD_SOUND.play()
-        if settings.visited_scenes == 6 and self.achieves[4].is_locked:
+        if settings.visited_scenes == 8 and self.achieves[4].is_locked:
             self.achieves[4].unlock()
             self.achieve_count += 1
             settings.new_achieve = True
