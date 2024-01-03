@@ -30,7 +30,7 @@ class Inventory:
             'sidr': Item('Яблочный сидр', 0, 'Строго 18+',
                          ImgEditor.load_image('item/sidr.png', settings.SCALE_K, colorkey=-1)),
         }
-        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 1, 1, 0, 0, 0, 0])
+        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 1, 0, 0, 0, 0, 0])
         denis_item_counts = saving_manager.load_data('denis_inventory', [5, 0])
         i = 0
         for k, v in self.artem_items.items():
@@ -45,7 +45,7 @@ class Inventory:
         self.is_opened = False
         self.pages = 1
         self.current_page = 0
-        self.artem_item_count = 1  # items in inventory which count > 0
+        self.artem_item_count = 0  # items in inventory which count > 0
         self.denis_item_count = 1
         self.inventory_group = pygame.sprite.Group()
 
@@ -89,8 +89,14 @@ class Inventory:
 
     def run(self, screen, dt, events):
         if settings.player == 'artem':
+            for _, v in self.artem_items.items():
+                if v.count >= 1:
+                    self.artem_item_count += 1
             self.pages = self.artem_item_count // 5 + bool(self.artem_item_count % 5)
         else:
+            for _, v in self.denis_items.items():
+                if v.count >= 1:
+                    self.denis_item_count += 1
             self.pages = self.denis_item_count // 5 + bool(self.denis_item_count % 5)
         if self.is_opened:
             screen.blit(self.inventory_background,
@@ -149,15 +155,19 @@ class Inventory:
             else:
                 items = self.denis_items
             it = 0
-            item = 0
             for key, val in items.items():
-                if self.current_page * 5 <= item <= (self.current_page + 1) * 5:
+                item = 0
+                for key1, val1 in items.items():
+                    if val1.count >= 1:
+                        item += 1
+                    if key1 == key:
+                        break
+                if self.current_page * 5 <= item - 1 < (self.current_page + 1) * 5:
                     if val.count > 0:
                         self.show_item(key,
                                        (settings.ITEM_COORDS[0],
                                         settings.ITEM_COORDS[1] + it * settings.ITEM_OFFSET), screen)
                         it += 1
-                item += 1
         self.inventory_group.update(dt, events)
 
 

@@ -86,6 +86,11 @@ class Achieves:
             self.achieve_count += 1
             settings.new_achieve = True
             settings.ADD_SOUND.play()
+        if settings.cleaned_socks == 7 and self.achieves[0].is_locked:
+            self.achieves[0].unlock()
+            self.achieve_count += 1
+            settings.new_achieve = True
+            settings.ADD_SOUND.play()
         self.pages = self.achieve_count // 5 + bool(self.achieve_count % 5)
         if self.is_opened:
             screen.blit(self.achieves_background,

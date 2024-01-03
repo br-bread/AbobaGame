@@ -29,7 +29,7 @@ class DenisRoom(BaseScene):
             self.visible_sprites)
 
         DialogueSprite(
-            'диплом',
+            'старый диплом',
             False,
             ImgEditor.load_image(f'{self.name}/diploma.png', SCALE_K),
             (662, 418),
@@ -38,7 +38,7 @@ class DenisRoom(BaseScene):
             self.visible_sprites)
 
         DialogueSprite(
-            'плакат',
+            'плакат игры',
             False,
             ImgEditor.load_image(f'{self.name}/dota.png', SCALE_K),
             (904, 194),
@@ -55,41 +55,41 @@ class DenisRoom(BaseScene):
             LAYERS['main'],
             self.visible_sprites)
 
-        DialogueSprite(
+        self.socks = [DialogueSprite(
             'носок',
             False,
             ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
             (1000, 368),
             'magnifier',
             LAYERS['floor'],
-            self.visible_sprites)
+            self.visible_sprites, id=1),
 
-        DialogueSprite(
-            'носок',
-            False,
-            ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
-            (928, 308),
-            'magnifier',
-            LAYERS['floor'],
-            self.visible_sprites)
+            DialogueSprite(
+                'носок',
+                False,
+                ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
+                (928, 308),
+                'magnifier',
+                LAYERS['floor'],
+                self.visible_sprites, id=2),
 
-        DialogueSprite(
-            'носок',
-            False,
-            ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
-            (900, 520),
-            'magnifier',
-            LAYERS['floor'],
-            self.visible_sprites)
+            DialogueSprite(
+                'носок',
+                False,
+                ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
+                (900, 520),
+                'magnifier',
+                LAYERS['floor'],
+                self.visible_sprites, id=3),
 
-        DialogueSprite(
-            'носок',
-            False,
-            ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
-            (560, 540),
-            'magnifier',
-            LAYERS['floor'],
-            self.visible_sprites)
+            DialogueSprite(
+                'носок',
+                False,
+                ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
+                (560, 540),
+                'magnifier',
+                LAYERS['floor'],
+                self.visible_sprites, id=4)]
 
         BaseSprite(
             ImgEditor.load_image(f'{self.name}/sofa.png', SCALE_K),

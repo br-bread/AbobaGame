@@ -54,6 +54,7 @@ inventory = None
 achieves = None
 menu_window = None
 music_player = None
+socks = None
 
 # variables that can be changed
 player = 'denis'
@@ -89,3 +90,4 @@ new_achieve = saving_manager.load_data('new_achieve', new_achieve)
 talked_characters = 0
 visited_scenes = 0
 seen_objects = 0
+cleaned_socks = 0

@@ -11,7 +11,7 @@ class Journal:
             Quest('Комната Артёма', None, 'Найти ключ'),
             Quest('Ты проставляешься', None, 'Найти еду'),
             Quest('И попить', None, 'Найти попить'),
-            Quest('Генеральная уборка', None, 'Прибраться в комнате', 'Убедиться, что у Дениса тоже чисто'),
+            Quest('Генеральная уборка', None, 'Собрать все носки в доме'),
             Quest('Шоколад для Джесс', 'money 15', 'Найти ореховый шоколад'),
         ]
         self.denis_quests = [
@@ -90,6 +90,11 @@ class Journal:
                     (coords[0] + 16 * settings.SCALE_K, coords[1] + 1 * settings.SCALE_K))
 
     def run(self, screen, dt, events):
+        if settings.cleaned_socks == 7 and self.artem_quests[3].is_showed:
+            settings.journal.artem_quests[3].lock()
+            settings.journal.artem_quest_count -= 1
+            if settings.journal.artem_quest_count == 0:
+                settings.artem_new_quest = False
         if settings.player == 'artem':
             self.pages = self.artem_quest_count // 5 + bool(self.artem_quest_count % 5)
         else:
@@ -176,7 +181,6 @@ class Journal:
                         it += 1
                 quest_it += 1
         self.journal_group.update(dt, events)
-
 
 
 class Quest:

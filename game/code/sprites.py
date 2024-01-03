@@ -6,10 +6,13 @@ import pygame
 
 
 class DialogueSprite(InteractiveSprite):
-    def __init__(self, name, is_person, img, pos, cursor, layer, *groups):
+    def __init__(self, name, is_person, img, pos, cursor, layer, *groups, **kwargs):
         super().__init__(img, pos, layer, *groups)
         # general
         self.name = name
+        self.id = -1
+        if 'id' in kwargs.keys():
+            self.id = kwargs['id']
         self.cursor_image = f'{cursor}_cursor.png'
         self.is_person = is_person
         # dialogue
@@ -18,14 +21,20 @@ class DialogueSprite(InteractiveSprite):
         if len(name.split()) > 1:
             cap_name = name.split()[0].capitalize() + ' ' + ' '.join(name.split()[1:])
         description = [DialogueLine('base', f'Это {name}.'),
+                       DialogueLine('base', f'Вот это да! Это {name}.'),
                        DialogueLine('base', f'Это просто {name}.'),
+                       DialogueLine('base', f'Похоже на {name}.'),
+                       DialogueLine('base', f'Перед тобой {name}.'),
                        DialogueLine('base', f'Выглядит как {name}.'),
                        DialogueLine('base', f'Это {name}, ничего интересного.'),
                        DialogueLine('base', f'{cap_name}.')]
         if is_person:
             self.dialogue = Dialogue(self.name, groups[0])
         else:
-            self.dialogue = Dialogue(self.name, groups[0], description)
+            if self.id != -1:
+                self.dialogue = Dialogue(self.name, groups[0], description, kwargs['id'])
+            else:
+                self.dialogue = Dialogue(self.name, groups[0], description)
 
     def update(self, dt, events, player_pos, screen, *args, **kwargs):
         super().update(dt, events, player_pos)

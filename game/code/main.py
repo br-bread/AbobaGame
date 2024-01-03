@@ -93,6 +93,7 @@ class Game:
         settings.achieves = Achieves()
         settings.menu_window = MenuWindow()
         settings.music_player = MusicPlayer()
+        settings.socks = self.scenes['denis_room'].socks + self.scenes['artem_room'].socks
         self.sun = Sun()
         self.clock = pygame.time.Clock()
 

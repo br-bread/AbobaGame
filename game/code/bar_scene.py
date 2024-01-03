@@ -67,6 +67,14 @@ class BarScene(BaseScene):
             'dialogue',
             settings.LAYERS['main'],
             self.visible_sprites)
+        DialogueSprite(
+            'Джек',
+            True,
+            ImgEditor.load_image(f'{self.name}/jack.png', SCALE_K),
+            (984, 560),
+            'dialogue',
+            LAYERS['ceiling'],
+            self.visible_sprites)
 
         # doors
         InvisibleDoor(

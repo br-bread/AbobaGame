@@ -26,7 +26,7 @@ class DialogueLine:
     def run_events(self):
         for event in self.events:
             event = event.split()
-            if event[0] == 'go_to':
+            if event[0] == 'delete':
                 pass
             elif event[0] == 'unlock':  # unlock quest id
                 if event[1] == 'quest':
@@ -117,9 +117,10 @@ class DialogueLine:
 
 
 class Dialogue:
-    def __init__(self, name, group, descriptions=None):
+    def __init__(self, name, group, descriptions=None, id=-1):
         self.name = name
         self.descriptions = descriptions
+        self.id = id  # for socks only
 
         self.pos = list(settings.DIALOGUE_POS)
         self.font = pygame.font.Font(settings.FONT, 16 * settings.SCALE_K)
@@ -186,6 +187,16 @@ class Dialogue:
                 self.dialogue.image = img
                 self.dialogue.rect = self.dialogue.image.get_rect(center=self.pos)
                 self.current_talk[self.stage].run_events()
+                if self.id != -1 and 'delete' in self.current_talk[self.stage].events:
+                    for i in settings.socks:
+                        if i.id == self.id:
+                            i.kill()
+                            settings.dialogue_run = False
+                            settings.cleaned_socks += 1
+                            self.is_shown = False
+                            self.talk = [[]]
+                            self.current_text = ''
+                            self.dialogue.kill()
 
         elif self.is_shown and self.text_frame < len(self.current_text):
             self.text_frame = len(self.current_text)
@@ -305,7 +316,8 @@ artem_dialogues = {
         [[DialogueLine('artem', 'Почита Дениса.')]]
     ],
     'комната Ксюши': [
-        [[DialogueLine('artem', 'Не думаю, что стоит заходить без разрешения.')]]
+        [[DialogueLine('artem', 'Не думаю, что стоит заходить без разрешения.'),
+          DialogueLine('artem-thinking', 'Тем более, у меня нет ключа.')]]
     ],
     'комната Артёма': [
         [[DialogueLine('artem', 'Чёрт, забыл взять ключи. Они должны быть внизу под ковриком.', 0, 0, False,
@@ -313,10 +325,11 @@ artem_dialogues = {
                        'unlock коврик 2')]]
     ],
     'комната Дениса': [
-        [[DialogueLine('artem', 'Не думаю, что стоит заходить без разрешения.')]]
+        [[DialogueLine('artem', 'Не думаю, что стоит заходить без разрешения.'),
+          DialogueLine('artem-thinking', 'Тем более, у меня нет ключа.')]]
     ],
     'тапочки': [
-        [[DialogueLine('denis-surprized', 'Мои тапочки-динозавры!')]]
+        [[DialogueLine('artem', 'Тапочки-динозавры Дениса.')]]
     ],
     'диплом': [
         [[DialogueLine('artem', 'Мой диплом it-школы cамсунг.')]]
@@ -330,8 +343,23 @@ artem_dialogues = {
           DialogueLine('base', 'Вы получили ореховую шоколадку.', 0, 0, False, 'add nut_chocolate 1')]],
         [[DialogueLine('artem-thinking', 'Внутри пусто.', 11, 0, True)]]
     ],
+    'тумба': [
+        [[DialogueLine('base', 'Внутри лежит немного монет.', 10, 0, False, 'lock тумба 10',
+                       'unlock тумба 11'),
+          DialogueLine('artem', 'Денис разрешил забрать.', 0, 0, False, 'add money 15')]],
+        [[DialogueLine('artem-thinking', 'Внутри пусто.', 11, 0, True)]]
+    ],
+    'плакат игры': [
+        [[DialogueLine('artem', 'Плакат Доты.')]]
+    ],
+    'старый диплом': [
+        [[DialogueLine('artem', 'Диплом Дениса.')]]
+    ],
     'носок': [
-        [[DialogueLine('artem', 'Надо бы как-нибудь прибраться.')]]
+        [[DialogueLine('artem', 'Надо бы как-нибудь прибраться.', 38, 0, False, 'unlock quest 3', 'lock носок 38',
+                       'unlock носок 39')]],
+        [[DialogueLine('base', 'Вы подняли носок.', 39, 0, True),
+          DialogueLine('base', 'Вы подняли носок.', 0, 0, False, 'delete')]]
     ],
     'Артём': [
         [[DialogueLine('artem', 'Ксюша лохушка у неё забаговалась игра.')]]
@@ -345,7 +373,9 @@ artem_dialogues = {
           DialogueLine('denis', 'Ну вот. С тебя еда. И попить.', 0, 0, False, 'unlock quest 1',
                        'unlock quest 2', 'lock товары 20', 'unlock товары 21'),
           DialogueLine('artem-thinking', 'Ладно, что-нибудь придумаю.', 0, 0, False, 'lock Денис 300',
-                       'unlock Денис 301')]],
+                       'unlock Денис 301'),
+          DialogueLine('denis', 'Если будут нужны деньги, можешь взять немного у меня в комнате. Они в тумбочке.'),
+          DialogueLine('artem', 'Спасибо.')]],
         [[DialogueLine('denis', 'Чё, Тём? Тебе что-то нужно?', 301, 0, True),
           DialogueLine('artem', 'Да нет, я просто подошёл.'),
           DialogueLine('denis', 'Ок.')]]
@@ -439,6 +469,34 @@ artem_dialogues = {
         [[DialogueLine('jeff', 'Тебе что-то нужно?', 501, 0, True),
           DialogueLine('artem', 'Нет, просто мимо проходил.'),
           DialogueLine('jeff', 'Хорошо.')]]
+    ],
+    'Джек': [
+        [[DialogueLine('jack', 'Как дела?', 600),
+          DialogueLine('artem-surprized', 'Ты почему такой странный?'),
+          DialogueLine('artem-thinking', 'И зелёный...'),
+          DialogueLine('jack', 'Я из другой игры.'),
+          DialogueLine('jack', 'И не только я, если ты ещё не заметил.'),
+          DialogueLine('artem', 'И что ты тут делаешь?'),
+          DialogueLine('jack', 'Отдыхаю.'),
+          DialogueLine('jack', 'Кто-то же должен приносить этому бару прибыль.'),
+          DialogueLine('artem-thinking', 'Как ты можешь быть в двух играх сразу? Халтура какая-то.'),
+          DialogueLine('jack', 'Ты вот вообще не цифровой, а всё равно здесь.', 0, 0, False,
+                       'unlock Джек 601', 'lock Джек 600'),
+          ]],
+        [[DialogueLine('jack', 'Да?', 601, 0, True),
+          DialogueLine('artem', 'Ты тусишь здесь круглосуточно, да?'),
+          DialogueLine('jack', 'Да.'),
+          DialogueLine('artem', 'Не знаешь, что интересного на втором этаже?'),
+          DialogueLine('jack', 'Однажды я видел, как Ксюша прятала что-то за диваном.'),
+          DialogueLine('artem-surprized', 'Ого! Может, ещё что-нибудь?'),
+          DialogueLine('jack', 'Слушай, я пытаюсь отдохнуть здесь. Давай я тебе заплачу, а ты от меня отстанешь?'),
+          DialogueLine('artem', 'Давай!'),
+          DialogueLine('base', 'Вы получили несколько монет.', 0, 0, False,
+                       'unlock Джек 603', 'lock Джек 601', 'add money 30'),
+          ]],
+        [[DialogueLine('jack', 'Да?', 603, 0, True),
+          DialogueLine('artem', 'Ничего.'),
+          DialogueLine('jack', 'Не беспокой меня по пустякам, ладно? Я думал, мы договорились.')]]
     ],
     'бочки': [
         [[DialogueLine('artem-thinking', 'Что там внутри?')]]
@@ -590,10 +648,12 @@ denis_dialogues = {
         [[DialogueLine('denis-surprized', 'Почита? Ты тоже тут?')]]
     ],
     'комната Ксюши': [
-        [[DialogueLine('denis', 'Не думаю, что стоит заходить без разрешения.')]]
+        [[DialogueLine('denis', 'Не думаю, что стоит заходить без разрешения.'),
+          DialogueLine('denis-grudge', 'Тем более, у меня нет ключа.')]]
     ],
     'комната Артёма': [
-        [[DialogueLine('denis', 'Не думаю, что стоит заходить без разрешения.')]]
+        [[DialogueLine('denis', 'Не думаю, что стоит заходить без разрешения.'),
+          DialogueLine('denis-grudge', 'Тем более, у меня нет ключа.')]]
     ],
     'комната Дениса': [
         [[DialogueLine('denis', 'Закрыто. Нужно найти ключ.', 0, 0, False, 'unlock quest 0', 'lock коврик 1',
@@ -602,14 +662,23 @@ denis_dialogues = {
     'тапочки': [
         [[DialogueLine('denis-surprized', 'Мои тапочки-динозавры!')]]
     ],
-    'диплом': [
+    'старый диплом': [
         [[DialogueLine('denis', 'Мой диплом it-школы cасунг.')]]
     ],
-    'плакат': [
+    'диплом': [
+        [[DialogueLine('denis', 'Диплом Тёмыча.')]]
+    ],
+    'плакат игры': [
         [[DialogueLine('denis', 'Дота... Лучшая игра.')]]
+    ],
+    'плакат': [
+        [[DialogueLine('denis', 'Это Рик.')]]
     ],
     'тумба': [
         [[DialogueLine('denis', 'Внутри пусто.')]]
+    ],
+    'тумбочка': [
+        [[DialogueLine('denis', 'Не буду лезть.')]]
     ],
     'носок': [
         [[DialogueLine('denis', 'Надо бы как-нибудь прибраться.')]]
@@ -618,27 +687,27 @@ denis_dialogues = {
         [[DialogueLine('denis', 'Ксюша лохушка у неё забаговалась игра.')]]
     ],
     'Артём': [
-        [[DialogueLine('artem', 'Привет, Денис!', 100),
+        [[DialogueLine('artem', 'Привет, Денис!', 105),
           DialogueLine('denis', 'Привет. Как проходит новый год?'),
           DialogueLine('artem', 'Пока неплохо.'),
           DialogueLine('denis', 'Окей.', 0, 0, False,
-                       'unlock Артём 101', 'lock Артём 100'),
+                       'unlock Артём 106', 'lock Артём 105'),
           ]],
-        [[DialogueLine('artem', 'Чё, Денис? Тебе что-то нужно?', 101, 0, True),
+        [[DialogueLine('artem', 'Чё, Денис? Тебе что-то нужно?', 106, 0, True),
           DialogueLine('denis', 'Да нет, я просто подошёл.'),
           DialogueLine('artem', 'Ок.')]]
     ],
     'Ксюша': [
-        [[DialogueLine('ksusha', 'Привет!', 200),
+        [[DialogueLine('ksusha', 'Привет!', 207),
           DialogueLine('denis', 'Чё как дела?'),
           DialogueLine('ksusha', '...'),
           DialogueLine('ksusha-left', 'Почему спрашиваешь?'),
           DialogueLine('denis', 'Не знаю, чем заняться.'),
           DialogueLine('ksusha', 'Тогда лучше переключись на Артёма.'),
           DialogueLine('ksusha-left', 'У него квестов побольше.'),
-          DialogueLine('denis', 'Ок.', 0, 0, False, 'lock Ксюша 200', 'unlock Ксюша 201', ),
+          DialogueLine('denis', 'Ок.', 0, 0, False, 'lock Ксюша 207', 'unlock Ксюша 205', ),
           ]],
-        [[DialogueLine('ksusha', 'Да?', 201, 0, True),
+        [[DialogueLine('ksusha', 'Да?', 205, 0, True),
           DialogueLine('denis', 'Чё нового здесь появилось?'),
           DialogueLine('ksusha',
                        'Достижения, например. За них ты можешь получить в награду несколько монет.'
@@ -646,33 +715,49 @@ denis_dialogues = {
           DialogueLine('denis', 'Круто.'),
           DialogueLine('ksusha', 'Слева от дома кстати теперь находятся бар и торговец.'),
           DialogueLine('denis', 'А внизу что?'),
-          DialogueLine('ksusha-sad', 'Пока не знаю...', 0, 0, False, 'lock Ксюша 201', 'unlock Ксюша 202', ),
+          DialogueLine('ksusha-sad', 'Пока не знаю...', 0, 0, False, 'lock Ксюша 205', 'unlock Ксюша 206', ),
           ]],
-        [[DialogueLine('ksusha', 'м? Что-то случилось?', 202, 0, True),
+        [[DialogueLine('ksusha', 'м? Что-то случилось?', 206, 0, True),
           DialogueLine('denis', 'Да нет, я просто подошёл.'),
           DialogueLine('ksusha', 'Хорошо.')]]
     ],
     'Джесс': [
-        [[DialogueLine('jess', 'Рады вас видеть в местном баре "Дж"!... Только мы пока закрыты.', 400),
+        [[DialogueLine('jess', 'Рады вас видеть в местном баре "Дж"!', 405),
           DialogueLine('denis', 'Ещё не решили закрыться?'),
           DialogueLine('jess', 'Пока не решили. Но думаю, что да.'),
           DialogueLine('denis', 'Ну, удачи вам.'),
           DialogueLine('jess', 'Спасибо.', 0, 0, False,
-                       'unlock Джесс 401', 'lock Джесс 400'),
+                       'unlock Джесс 406', 'lock Джесс 405'),
           ]],
-        [[DialogueLine('jess', 'Тебе что-то нужно?', 401, 0, True),
+        [[DialogueLine('jess', 'Тебе что-то нужно?', 406, 0, True),
           DialogueLine('denis', 'Нет, просто мимо проходил.'),
           DialogueLine('jess', 'Хорошо.')]]
     ],
     'Джефф': [
-        [[DialogueLine('jeff', 'Привет. Возможно, мы скоро закроемся.', 500),
+        [[DialogueLine('jeff', 'Привет. Возможно, мы скоро закроемся.', 505),
           DialogueLine('denis', 'Жаль. Но ты главное не расстраивайся.'),
           DialogueLine('jeff', 'Да, спасибо.', 0, 0, False,
-                       'unlock Джефф 501', 'lock Джефф 500'),
+                       'unlock Джефф 506', 'lock Джефф 505'),
           ]],
-        [[DialogueLine('jeff', 'Тебе что-то нужно?', 501, 0, True),
+        [[DialogueLine('jeff', 'Тебе что-то нужно?', 506, 0, True),
           DialogueLine('denis', 'Нет, просто мимо проходил.'),
           DialogueLine('jeff', 'Хорошо.')]]
+    ],
+    'Джек': [
+        [[DialogueLine('jack', 'Да?', 605, 0, True),
+          DialogueLine('artem', 'Ты тусишь здесь круглосуточно, да?'),
+          DialogueLine('jack', 'Да.'),
+          DialogueLine('artem', 'Не знаешь, что интересного на втором этаже?'),
+          DialogueLine('jack', 'Однажды я видел, как Ксюша прятала что-то за диваном.'),
+          DialogueLine('artem-surprized', 'Ого! Может, ещё что-нибудь?'),
+          DialogueLine('jack', 'Слушай, я пытаюсь отдохнуть здесь. Давай я тебе заплачу, а ты от меня отстанешь?'),
+          DialogueLine('artem', 'Давай!'),
+          DialogueLine('base', 'Вы получили несколько монет.', 0, 0, False,
+                       'unlock Джек 606', 'lock Джек 605', 'add money 30'),
+          ]],
+        [[DialogueLine('jack', 'Да?', 606, 0, True),
+          DialogueLine('artem', 'Ничего.'),
+          DialogueLine('jack', 'Не беспокой меня по пустякам, ладно?')]]
     ],
     'бочки': [
         [[DialogueLine('denis-grudge', 'Что там внутри?')]]

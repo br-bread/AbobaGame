@@ -46,32 +46,32 @@ class ArtemRoom(BaseScene):
             LAYERS['main'],
             self.visible_sprites)
 
-        DialogueSprite(
+        self.socks = [DialogueSprite(
             'носок',
             False,
             ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
             (850, 570),
             'magnifier',
             LAYERS['floor'],
-            self.visible_sprites)
+            self.visible_sprites, id=5),
 
-        DialogueSprite(
-            'носок',
-            False,
-            ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
-            (800, 470),
-            'magnifier',
-            LAYERS['floor'],
-            self.visible_sprites)
+            DialogueSprite(
+                'носок',
+                False,
+                ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
+                (800, 470),
+                'magnifier',
+                LAYERS['floor'],
+                self.visible_sprites, id=6),
 
-        DialogueSprite(
-            'носок',
-            False,
-            ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
-            (980, 410),
-            'magnifier',
-            LAYERS['floor'],
-            self.visible_sprites)
+            DialogueSprite(
+                'носок',
+                False,
+                ImgEditor.load_image(f'{self.name}/sock.png', SCALE_K),
+                (980, 410),
+                'magnifier',
+                LAYERS['floor'],
+                self.visible_sprites, id=7)]
 
         BaseSprite(
             ImgEditor.load_image(f'{self.name}/computer.png', SCALE_K),
