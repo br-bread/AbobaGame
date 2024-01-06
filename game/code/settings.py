@@ -61,7 +61,7 @@ player = 'denis'
 current_cursor = None
 
 scene = 'menu'
-previous_scene = 'home_upscene'
+previous_scene = 'first_street_scene'
 scene = saving_manager.load_data('scene', scene)
 previous_scene = saving_manager.load_data('previous_scene', previous_scene)
 
@@ -91,3 +91,4 @@ talked_characters = 0
 visited_scenes = 0
 seen_objects = 0
 cleaned_socks = 0
+finished_quests = 0

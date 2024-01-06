@@ -236,8 +236,12 @@ class Dialogue:
 # rest - 0
 artem_dialogues = {
     'пугало': [
-        [[DialogueLine('artem', 'Где-то я это уже видел...'),
-          DialogueLine('artem', 'Зачем ставить пугало рядом с клумбой?')]],
+        [[DialogueLine('artem', 'Где-то я это уже видел...', 850),
+          DialogueLine('artem-thinking', 'Зачем ставить пугало рядом с клумбой?'),
+          DialogueLine('base', 'Под шляпой лежит несколько монет.'),
+          DialogueLine('artem', 'Халява.', 0, 0, False, 'add money 5', 'unlock пугало 851', 'lock пугало 850')]],
+        [[DialogueLine('artem', 'Где-то я это уже видел...', 851, 0, True),
+          DialogueLine('artem-thinking', 'Зачем ставить пугало рядом с клумбой?')]],
     ],
     'указатель': [
         [[DialogueLine('base', '"Торговец".'),
@@ -274,7 +278,12 @@ artem_dialogues = {
         [[DialogueLine('artem-thinking', 'А где нож?')]],
     ],
     'сундук': [
-        [[DialogueLine('artem', 'Пластинок нет.')]],
+        [[DialogueLine('artem', 'Пластинок нет.', 854),
+          DialogueLine('base', 'Зато есть несколько монет.'),
+          DialogueLine('artem', 'Халява.', 0, 0, False, 'add money 5', 'unlock сундук 853', 'lock сундук 854')
+          ]],
+        [[DialogueLine('artem', 'Пластинок нет.', 853, 0, True),
+          ]],
     ],
     'барабанная установка': [
         [[DialogueLine('artem', 'Это у Ксюши.')]],
@@ -346,7 +355,7 @@ artem_dialogues = {
     'тумба': [
         [[DialogueLine('base', 'Внутри лежит немного монет.', 10, 0, False, 'lock тумба 10',
                        'unlock тумба 11'),
-          DialogueLine('artem', 'Денис разрешил забрать.', 0, 0, False, 'add money 15')]],
+          DialogueLine('artem', 'Денис разрешил забрать.', 0, 0, False, 'add money 20')]],
         [[DialogueLine('artem-thinking', 'Внутри пусто.', 11, 0, True)]]
     ],
     'плакат игры': [
@@ -420,11 +429,23 @@ artem_dialogues = {
           DialogueLine('jess-smile', 'Но если хорошо заплатишь, могу сделать исключение.'),
           DialogueLine('jess-sad', 'А то мы работаем в минус...'),
           DialogueLine('artem', 'И сколько тебе нужно?'),
-          DialogueLine('jess', '200 монет.'),
+          DialogueLine('jess', '100 монет.'),
           DialogueLine('artem-sad', 'У меня столько нет...'),
           DialogueLine('jess', 'Приходи, как появится.', 0, 0, False,
-                       'unlock Джесс 401', 'lock Джесс 400'),
-          ]],
+                       'unlock Джесс 401', 'lock Джесс 400')]],
+
+        [[DialogueLine('jess', 'Тебе что-то нужно?', 403, 0, True),
+          DialogueLine('artem', 'Я принёс монеты.'),
+          DialogueLine('jess-smile', 'Отлично! Держи пиццу пепперони!'),
+          DialogueLine('base', 'Вы получили пиццу.', 0, 0, False, 'add pizza 1', 'remove money 150', 'lock quest 1'),
+          DialogueLine('artem-surprized', 'Пицца?'),
+          DialogueLine('artem-thinking', 'Я думал, ты продашь мне алкоголь. Это же бар!'),
+          DialogueLine('jess', 'С чего бы?'),
+          DialogueLine('artem-thinking', '...'),
+          DialogueLine('jess',
+                       'Если тебе очень нужно, можешь попробовать купить у торговца. Он находится чуть южнее бара.'),
+          DialogueLine('artem-thinking', 'Большое спасибо.', 0, 0, False, 'lock Джесс 403', 'unlock Джесс 401')]],
+
         [[DialogueLine('jess', 'Тебе что-то нужно?', 402, 0, True),
           DialogueLine('artem', 'Я видел постер о наборе музыкантов.'),
           DialogueLine('jess-smile', 'Играешь на чем-нибудь?'),
@@ -434,6 +455,7 @@ artem_dialogues = {
           DialogueLine('jess', 'У нас уже есть саксофонист.'),
           DialogueLine('artem', '...'),
           DialogueLine('artem-thinking', 'Больше никого не знаю.', 0, 0, False, 'lock Джесс 402', 'unlock Джесс 401')]],
+
         [[DialogueLine('jess', 'Тебе что-то нужно?', 401, 0, True),
           DialogueLine('artem', 'Нет, просто мимо проходил.'),
           DialogueLine('jess', 'Хорошо.')]]
@@ -487,7 +509,8 @@ artem_dialogues = {
           DialogueLine('artem', 'Ты тусишь здесь круглосуточно, да?'),
           DialogueLine('jack', 'Да.'),
           DialogueLine('artem', 'Не знаешь, что интересного на втором этаже?'),
-          DialogueLine('jack', 'Однажды я видел, как Ксюша прятала что-то за диваном.'),
+          DialogueLine('jack', 'Однажды я видел, как Ксюша прятала что-то под диваном.', 0, 0, False,
+                       'lock диван 1000', 'unlock диван 1001'),
           DialogueLine('artem-surprized', 'Ого! Может, ещё что-нибудь?'),
           DialogueLine('jack', 'Слушай, я пытаюсь отдохнуть здесь. Давай я тебе заплачу, а ты от меня отстанешь?'),
           DialogueLine('artem', 'Давай!'),
@@ -499,7 +522,11 @@ artem_dialogues = {
           DialogueLine('jack', 'Не беспокой меня по пустякам, ладно? Я думал, мы договорились.')]]
     ],
     'бочки': [
-        [[DialogueLine('artem-thinking', 'Что там внутри?')]]
+        [[DialogueLine('artem-thinking', 'Что там внутри?', 860),
+          DialogueLine('base', 'За бочками лежит несколько монет.'),
+          DialogueLine('artem', 'Халява.', 0, 0, False, 'add money 5', 'unlock бочки 861', 'lock бочки 860')
+          ]],
+        [[DialogueLine('artem-thinking', 'Что там внутри?', 861, 0, True)]],
     ],
     'товары': [
         [[DialogueLine('artem-thinking', 'Какие-то яблоки...', 20, 0, False),
@@ -557,6 +584,36 @@ artem_dialogues = {
     ],
     'помятый диплом': [
         [[DialogueLine('ksusha-sad', 'Мой диплом it-школы cамсунг.')]]
+    ],
+    'диван': [
+        [[DialogueLine('base', 'На вид самый обычный диван.', 1000, 0, False)]],
+        [[DialogueLine('artem-thinking', 'Под диваном что-то есть...', 1001, 0, True),
+          DialogueLine('base', 'Вы получили странный ключ.', 0, 0, False, 'lock диван 1001',
+                       'unlock диван 1003',
+                       'add keyK 1')]],
+        [[DialogueLine('artem-thinking', 'Под ним больше ничего нет.', 1003, 0, True)]],
+    ],
+    'Яна': [
+        [[DialogueLine('yana', 'Привет!', 999),
+          DialogueLine('yana-smile', 'С новым годом, Тёма! Держи маленький подарок!'),
+          DialogueLine('base', 'Вы получили солёный арахис.', 0, 0, False, 'add nuts 1'),
+          DialogueLine('artem-surprized', 'Яна! Спасибо большое!'),
+          DialogueLine('artem-surprized', 'Что ты тут делаешь?'),
+          DialogueLine('yana', 'Жду, когда ты поднимешься поболтать.'),
+          DialogueLine('yana-left', 'Долго ты открывал второй этаж...'),
+          DialogueLine('artem', 'Я так рад тебя видеть!!!'),
+          DialogueLine('yana-smile', 'Я тоже, солнышко.', 0, 0, False, 'lock Яна 999', 'unlock Яна 998'),
+          ]],
+        [[DialogueLine('yana', 'Как твои дела?', 998, 0, True),
+          DialogueLine('artem', 'Пока неплохо.'),
+          DialogueLine('yana-left', 'Тебе понравилась игра?'),
+          DialogueLine('artem', 'Ну немножко кринжово, но в целом норм.'),
+          DialogueLine('yana', 'Кажется, больше здесь ничего не осталось... Это конец.'),
+          DialogueLine('artem', 'Ну и ладно.', 0, 0, False, 'lock Яна 998', 'unlock Яна 997'),
+          ]],
+        [[DialogueLine('yana', 'Что такое?', 997, 0, True),
+          DialogueLine('artem', 'Люблю тебя.'),
+          DialogueLine('yana-smile', 'Я тебя тоже.')]]
     ],
 }
 denis_dialogues = {
@@ -810,6 +867,16 @@ denis_dialogues = {
     ],
     'помятый диплом': [
         [[DialogueLine('ksusha-sad', 'Мой диплом it-школы cамсунг.')]]
+    ],
+    'диван': [
+        [[DialogueLine('base', 'На вид самый обычный диван.', 5000, 0, False)]],
+    ],
+    'Яна': [
+        [[DialogueLine('yana', 'Привет, Денис!'),
+          DialogueLine('denis', 'Как дела?'),
+          DialogueLine('yana', 'Всё хорошо. А у тебя?'),
+          DialogueLine('denis', 'Тоже неплохо.')
+          ]]
     ],
 }
 

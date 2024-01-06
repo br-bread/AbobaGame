@@ -109,6 +109,11 @@ class BaseScene:
         if not self.was_visited:
             self.was_visited = True
             settings.visited_scenes += 1
+            if self.name == 'ksusha_room':
+                settings.achieves.achieves[6].unlock()
+                settings.achieves.achieve_count += 1
+                settings.new_achieve = True
+                settings.ADD_SOUND.play()
         if self.place_player:  # placing the player
             self.player.import_frames()
             self.player.pos.x = settings.player_pos[0]

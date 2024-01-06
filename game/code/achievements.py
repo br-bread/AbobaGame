@@ -7,15 +7,13 @@ from core import BaseAnimatedSprite
 
 class Achieves:
     def __init__(self):
-        self.achieves = [Achievement('Долой носки', 'Убрать все носки', 3),
+        self.achieves = [Achievement('Долой носки', 'Убрать все носки', 10),
                          Achievement('Ты проставляешься', 'Найти еду для праздника', 3),
                          Achievement('Орехи', 'Принести Джеффу шоколадку', 0),
                          Achievement('Харизма', 'Пообщаться со всеми персонажами', 5),
                          Achievement('Микро-путешествие', 'Побывать во всех игровых локациях', 5),
-                         Achievement('Пиксель-хантер', 'Осмотреть все предметы', 10),
-                         Achievement('18+', 'Украсть яблочный сидр', 3),
-                         Achievement('Секретная локация', 'Попасть в комнату Ксюши', 5),
-                         Achievement('И жили они долго и счастливо', 'Встретить Яну с Артёмом', 3)]
+                         Achievement('18+', 'Украсть яблочный сидр', 5),
+                         Achievement('Секретная локация', 'Попасть в комнату Ксюши', 5)]
         achieves_locks = settings.saving_manager.load_data('achieves',
                                                            [True, True, True, True, True, True, True, True, True])
         for i in range(len(self.achieves)):
@@ -71,17 +69,12 @@ class Achieves:
                         (coords[0] + 20 * settings.SCALE_K, coords[1] + 1 * settings.SCALE_K))
 
     def run(self, screen, dt, events):
-        if settings.talked_characters == 5 and self.achieves[3].is_locked:
+        if settings.talked_characters == 8 and self.achieves[3].is_locked:
             self.achieves[3].unlock()
             self.achieve_count += 1
             settings.new_achieve = True
             settings.ADD_SOUND.play()
-        if settings.seen_objects == 41 and self.achieves[5].is_locked:
-            self.achieves[5].unlock()
-            self.achieve_count += 1
-            settings.new_achieve = True
-            settings.ADD_SOUND.play()
-        if settings.visited_scenes == 8 and self.achieves[4].is_locked:
+        if settings.visited_scenes == 9 and self.achieves[4].is_locked:
             self.achieves[4].unlock()
             self.achieve_count += 1
             settings.new_achieve = True

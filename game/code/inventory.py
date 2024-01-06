@@ -29,9 +29,13 @@ class Inventory:
                                   ImgEditor.load_image('item/nut_chocolate.png', settings.SCALE_K, colorkey=-1)),
             'sidr': Item('Яблочный сидр', 0, 'Строго 18+',
                          ImgEditor.load_image('item/sidr.png', settings.SCALE_K, colorkey=-1)),
+            'pizza': Item('Пицца Дж', 0, 'Она всё ещё немного горячая',
+                          ImgEditor.load_image('item/pizza.png', settings.SCALE_K, colorkey=-1)),
+            'nuts': Item('Солёный арахис', 0, 'Вкусная закуска к пиву',
+                         ImgEditor.load_image('item/nuts.png', settings.SCALE_K, colorkey=-1)),
         }
-        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 1, 0, 0, 0, 0, 0])
-        denis_item_counts = saving_manager.load_data('denis_inventory', [5, 0])
+        artem_item_counts = saving_manager.load_data('artem_inventory', [20, 0, 0, 0, 0, 0, 0, 0, 0])
+        denis_item_counts = saving_manager.load_data('denis_inventory', [20, 0])
         i = 0
         for k, v in self.artem_items.items():
             self.artem_items[k].count = artem_item_counts[i]
@@ -42,11 +46,20 @@ class Inventory:
             self.denis_items[k].count = denis_item_counts[i]
             i += 1
 
+        self.artem_item_count = 0  # items in inventory which count > 0
+        self.denis_item_count = 1
+
+        for _, v in self.artem_items.items():
+            if v.count >= 1:
+                self.artem_item_count += 1
+
+        for _, v in self.denis_items.items():
+            if v.count >= 1:
+                self.denis_item_count += 1
+
         self.is_opened = False
         self.pages = 1
         self.current_page = 0
-        self.artem_item_count = 0  # items in inventory which count > 0
-        self.denis_item_count = 1
         self.inventory_group = pygame.sprite.Group()
 
         # buttons
@@ -89,14 +102,8 @@ class Inventory:
 
     def run(self, screen, dt, events):
         if settings.player == 'artem':
-            for _, v in self.artem_items.items():
-                if v.count >= 1:
-                    self.artem_item_count += 1
             self.pages = self.artem_item_count // 5 + bool(self.artem_item_count % 5)
         else:
-            for _, v in self.denis_items.items():
-                if v.count >= 1:
-                    self.denis_item_count += 1
             self.pages = self.denis_item_count // 5 + bool(self.denis_item_count % 5)
         if self.is_opened:
             screen.blit(self.inventory_background,

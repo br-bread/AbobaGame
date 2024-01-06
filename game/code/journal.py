@@ -199,3 +199,5 @@ class Quest:
 
     def lock(self):
         self.is_showed = False
+        if self.name == 'Ты проставляешься' or self.name == 'И попить':
+            settings.finished_quests += 1

@@ -8,6 +8,7 @@ from second_street_scene import SecondStreetScene
 from home_scene import HomeScene
 from home_upscene import HomeUpScene
 from bar_scene import BarScene
+from bar_upscene import BarUpScene
 from denis_room import DenisRoom
 from artem_room import ArtemRoom
 from ksusha_room import KsushaRoom
@@ -85,6 +86,12 @@ class Game:
                 pygame.mask.from_surface(
                     ImgEditor.load_image('bar_scene/collisions.png', settings.SCALE_K)),
                 'bar.mp3',
+                settings.CENTER),
+            'bar_upscene': BarUpScene(
+                ImgEditor.load_image('/backgrounds/bar_upscene.png', settings.SCALE_K),
+                pygame.mask.from_surface(
+                    ImgEditor.load_image('bar_upscene/collisions.png', settings.SCALE_K)),
+                'bar.mp3',
                 settings.CENTER)
         }
         settings.ADD_SOUND = pygame.mixer.Sound('..\\assets\\audio\\add.mp3')
@@ -132,10 +139,27 @@ class Game:
                     settings.journal.artem_quests[2].is_showed:
                 settings.journal.artem_quests[2].lock()
 
-                settings.achieves.achieves[6].unlock()
+                settings.achieves.achieves[5].unlock()
                 settings.achieves.achieve_count += 1
                 settings.new_achieve = True
                 settings.ADD_SOUND.play()
+
+            if settings.player == 'artem' and settings.inventory.artem_items['money'].count >= 100 and \
+                    settings.journal.artem_quests[1].is_showed:
+                for talk in artem_dialogues['Джесс']:
+                    for part in talk:
+                        for line in part:
+                            if line.id == 403:
+                                line.unlock()
+                            elif line.id == 401:
+                                line.lock()
+
+            if settings.achieves.achieves[1].is_locked and settings.finished_quests == 1+1:
+                settings.achieves.achieves[1].unlock()
+                settings.achieves.achieve_count += 1
+                settings.new_achieve = True
+                settings.ADD_SOUND.play()
+
 
 
 if __name__ == '__main__':

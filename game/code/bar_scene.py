@@ -1,3 +1,4 @@
+import pygame
 from core import BaseScene, BaseSprite
 from sprites import InvisibleDoor, DialogueSprite
 from tools import ImgEditor
@@ -77,6 +78,15 @@ class BarScene(BaseScene):
             self.visible_sprites)
 
         # doors
+        self.upstairs = InvisibleDoor(
+            (480, 280),
+            self,
+            'bar_upscene',
+            'bar.mp3',
+            (485, 430),
+            'down_idle',
+            'h'
+        )
         InvisibleDoor(
             (740, 770),
             self,
@@ -88,6 +98,11 @@ class BarScene(BaseScene):
             self.visible_sprites
         )
         BaseSprite(
+            ImgEditor.load_image(f'{self.name}/ceiling.png', settings.SCALE_K),
+            (476, 244),
+            settings.LAYERS['ceiling'],
+            self.visible_sprites)
+        BaseSprite(
             ImgEditor.load_image(f'{self.name}/ceiling1.png', settings.SCALE_K),
             (744, 790),
             settings.LAYERS['ceiling'],
@@ -95,3 +110,9 @@ class BarScene(BaseScene):
 
     def run(self, delta_time, events):
         super().run(delta_time, events)
+        if settings.finished_quests == 1 + 1:
+            self.collision_mask = pygame.mask.from_surface(
+                ImgEditor.load_image('bar_scene/collisions1.png', settings.SCALE_K))
+            self.background.image = ImgEditor.load_image('/backgrounds/bar_scene1.png', settings.SCALE_K)
+            self.tablet.kill()
+            self.upstairs.add(self.visible_sprites)
