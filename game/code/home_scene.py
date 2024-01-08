@@ -1,4 +1,4 @@
-from core import BaseScene, BaseSprite
+from core import BaseScene, BaseSprite, BaseAnimatedSprite
 from sprites import InvisibleDoor, DialogueSprite
 from tools import ImgEditor
 import settings
@@ -28,6 +28,10 @@ class HomeScene(BaseScene):
             settings.LAYERS['main'],
             self.visible_sprites)
         self.denis.kill()
+
+        BaseAnimatedSprite(ImgEditor.load_image(f'{self.name}/fireplace.png', settings.SCALE_K),
+                           (624, 364),
+                           3, 4, 1, settings.LAYERS['floor'], self.visible_sprites)
 
         DialogueSprite(
             'Боб',

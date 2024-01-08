@@ -1,5 +1,5 @@
 import settings
-from core import BaseScene, BaseSprite
+from core import BaseScene, BaseSprite, BaseAnimatedSprite
 from sprites import DialogueSprite, Door, InvisibleDoor
 from tools import ImgEditor
 
@@ -76,22 +76,26 @@ class FirstStreetScene(BaseScene):
             self.visible_sprites)
 
         # Other sprites
+
+        BaseAnimatedSprite(ImgEditor.load_image(f'{self.name}/lake.png', settings.SCALE_K),
+                           (1322, 530),
+                           2, 4, 1, settings.LAYERS['floor'], self.visible_sprites)
         # woods
         BaseSprite(
             ImgEditor.load_image(f'{self.name}/wood1.png', SCALE_K),
-            (266 * SCALE_K, 101 * SCALE_K),
+            (1064, 404),
             LAYERS['main'],
             self.visible_sprites)
 
         BaseSprite(
             ImgEditor.load_image(f'{self.name}/wood2.png', SCALE_K),
-            (266 * SCALE_K, 130 * SCALE_K),
+            (1064, 520),
             LAYERS['main'],
             self.visible_sprites)
 
         BaseSprite(
             ImgEditor.load_image(f'{self.name}/woods.png', SCALE_K),
-            (307 * SCALE_K, 137 * SCALE_K),
+            (1230, 550),
             LAYERS['ceiling'],
             self.visible_sprites)
         # bench
@@ -117,13 +121,22 @@ class FirstStreetScene(BaseScene):
                 self.visible_sprites)
         # bushes
         coords = [(122 * SCALE_K, 86 * SCALE_K), (181 * SCALE_K, 88 * SCALE_K), (22 * SCALE_K, 162 * SCALE_K),
-                  (81 * SCALE_K, 148 * SCALE_K), (118 * SCALE_K, 152 * SCALE_K), (328 * SCALE_K, 191 * SCALE_K), ]
+                  (81 * SCALE_K, 148 * SCALE_K), (118 * SCALE_K, 152 * SCALE_K), (1310, 762) ]
         for i in range(len(coords)):
-            BaseSprite(
-                ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png', SCALE_K),
-                coords[i],
-                LAYERS['main'],
-                self.visible_sprites)
+            if i == 4:
+                BaseAnimatedSprite(ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png', settings.SCALE_K),
+                                   coords[i],
+                                   0.9, 4, 1, settings.LAYERS['main'], self.visible_sprites)
+            elif i == 2:
+                BaseAnimatedSprite(ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png', settings.SCALE_K),
+                                   coords[i],
+                                   1, 4, 1, settings.LAYERS['main'], self.visible_sprites)
+            else:
+                BaseSprite(
+                    ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png', SCALE_K),
+                    coords[i],
+                    LAYERS['main'],
+                    self.visible_sprites)
 
         BaseSprite(
             ImgEditor.load_image(f'{self.name}/bushes7.png', SCALE_K),

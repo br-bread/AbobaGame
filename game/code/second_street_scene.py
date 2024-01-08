@@ -1,5 +1,5 @@
 import settings
-from core import BaseScene, BaseSprite
+from core import BaseScene, BaseSprite, BaseAnimatedSprite
 from sprites import DialogueSprite, Door, InvisibleDoor
 from tools import ImgEditor
 
@@ -44,13 +44,22 @@ class SecondStreetScene(BaseScene):
                 self.visible_sprites)
 
         # bushes
-        coords = [(1436, 750), (1202, 804), (932, 802), (1516, 832), (438, 722)]
+        coords = [(1436, 750), (1202, 804), (932, 800), (1516, 832), (438, 722)]
         for i in range(len(coords)):
-            BaseSprite(
-                ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png', SCALE_K),
-                coords[i],
-                LAYERS['main'],
-                self.visible_sprites)
+            if i == 2:
+                BaseAnimatedSprite(ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png', settings.SCALE_K),
+                                   coords[i],
+                                   1, 4, 1, settings.LAYERS['main'], self.visible_sprites)
+            elif i == 0:
+                BaseAnimatedSprite(ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png', settings.SCALE_K),
+                                   coords[i],
+                                   0.9, 4, 1, settings.LAYERS['main'], self.visible_sprites)
+            else:
+                BaseSprite(
+                    ImgEditor.load_image(f'{self.name}/bushes{i + 1}.png', SCALE_K),
+                    coords[i],
+                    LAYERS['main'],
+                    self.visible_sprites)
 
         BaseSprite(
             ImgEditor.load_image(f'{self.name}/bar.png', SCALE_K),

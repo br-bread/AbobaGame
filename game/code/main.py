@@ -154,12 +154,11 @@ class Game:
                             elif line.id == 401:
                                 line.lock()
 
-            if settings.achieves.achieves[1].is_locked and settings.finished_quests == 1+1:
+            if settings.achieves.achieves[1].is_locked and settings.finished_quests == 1 + 1:
                 settings.achieves.achieves[1].unlock()
                 settings.achieves.achieve_count += 1
                 settings.new_achieve = True
                 settings.ADD_SOUND.play()
-
 
 
 if __name__ == '__main__':

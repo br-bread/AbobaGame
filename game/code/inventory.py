@@ -34,7 +34,7 @@ class Inventory:
             'nuts': Item('Солёный арахис', 0, 'Вкусная закуска к пиву',
                          ImgEditor.load_image('item/nuts.png', settings.SCALE_K, colorkey=-1)),
         }
-        artem_item_counts = saving_manager.load_data('artem_inventory', [20, 0, 0, 0, 0, 0, 0, 0, 0])
+        artem_item_counts = saving_manager.load_data('artem_inventory', [5, 0, 0, 0, 0, 0, 0, 0, 0])
         denis_item_counts = saving_manager.load_data('denis_inventory', [20, 0])
         i = 0
         for k, v in self.artem_items.items():
